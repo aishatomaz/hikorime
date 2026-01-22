@@ -35,5 +35,10 @@ ela sera atualizada ao menos uma vez por semana.
 
 ```
 
+## Diagrama UML das principais classes planejadas
+
+<img width="4855" height="2994" alt="Hikorime - Tema Escuro" src="https://github.com/user-attachments/assets/e2feebef-30db-4800-a637-5a3ea12cb214" />
+
+
 # Contribuicao:
 
