@@ -1,0 +1,27 @@
+[project]
+name = "hikorime"
+version = "0.1.0"
+description = ""
+authors = [
+    "Aisha Tomaz <>",
+    "Gabriel Souza <santos.gabriel@aluno.ufca.edu.br>",
+    "José Dhonatan <>",
+    "Leticia Dias <>",
+    "Sarah Mendes <>"
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+]
+
+[tool.poetry]
+packages = [{include = "hikorime", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.0.2,<10.0.0)"
+]
