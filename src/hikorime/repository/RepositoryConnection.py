@@ -22,7 +22,6 @@ class RepositoryConnection:
             if query.strip().upper().startswith("SELECT"):
                 result = cursor.execute(query, data)
                 return result
-            
             # Execute update, insert and delete
             if data is not None:
                 # Execute the query and the data params
