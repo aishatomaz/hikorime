@@ -1,7 +1,8 @@
 from datetime import datetime, date
-
+from statusvoo import StatusVoo
 class CadastrarVoo:
-    def __init__(self, data_saida,  data_cheg, hora_saida, hora_chega,local_saida, destino, id_piloto, aviao, quant_vagas):
+    def __init__(self, data_saida,  data_cheg, hora_saida, hora_chega,local_saida, destino, id_piloto, aviao, quant_vagas, 
+                 status_voo = StatusVoo):
         self.data_saida = data_saida
         self.data_cheg = data_cheg
         self.hora_saida = hora_saida
@@ -11,6 +12,7 @@ class CadastrarVoo:
         self.piloto = id_piloto
         self.aviao = aviao
         self.quant_vagas = quant_vagas
+        self.status_voo = status_voo
 
     #encapsulamento dos atributos
 
@@ -120,5 +122,5 @@ class CadastrarVoo:
             self.__quant_vagas = quant_valida
 
     def cadastrar_voo(self):
+        #salvar os dados na tabela de voos
         pass
-    

@@ -27,6 +27,7 @@ class Bagagem:
         #para registrar a bagagem será necessário uma confirmação 
 
         if self.confirmacao == True:
-            #salvar no banco de dados
+            #salvar no banco de dados 
+
             pass
 
