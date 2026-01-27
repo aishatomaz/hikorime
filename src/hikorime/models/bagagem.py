@@ -5,7 +5,8 @@ class Bagagem:
         self.peso = peso
         self.tipo = tipo
         self.confirmacao = confirmacao
-
+        self.valor_fixo = 50.00
+        self.valor_bagagem = 0
 
     #getters e setters
     @property 
@@ -20,14 +21,15 @@ class Bagagem:
         else:
             self.__peso = peso_valido
 
-    @property
-    def confirmacao(self):
-        pass
-    def registrar_bagagem():
+    def calcular_valor_bagagem(self):
+        taxa_variavel = self.__peso * 5
+        self.valor_bagagem = self.valor_fixo + taxa_variavel
+        
+    def registrar_bagagem(self):
         #para registrar a bagagem será necessário uma confirmação 
 
         if self.confirmacao == True:
-            #salvar no banco de dados 
+            #salvar no banco de dados peso, tipo, valor e id do passageiro
 
             pass
 
