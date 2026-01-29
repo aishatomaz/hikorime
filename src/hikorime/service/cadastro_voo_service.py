@@ -3,8 +3,6 @@ from hikorime.repository.repository_querys import RepositoryQuerys
 
 
 class CadastroVooService(BaseService):
-    """docstring for CadastroVooService."""
-
     def __init__(self, repo: RepositoryQuerys):
         self.repo = repo
 

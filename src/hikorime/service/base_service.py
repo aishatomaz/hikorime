@@ -12,6 +12,8 @@ class BaseService(ABC):
     def __init__(self, repository: RepositoryQuerys):
         self.repo = repository
 
+    # Devido as divergencias, def save sera feito por service
+
     def get_all(self):
         return self.repo.get_all()
 
