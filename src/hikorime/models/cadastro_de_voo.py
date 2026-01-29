@@ -1,6 +1,8 @@
-from datetime import datetime, date
+from datetime import date, time
 from statusvoo import StatusVoo
+from repository.repositoryConnection import RepositoryConnection
 class CadastrarVoo:
+    #recolhe dados do voo para o banco de dados, comissário deve preencher
     def __init__(self, data_saida,  data_cheg, hora_saida, hora_chega,local_saida, destino, id_piloto, aviao, quant_vagas, 
                  status_voo = StatusVoo):
         self.data_saida = data_saida
@@ -13,6 +15,9 @@ class CadastrarVoo:
         self.aviao = aviao
         self.quant_vagas = quant_vagas
         self.status_voo = status_voo
+        
+        #composicao
+        self.conectar = RepositoryConnection()
 
     #encapsulamento dos atributos
 
@@ -23,7 +28,7 @@ class CadastrarVoo:
     
     @data_saida.setter
     def data_saida(self, data_valida):
-        if not isinstance(data_valida, datetime.date):
+        if not isinstance(data_valida, date):
             raise ValueError("Data inválida")
         else:
             self.__data_saida = data_valida 
@@ -34,7 +39,7 @@ class CadastrarVoo:
     
     @data_chega.setter
     def data_chega(self, data_vali_chegada):
-        if not isinstance(data_vali_chegada, datetime.date):
+        if not isinstance(data_vali_chegada, date):
             raise ValueError("Data inválida")
         else:
             self.__data_chega = data_vali_chegada 
@@ -47,7 +52,7 @@ class CadastrarVoo:
     
     @hora_saida.setter
     def hora_saida(self, hora_valida):
-        if not isinstance(hora_valida, datetime.time):
+        if not isinstance(hora_valida, time):
             raise ValueError("Hora inválida")
         else:
             self.__hora_saida = hora_valida 
@@ -58,7 +63,7 @@ class CadastrarVoo:
     
     @hora_chega.setter
     def hora_chega(self, hora_vali_chegada):
-        if not isinstance(hora_vali_chegada, datetime.time):
+        if not isinstance(hora_vali_chegada, time):
             raise ValueError("Hora inválida")
         else:
             self.__hora_chega = hora_vali_chegada 
@@ -70,7 +75,7 @@ class CadastrarVoo:
     
     @local_saida.setter
     def local_saida(self, local_valido):
-        if not isinstance(local_valido, str) or len(self.__local_saida < 5):
+        if not isinstance(local_valido, str) or len(local_valido < 5):
             raise ValueError("Por favor, imforme um local válido.")
         else:
             self.__local_saida = local_valido 
@@ -122,5 +127,8 @@ class CadastrarVoo:
             self.__quant_vagas = quant_valida
 
     def cadastrar_voo(self):
+
+        #conectar ao banco
+        self.conectar.query()
+
         #salvar os dados na tabela de voos
-        pass
