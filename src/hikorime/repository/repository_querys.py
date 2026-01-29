@@ -1,6 +1,6 @@
-from hikorime.repository.repositoryConnection import RepositoryConnection
+from hikorime.repository.repository_connection import RepositoryConnection
 
-class repositoryQuerys():
+class RepositoryQuerys:
 
     # TODO Fazer querys para hikorime
     
@@ -8,11 +8,11 @@ class repositoryQuerys():
         self.table_name = table_name
 
     def save(self):
-        pass # TODO
+        pass # TODO # O save depende do que vamos salvar especificamente.
         
-    def getAll(self, table_name: str):
+    def get_all(self, table_name: str):
         """
-        debug only, retorna tudo da table
+        debug only, retorna tudo da tabela
         """
 
         if not table_name.isidentifier():
@@ -22,20 +22,24 @@ class repositoryQuerys():
 
         return RepositoryConnection().query(query)
     
-    def getById(self, id: int):
+    def get_by_id(self, id: int):
         data = ({"id": id})
 
         query = f"select * from {self.table_name} where id = :id;"
 
         return RepositoryConnection().query(query, data)
     
-    def getByColumnName(self, column_name:str, value:str):
+    def get_by_column_name(self, column_name:str, value:str):
         """
-            Retorna uma query com o nome (o nome deve dar match exato) e seus valores
+            Retorna uma query usando o nome da coluna
+            (Se precisar de um valor parcial, use getLikeByColumnName)
+            args:
+                column_name: nome da coluna
+                value = oque voce quer *exatamente* adequirir
         """
 
         if not column_name.isidentifier():
-            raise ValueError(f"Invalid column name: {column_name}")
+            raise ValueError(f"Nome da coluna invalido: {column_name}")
 
         data = {"value": value}
 
@@ -43,9 +47,15 @@ class repositoryQuerys():
 
         return RepositoryConnection().query(query, data)
     
-    def getLikeByColumnName(self, column_name: str, value: str):
+    def get_like_by_column_name(self, column_name: str, value: str):
         """
-            Retorna uma query com o nome (o nome pode ser parcial) e seus valores
+            Retorna uma query usando o nome da coluna
+            (Se precisar de um valor exatamente como escreveu, use getByColumnName)
+            args:
+                column_name: nome da coluna
+                value = oque voce quer adequirir (Pode ser um nome parcial)
+                exemplo:
+                value = dhon, ira pegar qualquer valor que contenha os caracteres juntos dhon, ou seja, dhon, dhonatan, dhonatian, etc
         """
 
         if not column_name.isidentifier():
@@ -58,22 +68,28 @@ class repositoryQuerys():
         return RepositoryConnection().query(query, data)
 
 
-    def deleteById(self, id:int):
+    def delete_by_id(self, id:int):
+        """
+            deleta alguma coisa usando seu id
+        """
         data = ({"id": id})
 
         query = f"DELETE FROM {self.table_name} WHERE id=:id;"
 
         return RepositoryConnection().query(query, data)
     
-    def getQuantityOfRown(self):
+    def get_quantity_of_rown(self):
+        """
+            so fiz isso para literalmente para saber quantos ids relmente existem na tabela.
+        """
         query = f"SELECT COUNT(id) FROM {self.table_name};"
 
         return RepositoryConnection().query(query)
 
-    # TODO fazer uma descricao melhor
-    def putInTable(self, id: int, data: dict):
+    def put_in_table(self, id: int, data: dict):
         """
             Um put, vai apenas mudar uma coluna da linha da tabela
+            exemplo, posso mudar 'invers' para 'sudo invers', sem alterar qualquer outro dado dele.
         """
         queries = []
         params = []
@@ -85,5 +101,5 @@ class repositoryQuerys():
             queries.append(f"UPDATE {self.table_name} SET {key} = :value WHERE id = :id")
             params.append({"id": id, "value": value})
 
-        for query, param in zip(queries, params):
+        for query, param in zip(queries, params): # Isso serve para cada put ser colocado de forma individual.
             RepositoryConnection.query(query, param)

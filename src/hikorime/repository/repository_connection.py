@@ -17,7 +17,7 @@ class RepositoryConnection():
         """
             args:
                 query: query sql
-                data: dados da query (dict ou tupla ou None)
+                data: dados da query (dict ou tupla, default = None)
         """
 
         # Se nao existir, cria o repositorio automaticamente

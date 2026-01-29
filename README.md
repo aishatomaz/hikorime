@@ -13,25 +13,49 @@ ela sera atualizada ao menos uma vez por semana.
 .
 ├── poetry.lock
 ├── pyproject.toml
+├── pytest.ini
 ├── README.md
-├── src
-│   └── hikorime
-│       ├── cli
-│       │   └── __init__.py
-│       ├── controller
-│       │   └── __init__.py
-│       ├── __init__.py
-│       ├── models
-│       │   └── __init__.py
-│       ├── repository
-│       │   ├── __init__.py
-│       │   ├── RepositoryConnection.py
-│       │   └── RepositoryQuerys.py
-│       └── utils
-└── tests
-    └── __init__.py
+└── src
+    ├── hikorime
+    │   ├── cli
+    │   │   └── __init__.py
+    │   ├── controller
+    │   │   └── __init__.py
+    │   ├── __init__.py
+    │   ├── models
+    │   │   ├── bagagem.py
+    │   │   ├── cadastro_de_voo.py
+    │   │   ├── compra.py
+    │   │   ├── cupom.py
+    │   │   ├── enums
+    │   │   │   └── __init__.py
+    │   │   ├── __init__.py
+    │   │   ├── notificacaoModel.py
+    │   │   ├── pagamento.py
+    │   │   ├── passagem.py
+    │   │   ├── statusvoo.py
+    │   │   ├── tipobagagem.py
+    │   │   ├── tipo_pagamento.py
+    │   │   └── visualizacao_de_voo.py
+    │   ├── repository
+    │   │   ├── config.py
+    │   │   ├── __init__.py
+    │   │   ├── repository_connection.py
+    │   │   └── repository_querys.py
+    │   ├── service
+    │   │   ├── base_service.py
+    │   │   └── __init__.py
+    │   └── utils
+    └── tests
+        ├── test_repository.py
+        └── tests_unit
+            ├── test_bagagem.py
+            ├── test_compra.py
+            ├── test_pagamento.py
+            ├── test_passagem.py
+            └── test_voo.py
 
-9 directories, 11 files
+12 directories, 32 files
 
 ```
 
