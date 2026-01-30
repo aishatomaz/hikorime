@@ -4,20 +4,24 @@ from hikorime.repository.config import DATABASE_PATH
 
 from typing import Any
 
-class RepositoryConnection():
+
+class RepositoryConnection:
     """
-        Conecta ao banco de dados, e faz querys automaticas.
+    Conecta ao banco de dados, e faz querys automaticas.
     """
 
-    def __init__(self, db_path=DATABASE_PATH): # Voce pode sobrescrever a path em testes
-        self.db_path = db_path # caminho do database
+    def __init__(
+        self, db_path=DATABASE_PATH
+    ):  # Voce pode sobrescrever a path em testes, path da db em config.py
+        self.db_path = db_path  # caminho do database
 
-    def query(self, query: str,  data: dict[str, Any] | None = None): # o Any do dicionario, e que as vezes devo usar int para selecionar id po exemplo
-        
+    def query(
+        self, query: str, data: dict[str, Any] | None = None
+    ):  # o Any do dicionario, e que as vezes devo usar int para selecionar id po exemplo
         """
-            args:
-                query: query sql
-                data: dados da query (dict ou tupla, default = None)
+        args:
+            query: query sql
+            data: dados da query (dict ou tupla, default = None)
         """
 
         # Se nao existir, cria o repositorio automaticamente
@@ -47,7 +51,7 @@ class RepositoryConnection():
 
         except Exception as error:
             print(f"error - {error} dando rollback")
-            connect.rollback() # GOTO antes da ultima interacao
+            connect.rollback()  # GOTO antes da ultima interacao
             return None
 
         finally:

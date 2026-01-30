@@ -1,4 +1,5 @@
-from hikorime.repository.repositoryConnection import RepositoryConnection
+from hikorime.repository.repository_connection import RepositoryConnection
+
 
 def test_repository(tmp_path):
     # Caminho temporário para o pytest
@@ -15,10 +16,12 @@ def test_repository(tmp_path):
     """)
 
     # Inserindo dado
-    repo.query("""
+    repo.query(
+        """
         INSERT INTO users (id, name) VALUES (:id, :name);
     """,
-    {"id": 1, "name": "sudo_invers"}) # Aproveitando, e testando a insercao dicionario
+        {"id": 1, "name": "sudo_invers"},
+    )  # Aproveitando, e testando a insercao dicionario
 
     # Buscando dado
     result = repo.query("""
@@ -30,4 +33,3 @@ def test_repository(tmp_path):
     assert len(result) == 1
     assert result[0]["id"] == 1
     assert result[0]["name"] == "sudo_invers"
-
