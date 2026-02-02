@@ -1,12 +1,12 @@
 # HIKORIME
 
- O projeto Hikorime foi criado para simular um gerenciamento de aeroporto atraves da cli.
- Com objetivo educacional, visamos entregar um projeto facil de entender, bem documentado e
-seguindo os principios SOLID.
+ O projeto Hikorime foi criado para simular um gerenciamento de aeroporto atraves da CLI.
+ Com objetivo educacional, visamos entregar um projeto fácil de entender, bem documentado e
+seguindo os princípios SOLID.
 
 # Como usar:
 
-# estrutura do projeto atualmente
+### estrutura do projeto atualmente
 
 ela sera atualizada ao menos uma vez por semana.
 ``` bash
@@ -64,5 +64,5 @@ ela sera atualizada ao menos uma vez por semana.
 <img width="4855" height="2994" alt="Hikorime - Tema Escuro" src="https://github.com/user-attachments/assets/e2feebef-30db-4800-a637-5a3ea12cb214" />
 
 
-# Contribuicao:
+# Contribuição:
 
