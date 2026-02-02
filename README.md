@@ -66,3 +66,12 @@ ela sera atualizada ao menos uma vez por semana.
 
 # Contribuição:
 
+# Equipe
+
+| Membros  | Funções |
+| ------------- | ------------- |
+| [Ana Aisha](https://github.com/aishatomaz)  | Desenvolvedor  |
+| [Dhonatan](https://github.com/sudo-invers) | Desenvolvedor  |
+| [Gabriel Santos](https://github.com/gabriel-so-santos) | Desenvolvedor  |
+| [Sarah Mendes](https://github.com/sarahmendes-ufca)  | Desenvolvedor  |
+| [Letícia Dias](https://github.com/leticia-software-engineer)  | Desenvolvedor  |
