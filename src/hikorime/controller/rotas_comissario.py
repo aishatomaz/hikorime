@@ -1,36 +1,32 @@
-from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel, Field
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 from datetime import date, time
-from service.cadastro_voo_bd import CadastrarVoo
+from hikorime.service.cadastro_voo_service import CadastroVooService
+from hikorime.repository.repository_querys import RepositoryQuerys
 
-comissario_routes = APIRouter(prefix="/Usuários", tags=["autenticacao"])
+comissario_routes = APIRouter(prefix="/voos", tags=["Gerenciamento de Voos"])
 
-@comissario_routes.post("/cadastro/voo", response_model=None)
-
-class CadastroVoo(BaseModel):
+class VooModelo(BaseModel):
     data_saida: date
-    data_cheg: date 
+    data_cheg: date
     hora_saida: time
     hora_chega: time
-    local_saida: str 
+    local_saida: str
     destino: str
-    id_piloto: int 
+    id_piloto: int
     aviao: int
     quant_vagas: int
 
-def cadastro_voo(voo: CadastroVoo):
+@comissario_routes.post("/cadastro")
+def cadastro_voo(voo_data: VooModelo):
     try:
-        CadastrarVoo = CadastrarVoo(
-            self.data_saida,
-            self.data_cheg,
-            self.hora_saida,
-            self.hora_chega,
-            self.local_saida, 
-            self.destino, 
-            self.id_piloto, 
-            self.aviao, 
-            self.quant_vagas
-
+        repo = RepositoryQuerys(table_name="voos")
+        service = CadastroVooService(repo)
+        
+        resultado = service.save(
+            **voo_data.dict(),
+            status_voo="DISPONIVEL" 
         )
-    except ValueError as erro:
+        return {"status": "sucesso", "mensagem": "Voo cadastrado com sucesso!"}
+    except Exception as erro:
         raise HTTPException(status_code=400, detail=str(erro))
