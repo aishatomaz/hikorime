@@ -29,11 +29,7 @@ class CadastrarVoo:
         self.quant_vagas = quant_vagas
         self.status_voo = status_voo
 
-        # composicao
-        self.conectar = RepositoryConnection()
-
     # encapsulamento dos atributos
-
     @property
     # para datas
     def data_saida(self):
