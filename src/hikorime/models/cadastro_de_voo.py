@@ -1,4 +1,9 @@
-from datetime import datetime, date
+from datetime import date, time
+from statusvoo import StatusVoo
+from repository.repository_connection import RepositoryConnection
+from service.const_voo import ConstantesVoo
+
+const = ConstantesVoo()
 
 class CadastrarVoo:
     def __init__(self, data_saida,  data_cheg, hora_saida, hora_chega,local_saida, destino, id_piloto, aviao, quant_vagas):
@@ -68,7 +73,7 @@ class CadastrarVoo:
     
     @local_saida.setter
     def local_saida(self, local_valido):
-        if not isinstance(local_valido, str) or len(self.__local_saida < 5):
+        if not isinstance(local_valido, str) or len(local_valido < const.qtd_min_caracteres):
             raise ValueError("Por favor, imforme um local válido.")
         else:
             self.__local_saida = local_valido 
@@ -79,7 +84,7 @@ class CadastrarVoo:
     
     @destino.setter
     def destino(self, destino_valido):
-        if not isinstance(destino_valido, str) or len(self.__destino < 5):
+        if not isinstance(destino_valido, str) or len(self.__destino < const.qtd_min_caracteres):
             raise ValueError("Destino inválido")
         else:
             self.__destino = destino_valido
@@ -114,7 +119,7 @@ class CadastrarVoo:
     def quant_vagas(self, quant_valida):
         if not isinstance(quant_valida, int):
             raise ValueError("Quantidade de vagas deve ser um valor inteiro.")
-        elif quant_valida > 853 or quant_valida <= 0:
+        elif quant_valida > ConstantesVoo.qtd_max_passageiros or quant_valida <= 0:
             raise ValueError("Quantidade inválida")
         else:
             self.__quant_vagas = quant_valida
