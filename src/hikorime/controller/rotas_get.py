@@ -6,7 +6,9 @@ get_routes = APIRouter(prefix="/voos", tags=["voos"])
 
 @get_routes.get("/visualizar/voos", response_model=None)
 def ver_todos_os_voos():
+    consulta = VisualizarVoos.get_all(table_name="voos")
 
-    resposta = VisualizarVoos.visualizar_voos()
-    return  {"dados": resposta}
-
+    if not consulta:
+        raise HTTPException(status_code=404, detail="Nenhum voo foi encontrado.")
+        
+    return consulta
