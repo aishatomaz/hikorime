@@ -1,12 +1,8 @@
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
-<<<<<<< HEAD
-from repository.repository_querys import RepositoryQuerys
-=======
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.visualizacao_de_voo import VisualizarVoos
 
->>>>>>> 8779ceeed62d9e8522b5cf4d3f278eec7879cab8
 
 passageiro_routes = APIRouter(prefix="/passagens", tags=["Passageiro"])
 
@@ -27,11 +23,7 @@ def comprar_passagem(dados: CompraPassagem):
     except Exception as erro:
         raise HTTPException(status_code=400, detail=f"Erro na compra: {str(erro)}")
 
-<<<<<<< HEAD
-@passageiro_routes.get("/meus-voos/{id_passageiro}")
-=======
 @passageiro_routes.get("/meus-voos/")
->>>>>>> 8779ceeed62d9e8522b5cf4d3f278eec7879cab8
 def ver_minhas_passagens(id_passageiro: int):
     #faz a consulta das passagens vinculadas ao id do passageiro
     repo = RepositoryQuerys(table_name="passagens_vendidas")
@@ -40,9 +32,6 @@ def ver_minhas_passagens(id_passageiro: int):
     if not passagens:
         raise HTTPException(status_code=404, detail="Nenhuma passagem encontrada para este passageiro.")
         
-<<<<<<< HEAD
-    return passagens
-=======
     return passagens
 
 @passageiro_routes.get("/visualizar/voos", response_model=None)
@@ -54,4 +43,3 @@ def ver_todos_os_voos():
             status_code=404, detail="Nenhum voo foi encontrado.")
 
     return consulta
->>>>>>> 8779ceeed62d9e8522b5cf4d3f278eec7879cab8
