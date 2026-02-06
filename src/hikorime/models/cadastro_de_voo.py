@@ -1,7 +1,13 @@
 from datetime import date, time
 from statusvoo import StatusVoo
 from repository.repository_connection import RepositoryConnection
+<<<<<<< HEAD
 
+=======
+from service.const_voo import ConstantesVoo
+
+const = ConstantesVoo()
+>>>>>>> 8779ceeed62d9e8522b5cf4d3f278eec7879cab8
 
 class CadastrarVoo:
     # recolhe dados do voo para o banco de dados, comissário deve preencher
@@ -87,7 +93,11 @@ class CadastrarVoo:
 
     @local_saida.setter
     def local_saida(self, local_valido):
+<<<<<<< HEAD
         if not isinstance(local_valido, str) or len(local_valido < 5):
+=======
+        if not isinstance(local_valido, str) or len(local_valido < const.qtd_min_caracteres):
+>>>>>>> 8779ceeed62d9e8522b5cf4d3f278eec7879cab8
             raise ValueError("Por favor, imforme um local válido.")
         else:
             self.__local_saida = local_valido
@@ -98,7 +108,7 @@ class CadastrarVoo:
 
     @destino.setter
     def destino(self, destino_valido):
-        if not isinstance(destino_valido, str) or len(self.__destino < 5):
+        if not isinstance(destino_valido, str) or len(self.__destino < const.qtd_min_caracteres):
             raise ValueError("Destino inválido")
         else:
             self.__destino = destino_valido
@@ -136,7 +146,7 @@ class CadastrarVoo:
     def quant_vagas(self, quant_valida):
         if not isinstance(quant_valida, int):
             raise ValueError("Quantidade de vagas deve ser um valor inteiro.")
-        elif quant_valida > 853 or quant_valida <= 0:
+        elif quant_valida > ConstantesVoo.qtd_max_passageiros or quant_valida <= 0:
             raise ValueError("Quantidade inválida")
         else:
             self.__quant_vagas = quant_valida

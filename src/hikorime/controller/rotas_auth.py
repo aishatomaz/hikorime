@@ -9,7 +9,11 @@ usuario_routes = APIRouter(prefix="/usuarios", tags=["Autenticação"])
 class CadastroPassageiro(BaseModel):
     nome: str
     cpf: str
+<<<<<<< HEAD
     email: EmailStr
+=======
+    email: str
+>>>>>>> 8779ceeed62d9e8522b5cf4d3f278eec7879cab8
     data_nascimento: date
 
 class CadastroFuncionario(BaseModel):
