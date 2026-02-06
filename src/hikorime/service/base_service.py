@@ -7,6 +7,7 @@ class BaseService(ABC):
     """
     Classe base para outras classes do tipo servico
     Lembre de fazer a funcao save para cada service individualmente
+    Caso necessario.
     """
 
 <<<<<<< HEAD
