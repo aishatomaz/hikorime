@@ -33,6 +33,7 @@ def ver_minhas_passagens(id_passageiro: int):
         raise HTTPException(status_code=404, detail="Nenhuma passagem encontrada para este passageiro.")
         
     return passagens
+<<<<<<< HEAD
 
 @passageiro_routes.get("/visualizar/voos", response_model=None)
 def ver_todos_os_voos():
@@ -43,3 +44,5 @@ def ver_todos_os_voos():
             status_code=404, detail="Nenhum voo foi encontrado.")
 
     return consulta
+=======
+>>>>>>> 1c03b5ac5262eefe3fb789d5ae394cede1791824
