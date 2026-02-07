@@ -1,5 +1,5 @@
 from datetime import date
-from hikorime.models.tipopagamento import TipoPagamento
+from hikorime.models.enums.tipo_pagamento import TipoPagamento
 
 class Compra:
     def __init__(self, data_compra, valor_total, pagamento: TipoPagamento):

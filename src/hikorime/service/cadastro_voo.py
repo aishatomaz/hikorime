@@ -1,5 +1,6 @@
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_querys import RepositoryQuerys
+from hikorime.models.enums.status_voo import StatusVoo
 
 class CadastroVooService(BaseService):
     """docstring for CadastroVooService."""

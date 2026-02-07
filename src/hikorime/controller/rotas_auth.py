@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from datetime import date
 from hikorime.repository.repository_querys import RepositoryQuerys
 

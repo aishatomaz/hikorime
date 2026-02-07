@@ -1,4 +1,4 @@
-from hikorime.models.enums.tipobagagem import TipoBagagem
+from hikorime.models.enums.tipo_bagagem import TipoBagagem
 from hikorime.service.const_bagagens import ConstantesBagagem
 
 dados = ConstantesBagagem()

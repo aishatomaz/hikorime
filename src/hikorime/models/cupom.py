@@ -1,5 +1,5 @@
 from datetime import date
-from hikorime.models.statuscupom import StatusCupom
+from hikorime.models.enums.status_cupom import StatusCupom
 
 class Cupom:
     def __init__(self, percentual_desconto, validade, status: StatusCupom):

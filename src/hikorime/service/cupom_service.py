@@ -1,6 +1,6 @@
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.base_service import BaseService
-from hikorime.models.statuscupom import StatusCupom
+from hikorime.models.enums.status_cupom import StatusCupom
 
 class CupomService(BaseService):
     def __init__(self, repo: RepositoryQuerys):
