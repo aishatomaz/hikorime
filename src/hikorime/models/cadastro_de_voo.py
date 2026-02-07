@@ -1,5 +1,5 @@
 from datetime import date, time
-from statusvoo import StatusVoo
+from hikorime.models.enums.status_voo import StatusVoo
 from repository.repository_connection import RepositoryConnection
 from service.const_voo import ConstantesVoo
 
