@@ -1,7 +1,7 @@
 from datetime import date, time
-from statusvoo import StatusVoo
-from repository.repository_connection import RepositoryConnection
+from repository.repositoryConnection import RepositoryConnection
 from service.const_voo import ConstantesVoo
+from models.enums.status_voo import StatusVoo
 
 const = ConstantesVoo()
 
@@ -26,7 +26,7 @@ class CadastrarVoo:
     
     @data_saida.setter
     def data_saida(self, data_valida):
-        if not isinstance(data_valida, datetime.date):
+        if not isinstance(data_valida, date):
             raise ValueError("Data inválida")
         else:
             self.__data_saida = data_valida 
@@ -37,7 +37,7 @@ class CadastrarVoo:
     
     @data_chega.setter
     def data_chega(self, data_vali_chegada):
-        if not isinstance(data_vali_chegada, datetime.date):
+        if not isinstance(data_vali_chegada, date):
             raise ValueError("Data inválida")
         else:
             self.__data_chega = data_vali_chegada 
@@ -50,7 +50,7 @@ class CadastrarVoo:
     
     @hora_saida.setter
     def hora_saida(self, hora_valida):
-        if not isinstance(hora_valida, datetime.time):
+        if not isinstance(hora_valida, time):
             raise ValueError("Hora inválida")
         else:
             self.__hora_saida = hora_valida 
@@ -61,7 +61,7 @@ class CadastrarVoo:
     
     @hora_chega.setter
     def hora_chega(self, hora_vali_chegada):
-        if not isinstance(hora_vali_chegada, datetime.time):
+        if not isinstance(hora_vali_chegada, time):
             raise ValueError("Hora inválida")
         else:
             self.__hora_chega = hora_vali_chegada 
@@ -124,6 +124,4 @@ class CadastrarVoo:
         else:
             self.__quant_vagas = quant_valida
 
-    def cadastrar_voo(self):
-        pass
     

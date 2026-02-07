@@ -1,7 +1,7 @@
 from hikorime.service.base_service import BaseService
-from hikorime.repository.repository_querys import RepositoryQuerys
+from hikorime.repository.repositoryQuerys import repositoryQuerys
 
 
 class VisualizarVoos(BaseService):
-    tabela = RepositoryQuerys
+    tabela = repositoryQuerys
     dados = tabela("voos")

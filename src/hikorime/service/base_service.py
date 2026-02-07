@@ -1,6 +1,6 @@
 from abc import ABC
 
-from hikorime.repository.repository_querys import RepositoryQuerys
+from hikorime.repository.repositoryQuerys import repositoryQuerys
 
 
 class BaseService(ABC):
@@ -9,7 +9,7 @@ class BaseService(ABC):
     Lembre de fazer a funcao save para cada service individualmente
     """
 
-    def __init__(self, repository: RepositoryQuerys, table_name:str):
+    def __init__(self, repository: repositoryQuerys, table_name:str):
         self.repo = repository
         self.table_name = table_name
 

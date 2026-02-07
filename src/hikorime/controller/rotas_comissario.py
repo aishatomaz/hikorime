@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import date, time
-from hikorime.service.cadastro_voo_service import CadastroVooService
-from hikorime.repository.repository_querys import RepositoryQuerys
+from hikorime.service.cadastro_voo import CadastroVooService
+from hikorime.repository.repositoryQuerys import repositoryQuerys
 
 comissario_routes = APIRouter(prefix="/voos", tags=["Gerenciamento de Voos"])
 
@@ -20,7 +20,7 @@ class VooModelo(BaseModel):
 @comissario_routes.post("/cadastro")
 def cadastro_voo(voo_data: VooModelo):
     try:
-        repo = RepositoryQuerys(table_name="voos")
+        repo = repositoryQuerys(table_name="voos")
         service = CadastroVooService(repo)
         
         resultado = service.save(

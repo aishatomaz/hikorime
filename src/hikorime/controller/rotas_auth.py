@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, EmailStr
 from datetime import date
-from hikorime.repository.repository_querys import RepositoryQuerys
+from hikorime.repository.repositoryQuerys import repositoryQuerys
 
 usuario_routes = APIRouter(prefix="/usuarios", tags=["Autenticação"])
 
@@ -23,7 +23,7 @@ class CadastroFuncionario(BaseModel):
 def cadastro_passageiro(dados: CadastroPassageiro):
     try:
         #salvamento dos dados inseridos pelo usuário no banco
-        repo = RepositoryQuerys(table_name="passageiros")
+        repo = repositoryQuerys(table_name="passageiros")
         repo.save(**dados.dict()) 
         return {"mensagem": "Passageiro cadastrado com sucesso!"}
     except Exception as erro:
@@ -32,7 +32,7 @@ def cadastro_passageiro(dados: CadastroPassageiro):
 @usuario_routes.post("/cadastro/funcionario", status_code=status.HTTP_201_CREATED)
 def cadastro_funcionario(dados: CadastroFuncionario):
     try:
-        repo = RepositoryQuerys(table_name="funcionarios")
+        repo = repositoryQuerys(table_name="funcionarios")
         repo.save(**dados.dict())
         return {"mensagem": "Funcionário cadastrado com sucesso!"}
     except Exception as erro:
