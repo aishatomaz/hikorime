@@ -1,5 +1,8 @@
-from tipobagagem import TipoBagagem
-from pagamento import Pagamento
+from hikorime.models.enums.tipo_bagagem import TipoBagagem
+from hikorime.service.const_bagagens import ConstantesBagagem
+
+dados = ConstantesBagagem()
+
 class Bagagem:
     def __init__(self, peso, tipo: TipoBagagem, confirmacao = False):
         self.peso = peso
@@ -14,10 +17,12 @@ class Bagagem:
         return self.__peso
     @peso.setter
     def peso(self, peso_valido):
-        if not isinstance(peso_valido,int, float):
+        try:
+            float(peso_valido)
+        except ValueError as erro:
             raise ValueError ("O peso deve ser representado por um valor numérico")
-        elif self.__peso > 10:
-            raise ValueError("Sua bagagem ultrapassa o limite de carga por passageiro, limite: 10 KG")
+        if peso_valido > dados.peso_maximo:
+            raise ValueError(f"Sua bagagem ultrapassa o limite de carga por passageiro, limite: {dados.peso_maximo} KG")
         else:
             self.__peso = peso_valido
 

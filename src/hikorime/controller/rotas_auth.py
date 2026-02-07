@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from datetime import date
 from hikorime.repository.repository_querys import RepositoryQuerys
 
@@ -9,7 +9,7 @@ usuario_routes = APIRouter(prefix="/usuarios", tags=["Autenticação"])
 class CadastroPassageiro(BaseModel):
     nome: str
     cpf: str
-    email: EmailStr
+    email: str
     data_nascimento: date
 
 class CadastroFuncionario(BaseModel):

@@ -9,8 +9,11 @@ class BaseService(ABC):
     Lembre de fazer a funcao save para cada service individualmente
     """
 
-    def __init__(self, repository: RepositoryQuerys):
+    def __init__(self, repository: RepositoryQuerys, table_name:str):
         self.repo = repository
+        self.table_name = table_name
+
+
 
     # Devido as divergencias, def save sera feito por service
 

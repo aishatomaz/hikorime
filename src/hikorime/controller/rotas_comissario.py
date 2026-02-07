@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from datetime import date, time
-from hikorime.service.cadastro_voo_service import CadastroVooService
+from hikorime.service.cadastro_voo import CadastroVooService
 from hikorime.repository.repository_querys import RepositoryQuerys
 
 comissario_routes = APIRouter(prefix="/voos", tags=["Gerenciamento de Voos"])

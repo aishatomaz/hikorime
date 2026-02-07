@@ -1,3 +1,3 @@
 from pathlib import Path
 
-DATABASE_PATH = Path("..hikorime.db") # Temporario
+DATABASE_PATH = Path("hikorime.db")  # Temporario

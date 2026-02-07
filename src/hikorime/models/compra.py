@@ -1,9 +1,11 @@
 from datetime import date
+from hikorime.models.enums.tipo_pagamento import TipoPagamento
 
 class Compra:
-    def __init__(self, data_compra, valor_total):
+    def __init__(self, data_compra, valor_total, pagamento: TipoPagamento):
         self.data_compra = data_compra
         self.valor_total = valor_total
+        pagamento = pagamento
    
    #Encapsulamento dos atributos
     @property

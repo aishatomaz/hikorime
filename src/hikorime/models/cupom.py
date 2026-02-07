@@ -1,9 +1,11 @@
 from datetime import date
+from hikorime.models.enums.status_cupom import StatusCupom
 
 class Cupom:
-    def __init__(self, percentual_desconto, validade):
+    def __init__(self, percentual_desconto, validade, status: StatusCupom):
         self.percentual_desconto = percentual_desconto
         self.validade = validade
+        self.status = status
 
     #Encapsulamento dos atributos
     @property
@@ -27,12 +29,3 @@ class Cupom:
             raise ValueError("Tipo inválido! O tipo deve ser numérico!")
         else:
             self.__validade = validade_valida
-
-    def verificar_possibilidade_cupom(self):
-        return
-        
-    def verificar_validade_cupom(self):
-        return
-    
-    def aplicar_cupom(self):
-        return
