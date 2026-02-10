@@ -1,10 +1,11 @@
-from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_querys import RepositoryQuerys
+from hikorime.service.base_service import BaseService
 from hikorime.models.enums.status_voo import StatusVoo
 
+
 class CadastroVooService(BaseService):
-    def __init__(self, repo: RepositoryQuerys):
-        self.repo = repo
+    def __init__(self):
+        self.repo = RepositoryQuerys("voo")
 
     def save(
         self,
