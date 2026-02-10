@@ -5,7 +5,7 @@ description = ""
 authors = [
   # sigam oque esta abaio para adiconar o email de vcs
   # { name dd= "Jane Smith", email = "janesmith@example.org" },
-    { name = "Aisha Tomaz"},
+    { name = "Aisha Tomaz"}, email = "aisha.tomaz@aluno.ufca.edu.br"},
     { name = "Gabriel Souza", email = "santos.gabriel@aluno.ufca.edu.br"},
     { name = "Jose Dhonatan", email = "dhonatanjose10@gmail.com"},
     { name = "Leticia Dias"},
