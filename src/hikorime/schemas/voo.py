@@ -10,5 +10,5 @@ class VooModelo(BaseModel):
     local_saida: str
     destino: str
     id_piloto: int
-    aviao: int
+    aviao: str  # Mudei de int para str (Dhonatan)
     quant_vagas: int

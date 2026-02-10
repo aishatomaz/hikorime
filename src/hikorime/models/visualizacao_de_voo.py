@@ -1,8 +1,10 @@
-from cadastro_de_voo import CadastrarVoo
+from hikorime.service.visualizacao_de_voo import VisualizarVoos
 
-class VisualizarVoos:
-    #classe apenas para buscas - requisições get
+
+# TODO:
+class VisualizarVoo:
+    # classe apenas para buscas - requisições get
     def visualizar_voos(self):
-        #faz busca no banco e exibe todos os voos 
+        # faz busca no banco e exibe todos os voos
         pass
-    
+

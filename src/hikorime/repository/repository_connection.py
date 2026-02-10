@@ -1,8 +1,8 @@
 import sqlite3
 
-from hikorime.repository.config import DATABASE_PATH
-
 from typing import Any
+
+from hikorime.repository.config import DATABASE_PATH, SCHEMA_PATH
 
 
 class RepositoryConnection:
@@ -14,6 +14,15 @@ class RepositoryConnection:
         self, db_path=DATABASE_PATH
     ):  # Voce pode sobrescrever a path em testes, path da db em config.py
         self.db_path = db_path  # caminho do database
+        self._init_db()
+
+    def _init_db(self):  # Verifica se as tables foram criadas
+        with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
+            sql = f.read()
+
+        connect = sqlite3.connect(self.db_path)
+        connect.executescript(sql)
+        connect.commit()
 
     def query(
         self, query: str, data: dict[str, Any] | None = None
@@ -37,7 +46,10 @@ class RepositoryConnection:
                 else:
                     cursor.execute(query)
                 print("Dados selecionados com sucesso")
-                return cursor.fetchall()
+                rows = cursor.fetchall()
+                return [
+                    dict(row) for row in rows
+                ]  # Converte para dicionario os valores, corrigido o problema de get em registro.service
 
             # Executa 'update', 'insert' e 'delete'
             if data is not None:
@@ -47,7 +59,7 @@ class RepositoryConnection:
 
             connect.commit()
             print("Mudancas realizadas com sucesso!")
-            return True
+            return cursor.rowcount  # Antes estava True
 
         except Exception as error:
             print(f"error - {error} dando rollback")

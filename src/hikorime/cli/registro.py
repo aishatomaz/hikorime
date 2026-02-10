@@ -43,7 +43,7 @@ class RegistroRotas:
         print("ID:", resultado["id"])
 
     def registrar_funcionario(self):
-        print("\nCADASTRO DE FUNCIONÁRIO")
+        print("\n CADASTRO DE FUNCIONÁRIO")
         nome = input("Nome: ")
         email = input("Email: ")
         cpf = input("CPF (11 dígitos): ")
