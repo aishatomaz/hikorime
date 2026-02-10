@@ -7,7 +7,7 @@ seguindo os princípios SOLID.
 # Como usar:
 (em andamento)
 
-### estrutura do projeto atualmente
+### Estrutura do projeto atualmente
 
 ela sera atualizada ao menos uma vez por semana.
 ``` bash
