@@ -3,9 +3,10 @@ from pydantic import BaseModel
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.visualizacao_de_voo import VisualizarVoos
 
+'''A rota dos passageiros deve mostrar as ações que o o passgeiro pode realizar no sistema. Ele deve ter a possibilidade de comprar
+passagens, verificar o andamento dos voos dele e fazer pagamentos.'''
 
 passageiro_routes = APIRouter(prefix="/passagens", tags=["Passageiro"])
-
 
 class CompraPassagem(BaseModel):
     assento: int

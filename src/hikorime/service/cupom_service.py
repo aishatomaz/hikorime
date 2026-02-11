@@ -1,7 +1,7 @@
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.base_service import BaseService
 
-
+'''Salva os relacionadosà cupom no Banco de Dados.'''
 class CupomService(BaseService):
     def __init__(self):
         self.repo = RepositoryQuerys("cupom")

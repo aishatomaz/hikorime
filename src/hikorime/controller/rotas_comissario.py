@@ -4,6 +4,8 @@ from hikorime.models.enums.status_voo import StatusVoo
 from hikorime.schemas.voo import VooModelo
 from hikorime.service.cadastro_voo import CadastroVooService
 
+'''A rota do comissário deve conter os gerenciamentos dos voos.'''
+
 comissario_routes = APIRouter(prefix="/voos", tags=["Gerenciamento de Voos"])
 
 

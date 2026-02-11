@@ -1,7 +1,7 @@
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_querys import RepositoryQuerys
 
-
+'''Classe salva os valores de Compra no Banco de Dados.'''
 class CompraService(BaseService):
     def __init__(self):
         self.repo = RepositoryQuerys("compra")

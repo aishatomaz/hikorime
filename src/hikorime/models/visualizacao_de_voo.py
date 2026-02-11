@@ -1,5 +1,6 @@
 from hikorime.service.visualizacao_de_voo import VisualizarVoos
 
+'''Serve como um apoio, para facilitar requisições e buscar os dados necessários no Banco'''
 
 # TODO:
 class VisualizarVoo:

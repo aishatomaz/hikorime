@@ -2,7 +2,7 @@ from hikorime.repository.repository_connection import RepositoryConnection
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.base_service import BaseService
 
-
+'''Salva os de passagem no Banco de dados.'''
 class PassagemService(BaseService):
     def __init__(self):
         self.repo = RepositoryQuerys("passagem")

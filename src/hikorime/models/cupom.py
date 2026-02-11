@@ -1,6 +1,9 @@
 from datetime import date
 from hikorime.models.enums.status_cupom import StatusCupom
-
+'''
+O cupom surge como um bônus pelas compras dos passageiros. Após 3 compras, o cupom poderá ser aplicado na compra (passagem + bagagem), 
+como consta nas regras de negócio do aeroporto.
+'''
 class Cupom:
     def __init__(self, percentual_desconto, validade, status: StatusCupom):
         self.percentual_desconto = percentual_desconto

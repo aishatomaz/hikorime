@@ -1,5 +1,8 @@
 from hikorime.models.notificacaoModel import NotificationModel
 
+'''
+A passagem comprada pelo passageiro deve informar o assento e o valor da passagem. Após a compra, o passageiro receberá uma notificação.
+'''
 class Passagem:
     def __init__(self, assento, valor_final, notificacao: NotificationModel):
         self.assento = assento
