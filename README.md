@@ -5,8 +5,9 @@
 seguindo os princípios SOLID.
 
 # Como usar:
+(em andamento)
 
-### estrutura do projeto atualmente
+### Estrutura do projeto atualmente
 
 ``` bash
 .
@@ -93,12 +94,15 @@ seguindo os princípios SOLID.
 
 <img width="4855" height="2994" alt="Hikorime - Tema Escuro" src="https://github.com/user-attachments/assets/e2feebef-30db-4800-a637-5a3ea12cb214" />
 
+
+# 
+
 # Equipe
 
-| Membros  | Funções |
-| ------------- | ------------- |
-| [Ana Aisha](https://github.com/aishatomaz)  | Desenvolvedor  |
-| [Dhonatan](https://github.com/sudo-invers) | Desenvolvedor  |
-| [Gabriel Santos](https://github.com/gabriel-so-santos) | Desenvolvedor  |
-| [Sarah Mendes](https://github.com/sarahmendes-ufca)  | Desenvolvedor  |
-| [Letícia Dias](https://github.com/leticia-software-engineer)  | Desenvolvedor  |
+| Membros  | Funções | Contribuição
+| ------------- | ------------- | ------------- |
+| [Ana Aisha](https://github.com/aishatomaz)  | Desenvolvedor  | |
+| [Dhonatan](https://github.com/sudo-invers) | Desenvolvedor  | |
+| [Gabriel Santos](https://github.com/gabriel-so-santos) | Desenvolvedor  | |
+| [Sarah Mendes](https://github.com/sarahmendes-ufca)  | Desenvolvedor  | |
+| [Letícia Dias](https://github.com/leticia-software-engineer)  | Desenvolvedor  | |
