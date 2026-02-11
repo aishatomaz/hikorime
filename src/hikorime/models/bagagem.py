@@ -2,7 +2,10 @@ from hikorime.models.enums.tipo_bagagem import TipoBagagem
 from hikorime.service.const_bagagens import ConstantesBagagem
 
 dados = ConstantesBagagem()
-
+'''
+Bagagem especifíca o tipo e o peso da bagagem que o passageiro irá levar. A bagagem possuí um valor defindido e o valor não pode ser superior à 10kg,
+os valores são estabelecidos pelas regras de negócio.
+'''
 class Bagagem:
     def __init__(self, peso, tipo: TipoBagagem, confirmacao = False):
         self.peso = peso

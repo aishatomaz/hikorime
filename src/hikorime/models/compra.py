@@ -1,6 +1,11 @@
 from datetime import date
 from hikorime.models.enums.tipo_pagamento import TipoPagamento
 
+'''
+Classe Compra recebe o valor total de todas as compras (no caso, o valor da passagem, junto do valor da babagem e o desconto do cupom, se possível),
+seleciona o tipo de pagamento, sendo a compra final.
+'''
+
 class Compra:
     def __init__(self, data_compra, valor_total, pagamento: TipoPagamento):
         self.data_compra = data_compra

@@ -4,7 +4,10 @@ from repository.repository_connection import RepositoryConnection
 from service.const_voo import ConstantesVoo
 
 const = ConstantesVoo()
-
+'''
+O comissário de Bordo deve realizar os cadastros dos voos, de acordo com as regras de negócio. O cadastro deve conter as datas e horários dos voos,
+a fim de maior controle e segurança, a localidade, o cadastro do pilto e dados sobre outras partes do voo.
+'''
 class CadastrarVoo:
     # recolhe dados do voo para o banco de dados, comissário deve preencher
     def __init__(

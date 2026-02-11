@@ -2,7 +2,7 @@ from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.base_service import BaseService
 from hikorime.models.enums.status_voo import StatusVoo
 
-
+'''Classe que salva todos os valores do Cadastro de Voo no Banco de Dados'''
 class CadastroVooService(BaseService):
     def __init__(self):
         self.repo = RepositoryQuerys("voo")

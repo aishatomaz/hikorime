@@ -1,5 +1,6 @@
 from hikorime.repository.repository_connection import RepositoryConnection
 
+'''O Objetivo desses testes é verificar se as operações básicas estão funcionando corretamente.'''
 
 def test_repository(tmp_path):
     # Caminho temporário para o pytest
