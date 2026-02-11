@@ -1,3 +1,5 @@
 from pathlib import Path
 
-DATABASE_PATH = Path("..hikorime.db") # Temporario
+BASE_DIR = Path(__file__).resolve().parent
+DATABASE_PATH = BASE_DIR / "hikorime.db"
+SCHEMA_PATH = BASE_DIR / "schema.sql"

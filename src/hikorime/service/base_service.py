@@ -1,32 +1,32 @@
-from abc import ABC
-
 from hikorime.repository.repository_querys import RepositoryQuerys
 
-class BaseService(ABC):
+
+class BaseService:
     """
-        Classe base para outras classes do tipo servico
-        Lembre de fazer a funcao save para cada service individualmente
+    Classe base para outras classes do tipo servico
+    Lembre de fazer a funcao save para cada service individualmente
     """
 
     def __init__(self, repository: RepositoryQuerys):
         self.repo = repository
 
-    def get_all(self, table_name: str):
-        return self.repo.get_all(table_name)
-    
-    def get_by_id(self, id: int):
+    # Devido as divergencias, def save sera feito por service
 
+    def get_all(self):
+        return self.repo.get_all()
+
+    def get_by_id(self, id: int):
         return self.repo.get_by_id(id)
-    
-    def get_by_column_name(self, column_name:str, value:str):
+
+    def get_by_column_name(self, column_name: str, value: str):
         return self.repo.get_by_column_name(column_name, value)
-    
+
     def get_like_by_column_name(self, column_name: str, value: str):
         return self.repo.get_like_by_column_name(column_name, value)
 
-    def delete_by_id(self, id:int):
+    def delete_by_id(self, id: int):
         return self.repo.delete_by_id(id)
-    
+
     def get_quantity_of_rown(self):
         return self.repo.get_quantity_of_rown()
 

@@ -1,5 +1,5 @@
 from hikorime.repository.repository_querys import RepositoryQuerys
-from hikorime.registro.models import UsuarioCreate, PassageiroCreate, FuncionarioCreate, LoginRequest
+from hikorime.registro.modelos import UsuarioCreate, PassageiroCreate, FuncionarioCreate, LoginRequest
 from fastapi import HTTPException, status
 
 class RegistroService:

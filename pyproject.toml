@@ -5,7 +5,7 @@ description = ""
 authors = [
   # sigam oque esta abaio para adiconar o email de vcs
   # { name dd= "Jane Smith", email = "janesmith@example.org" },
-    { name = "Aisha Tomaz"},
+    { name = "Aisha Tomaz"}, email = "aisha.tomaz@aluno.ufca.edu.br"},
     { name = "Gabriel Souza", email = "santos.gabriel@aluno.ufca.edu.br"},
     { name = "Jose Dhonatan", email = "dhonatanjose10@gmail.com"},
     { name = "Leticia Dias"},
@@ -14,7 +14,8 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "fastapi (>=0.128.0,<0.129.0)"
+    "fastapi (>=0.128.0,<0.129.0)",
+    "pydantic[email] (>=2.12.5,<3.0.0)"
 ]
 
 [tool.poetry]

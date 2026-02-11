@@ -9,9 +9,9 @@ seguindo os princípios SOLID.
 
 ### Estrutura do projeto atualmente
 
-ela sera atualizada ao menos uma vez por semana.
 ``` bash
 .
+├── hikorime.db
 ├── poetry.lock
 ├── pyproject.toml
 ├── pytest.ini
@@ -19,9 +19,20 @@ ela sera atualizada ao menos uma vez por semana.
 └── src
     ├── hikorime
     │   ├── cli
-    │   │   └── __init__.py
+    │   │   ├── comissario.py
+    │   │   ├── cores.py
+    │   │   ├── iniciar.py
+    │   │   ├── menus.py
+    │   │   ├── opcoes.py
+    │   │   ├── passageiro.py
+    │   │   ├── registro.py
+    │   │   ├── relatorio.py
+    │   │   └── utils.py
     │   ├── controller
-    │   │   └── __init__.py
+    │   │   ├── __init__.py
+    │   │   ├── rotas_comissario.py
+    │   │   ├── rotas_passageiro.py
+    │   │   └── rotas_relatorios.py
     │   ├── __init__.py
     │   ├── models
     │   │   ├── bagagem.py
@@ -29,24 +40,43 @@ ela sera atualizada ao menos uma vez por semana.
     │   │   ├── compra.py
     │   │   ├── cupom.py
     │   │   ├── enums
-    │   │   │   └── __init__.py
+    │   │   │   ├── __init__.py
+    │   │   │   ├── status_cupom.py
+    │   │   │   ├── status_voo.py
+    │   │   │   ├── tipo_bagagem.py
+    │   │   │   └── tipo_pagamento.py
     │   │   ├── __init__.py
     │   │   ├── notificacaoModel.py
-    │   │   ├── pagamento.py
     │   │   ├── passagem.py
-    │   │   ├── statusvoo.py
-    │   │   ├── tipobagagem.py
-    │   │   ├── tipo_pagamento.py
     │   │   └── visualizacao_de_voo.py
+    │   ├── registro
+    │   │   ├── controle.py
+    │   │   ├── __init__.py
+    │   │   ├── modelos.py
+    │   │   └── service.py
     │   ├── repository
     │   │   ├── config.py
+    │   │   ├── hikorime.db
     │   │   ├── __init__.py
     │   │   ├── repository_connection.py
-    │   │   └── repository_querys.py
-    │   ├── service
-    │   │   ├── base_service.py
-    │   │   └── __init__.py
-    │   └── utils
+    │   │   ├── repository_querys.py
+    │   │   └── schema.sql
+    │   ├── schemas
+    │   │   ├── compra_passagem.py
+    │   │   └── voo.py
+    │   └── service
+    │       ├── base_service.py
+    │       ├── cadastro_voo.py
+    │       ├── compra_service.py
+    │       ├── cupom_service.py
+    │       ├── enums
+    │       │   ├── const_bagagens.py
+    │       │   └── const_voo.py
+    │       ├── __init__.py
+    │       ├── passagem_service.py
+    │       └── visualizacao_de_voo.py
+    ├── main_cli.py
+    ├── main.py
     └── tests
         ├── test_repository.py
         └── tests_unit
@@ -56,7 +86,7 @@ ela sera atualizada ao menos uma vez por semana.
             ├── test_passagem.py
             └── test_voo.py
 
-12 directories, 32 files
+14 directories, 61 files
 
 ```
 
