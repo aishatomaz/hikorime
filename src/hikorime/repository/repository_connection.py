@@ -28,6 +28,7 @@ class RepositoryConnection:
         self, query: str, data: dict[str, Any] | None = None
     ):  # o Any do dicionario, e que as vezes devo usar int para selecionar id po exemplo
         """
+        Faz as querys sql
         args:
             query: query sql
             data: dados da query (dict ou tupla, default = None)
