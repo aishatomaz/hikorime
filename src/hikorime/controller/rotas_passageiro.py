@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
+from pydantic import BaseModel
 from hikorime.service.visualizacao_de_voo import VisualizarVoos
-from hikorime.service.compra_service import CompraService
+from hikorime.repository.repository_querys import RepositoryQuerys
 
 passageiro_routes = APIRouter(prefix="/passagens", tags=["Passageiro"])
 
