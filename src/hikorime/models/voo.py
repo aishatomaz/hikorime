@@ -1,44 +1,44 @@
-from datetime import (
-    date,
-    datetime,
-)
-
+from datetime import datetime
 
 class Voo:
-    def __init__(self, data_saida: date, horario_chegada_previsto: datetime, horario_saida: datetime, local_origem: str, local_destino: str, qtd_passageiros: int):
-        self.data_saida = data_saida
-        self.horario_chegada_previsto = horario_chegada_previsto
-        self.horario_saida = horario_saida
-        self.local_origem = local_origem = local_origem
-        self.local_destino = local_destino = local_destino
-        self.qtd_passageiros = qtd_passageiros
+    def __init__(self, data_hora_partida: datetime, data_hora_chegada: datetime, data_hora_chegada_prevista: datetime, local_origem: str, local_destino: str, assentos_ocupados: int):
+        self.data_hora_partida = data_hora_partida
+        self.data_hora_chegada = data_hora_chegada
+        self.data_hora_chegada_prevista = data_hora_chegada_prevista
+        self.local_origem = local_origem
+        self.local_destino = local_destino
+        self.assentos_ocupados = assentos_ocupados
 
     @property
-    def data_saida(self):
-        return self.__data_saida
+    def data_hora_partida(self):
+        return self.__data_hora_partida
 
-    @data_saida.setter
-    def data_saida(self, value):
-        self.__data_saida = value
+    @data_hora_partida.setter
+    def data_hora_partida(self, data_hora_partida_valida):
+        if not isinstance(data_hora_partida_valida, datetime):
+            raise ValueError("A data de partida deve ser do tipo date.")
+        self.__data_hora_partida = data_hora_partida_valida
 
     @property
-    def horario_chegada_previsto(self):
-        return self.__horario_chegada_previsto
+    def data_hora_chegada(self):
+        return self.__data_hora_chegada
     
-    @horario_chegada_previsto.setter
-    def horario_chegada_previsto(self, horario_chegada_previsto_valida):
-
-        if not isinstance(horario_chegada_previsto_valida, datetime):
-            raise ValueError("O horário de chegada previsto deve ser do tipo datetime.")
-        self.__horario_chegada_previsto = horario_chegada_previsto_valida
+    @data_hora_chegada.setter
+    def data_hora_chegada(self, data_hora_chegada_valida):
+        if not isinstance(data_hora_chegada_valida, datetime):
+            raise ValueError("A data e hora de chegada deve ser do tipo datetime.")
+        self.__data_hora_chegada = data_hora_chegada_valida
 
     @property
-    def horario_saida(self):
-        return self.__horario_saida
+    def data_hora_chegada_prevista(self):
+        return self.__data_hora_chegada_prevista
     
-    @horario_saida.setter
-    def horario_saida(self, value):
-        self.__horario_saida = value
+    @data_hora_chegada_prevista.setter
+    def data_hora_chegada_prevista(self, data_hora_chegada_prevista_valida):
+
+        if not isinstance(data_hora_chegada_prevista_valida, datetime):
+            raise ValueError("A data e hora de chegada previsto deve ser do tipo datetime.")
+        self.__data_hora_chegada_prevista = data_hora_chegada_prevista_valida
 
     @property
     def local_origem(self):
@@ -52,14 +52,17 @@ class Voo:
         self.__local_origem = local_origem_valida    
         
     @property
-    def qdt_passageiros(self):
-        return self.__qtd_passageiros
+    def assentos_ocupados(self):
+        return self.__assentos_ocupados
 
-    @qdt_passageiros.setter
-    def qtd_passageiros(self, qtd_passageiros_valida):
-        if not isinstance(qtd_passageiros_valida, int):
+    @assentos_ocupados.setter
+    def assentos_ocupados(self, assentos_ocupados_valida):
+        if not isinstance(assentos_ocupados_valida, int):
             raise ValueError("A quantidade de passageiros deve ser do tipo int.")
-        self.__qtd_passageiros = qtd_passageiros_valida
+        
+        if assentos_ocupados_valida <= 0:
+            raise ValueError("A quantidade de passageiros deve ser maior que zero.")
+        self.__assentos_ocupados = assentos_ocupados_valida
 
     @property
     def local_destino(self):
