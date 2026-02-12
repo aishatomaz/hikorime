@@ -1,14 +1,16 @@
+from hikorime.models.funcionario import Funcionario
+from hikorime.models.passageiro import Passageiro
+from hikorime.models.registro import LoginRequest
 from hikorime.repository.repository_querys import RepositoryQuerys
-from hikorime.registro.modelos import UsuarioCreate, PassageiroCreate, FuncionarioCreate, LoginRequest
 from fastapi import HTTPException, status
 
-class RegistroService:
+class Autenticacao:
     def __init__(self):
         self.repo_usuario = RepositoryQuerys("usuarios")
         self.repo_passageiro = RepositoryQuerys("passageiros")
         self.repo_funcionario = RepositoryQuerys("funcionarios")
 
-    def registrar_passageiro(self, dados: PassageiroCreate):
+    def registrar_passageiro(self, dados: Passageiro):
         # Verificar se usuário já existe
         existente = self.repo_usuario.get_by_column_name("email", dados.email)
         if existente:
@@ -31,7 +33,7 @@ class RegistroService:
         
         return {"message": "Passageiro registrado com sucesso", "id": usuario_id}
 
-    def registrar_funcionario(self, dados: FuncionarioCreate):
+    def registrar_funcionario(self, dados: Funcionario):
         # Verificar se usuário já existe
         existente = self.repo_usuario.get_by_column_name("email", dados.email)
         if existente:

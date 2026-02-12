@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.visualizacao_de_voo import VisualizarVoos
+<<<<<<< HEAD
 
 '''A rota dos passageiros deve mostrar as ações que o o passgeiro pode realizar no sistema. Ele deve ter a possibilidade de comprar
 passagens, verificar o andamento dos voos dele e fazer pagamentos.'''
@@ -41,6 +42,12 @@ def ver_minhas_passagens(id_passageiro: int):
     return passagens
 
 
+=======
+from hikorime.service.passagem_service import PassagemService
+
+passageiro_routes = APIRouter(prefix="/passagens", tags=["Passageiro"])
+
+>>>>>>> 741fc4069c26c338c60aaf74b4cc9cd90471b8ae
 @passageiro_routes.get("/visualizar/voos", response_model=None)
 def ver_todos_os_voos():
     consulta = VisualizarVoos.dados.get_all()
