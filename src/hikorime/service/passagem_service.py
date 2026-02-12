@@ -8,9 +8,6 @@ class PassagemService(BaseService):
 
     def get_by_passageiro(self, passageiro_id: int):
 
-<<<<<<< HEAD
-        return RepositoryPassagem.get_by_passageiro(passageiro_id)
-=======
         data = {"passageiro_id": passageiro_id}
 
         # TODO: Mudar para um classe repo
@@ -33,6 +30,3 @@ class PassagemService(BaseService):
         """
 
         return RepositoryConnection().query(sql, data)
-
-service = PassagemService()
->>>>>>> financeiro
