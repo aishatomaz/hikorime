@@ -1,6 +1,7 @@
-from hikorime.models.compra import Compra
-from hikorime.models.enums.tipo_pagamento import TipoPagamento
-from hikorime.models.passagem import Passagem
+from .compra import Compra
+from .enums.tipo_pagamento import TipoPagamento
+from .passagem import Passagem
+from .voo import voo
 
 
 class Notificacao:
@@ -8,13 +9,13 @@ class Notificacao:
         self,
         passagem: Passagem,
         compra: Compra,
-        # voo: voo,
+        voo: voo,
         pagamento: TipoPagamento,
         prox_partida=False,
     ):
 
         self.passagem = passagem
         self.compra = compra
-        # self.voo = voo
+        self.voo = voo
         self.prox_partida = prox_partida
         self.pagamento = pagamento
