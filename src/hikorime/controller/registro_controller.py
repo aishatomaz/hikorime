@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 from hikorime.models.registro import PassageiroCreate, FuncionarioCreate, LoginRequest
-from hikorime.service.registro_service import RegistroService
+from hikorime.service.autenticacao import RegistroService
 
 registro_router = APIRouter(prefix="/registro", tags=["Registro e Autenticação"])
 service = RegistroService()

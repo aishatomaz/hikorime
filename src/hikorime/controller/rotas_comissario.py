@@ -1,14 +1,13 @@
 from fastapi import APIRouter, HTTPException
 
 from hikorime.models.enums.status_voo import StatusVoo
-from hikorime.schemas.voo import VooModelo
 from hikorime.service.cadastro_voo import CadastroVooService
+from hikorime.models.voo import Voo
 
 comissario_routes = APIRouter(prefix="/voos", tags=["Gerenciamento de Voos"])
 
-
 @comissario_routes.post("/cadastro")
-def cadastro_voo(voo_data: VooModelo):
+def cadastro_voo(voo_data: Voo):
     try:
         service = CadastroVooService()
 
