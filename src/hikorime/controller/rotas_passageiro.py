@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.visualizacao_de_voo import VisualizarVoos
+from hikorime.service.compra_service import CompraService
 
 '''A rota dos passageiros deve mostrar as ações que o o passgeiro pode realizar no sistema. Ele deve ter a possibilidade de comprar
 passagens, verificar o andamento dos voos dele e fazer pagamentos.'''
@@ -13,7 +14,6 @@ class CompraPassagem(BaseModel):
     id_voo: int
     id_passageiro: int
     valor_pago: float
-
 
 @passageiro_routes.post("/comprar", status_code=status.HTTP_201_CREATED)
 def comprar_passagem(dados: CompraPassagem):
@@ -49,3 +49,13 @@ def ver_todos_os_voos():
         raise HTTPException(status_code=404, detail="Nenhum voo foi encontrado.")
 
     return consulta
+
+@passageiro_routes.post("/finalizar_compra", status_code=status.HTTP_201_CREATED)
+def realizar_pagamento(dados: CompraPassagem):
+    try:
+        repo = RepositoryQuerys(table_name="compra")
+        repo.save(**dados.dict())
+
+        return {"mensagem": "Pagamento realizado com sucesso!", "dados": dados}
+    except Exception as erro:
+        raise HTTPException(status_code=400, detail=f"Erro no pagamento: {str(erro)}")

@@ -5,7 +5,7 @@ from hikorime.service.base_service import BaseService
 '''Salva os de passagem no Banco de dados.'''
 class PassagemService(BaseService):
     def __init__(self):
-        self.repo = RepositoryQuerys("passagem")
+        self.repo = RepositoryQuerys("passagens_vendidas")
 
     def get_by_passageiro(self, passageiro_id: int):
 
@@ -31,3 +31,5 @@ class PassagemService(BaseService):
         """
 
         return RepositoryConnection().query(sql, data)
+
+service = PassagemService()

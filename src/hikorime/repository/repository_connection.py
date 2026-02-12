@@ -4,7 +4,6 @@ from typing import Any
 
 from hikorime.repository.config import DATABASE_PATH, SCHEMA_PATH
 
-
 class RepositoryConnection:
     """
     Conecta ao banco de dados, e faz querys automaticas.
