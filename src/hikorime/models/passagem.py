@@ -28,8 +28,10 @@ class Passagem:
 
     @valor_final.setter
     def valor_final(self, valor_final_valido):
-        if not isinstance(valor_final_valido, float):
-            raise ValueError("Valor final inválido! O valor deve ser numérico!")
+        try:
+            float(valor_final_valido)
+        except ValueError:  # Removido 'as erro', ja que nao estava a ser usado
+            raise ValueError("O peso deve ser representado por um valor numérico")
         else:
             self.__valor_final = valor_final_valido
 
