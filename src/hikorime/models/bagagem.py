@@ -1,10 +1,6 @@
 from hikorime.models.enums.tipo_bagagem import TipoBagagem
 from hikorime.models.enums.const_bagagens import ConstantesBagagem
 
-dados = ConstantesBagagem
-
-dados = ConstantesBagagem()
-
 class Bagagem:
     """
     Bagagem especifíca o tipo e o peso da bagagem que o passageiro irá levar. A bagagem possuí um valor defindido e o valor não pode ser superior à 10kg,
@@ -29,11 +25,11 @@ class Bagagem:
     def peso(self, peso_valido):
         try:
             float(peso_valido)
-        except ValueError:  # Removido 'as erro', ja que nao estava a ser usado
+        except ValueError:  
             raise ValueError("O peso deve ser representado por um valor numérico")
-        if peso_valido > dados.PESO_MAXIMO:
+        if peso_valido > ConstantesBagagem.PESO_MAXIMO.value:
             raise ValueError(
-                f"Sua bagagem ultrapassa o limite de carga por passageiro, limite: {dados.PESO_MAXIMO} KG"
+                f"Sua bagagem ultrapassa o limite de carga por passageiro, limite: {ConstantesBagagem.PESO_MAXIMO} KG"
             )
         else:
             self.__peso = peso_valido
@@ -42,10 +38,4 @@ class Bagagem:
         taxa_variavel = self.__peso * 5
         self.valor_bagagem = self.valor_fixo + taxa_variavel
 
-    def registrar_bagagem(self):
-        # para registrar a bagagem será necessário uma confirmação
-
-        if self.confirmacao is True:
-            # salvar no banco de dados peso, tipo, valor e id do passageiro
-
-            pass
+ 
