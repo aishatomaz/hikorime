@@ -1,5 +1,5 @@
 from hikorime.models.enums.tipo_usuario import TipoUsuario
-from hikorime.models.base_usuario import UsuarioBase
+from hikorime.models.basemodels.bm_usuario import UsuarioBase
 
 
 class Funcionario(UsuarioBase):

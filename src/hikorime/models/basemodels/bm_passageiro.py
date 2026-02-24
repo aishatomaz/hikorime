@@ -1,5 +1,5 @@
 from typing import Optional
-from hikorime.models.base_usuario import UsuarioBase
+from hikorime.models.basemodels.bm_usuario import UsuarioBase
 from hikorime.models.enums.tipo_usuario import TipoUsuario
 
 

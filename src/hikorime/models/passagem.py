@@ -1,6 +1,5 @@
 from hikorime.models.notificacao import Notificacao
 
-
 '''
 A passagem comprada pelo passageiro deve informar o assento e o valor da passagem. Após a compra, o passageiro receberá uma notificação.
 '''

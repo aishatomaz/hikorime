@@ -13,7 +13,7 @@ class Bagagem:
         self.peso = peso
         self.tipo = tipo
         self.confirmacao = confirmacao
-        self.valor_fixo = 50.00
+        self.valor_fixo = ConstantesBagagem.VALOR_FIXO
         self.valor_bagagem = 0
 
     # getters e setters
@@ -35,7 +35,7 @@ class Bagagem:
             self.__peso = peso_valido
 
     def calcular_valor_bagagem(self):
-        taxa_variavel = self.__peso * 5
+        taxa_variavel = self.__peso * ConstantesBagagem.TAXA_VARIAVEL
         self.valor_bagagem = self.valor_fixo + taxa_variavel
 
  

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from hikorime.controller.rotas_comissario import comissario_routes
-from hikorime.controller.voo_controller import passageiro_routes
+from hikorime.controller.rotas_voo import passageiro_routes
 from hikorime.controller.rotas_relatorios import relatorios_routes
 
 app = FastAPI()

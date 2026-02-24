@@ -1,5 +1,5 @@
-from hikorime.models.funcionario import Funcionario
-from hikorime.models.passageiro import Passageiro
+from hikorime.models.basemodels.bm_funcionario import Funcionario
+from hikorime.models.basemodels.bm_passageiro import Passageiro
 from hikorime.models.registro import LoginRequest
 from hikorime.repository.repository_querys import RepositoryQuerys
 from fastapi import HTTPException, status
