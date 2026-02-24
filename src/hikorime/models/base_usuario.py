@@ -1,8 +1,9 @@
 from pydantic import BaseModel, EmailStr, Field
-
 from hikorime.models.enums.tipo_usuario import TipoUsuario
 
-
+'''
+    Define modelo base de cada usuário criado.
+'''
 class UsuarioBase(BaseModel):
     nome: str
     email: EmailStr
