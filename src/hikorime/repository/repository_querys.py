@@ -1,21 +1,26 @@
-from hikorime.repository.repository_connection import RepositoryConnection
 from typing import Any
+
+from hikorime.repository.repository_connection import RepositoryConnection
 
 
 class RepositoryQuerys:
+    """
+    Guarda as querys base para outro repositorios, e services
+    """
+
     def __init__(self, table_name: str):
         self.table_name = table_name
 
     def save(self, **kwargs: Any):
         """
-        Salva os dados dentro do banco de dados(POST),
-        args:
-            kwargs: qualquer elemento a ser salvo(deixe igual ao que esta nos models).
-        exemplo de uso:
-            repo.save(
-            name="Maria", # name = coluna, maria = o que sera colocado na coluna name
-            age=25
-            )
+        Salva os dados dentro do banco de dados(metodo POST)
+
+        Args:
+            kwargs: qualquer elemento a ser salvo(
+            os argumentos tem que bater junto ao da classe modelo)
+
+        Returns:
+            dict[str, Any]: um dicionario a ser salvo no banco de dados
         """
 
         if not self.table_name.isidentifier():
@@ -39,11 +44,14 @@ class RepositoryQuerys:
             VALUES ({placeholders});
         """
 
-        return RepositoryConnection().query(query, kwargs)
+        return RepositoryConnection().save(query, kwargs)
 
     def get_all(self):
         """
-        debug only, retorna tudo da tabela
+        Pega todos as entidades da tabela.
+
+        Returns:
+            dict: um dicionario representando todas as entidades da tabela.
         """
 
         if not self.table_name.isidentifier():
@@ -51,22 +59,37 @@ class RepositoryQuerys:
 
         query = f"select * from {self.table_name};"
 
-        return RepositoryConnection().query(query)
+        return RepositoryConnection().get_many(query)
 
     def get_by_id(self, id: int):
+        """
+        Pega uma entidade da tabela por seu id.
+
+        Args:
+            id: O id da entidade a ser buscada.
+
+        Returns:
+            dict | None: Um dicionario representando a entidade encontrada,
+            ou None se nenhuma entidade com o id informado existir.
+        """
         data = {"id": id}
 
         query = f"select * from {self.table_name} where id = :id;"
 
-        return RepositoryConnection().query(query, data)
+        return RepositoryConnection().get_one(query, data)
 
     def get_by_column_name(self, column_name: str, value: str):
         """
-        Retorna uma query usando o nome da coluna
-        (Se precisar de um valor parcial, use getLikeByColumnName)
+        Pega todas as entidades, de uma determinada coluna.
+
         args:
-            column_name: nome da coluna
-            value = oque voce quer *exatamente* adequirir
+            column_name: nome da coluna a ser buscada.
+            value: String do que voce quer buscar (Tem que bater todos os caracteres).
+
+        Returns:
+            dict | None: Um dicionario representando a entidade(s) encontrada(s),
+            ou None se a coluna nao existir, ou vazio se nao for encontrado valores
+            que batam com o que foi pedido.
         """
 
         if not column_name.isidentifier():
@@ -76,37 +99,47 @@ class RepositoryQuerys:
 
         query = f"""SELECT * FROM {self.table_name} WHERE {column_name} = :value;"""
 
-        return RepositoryConnection().query(query, data)
+        return RepositoryConnection().get_one(query, data)
 
     def get_like_by_column_name(self, column_name: str, value: str):
         """
-        Retorna uma query usando o nome da coluna
-        (Se precisar de um valor exatamente como escreveu, use getByColumnName)
+        Pega todas as entidades, de uma determinada coluna.
+
         args:
-            column_name: nome da coluna
-            value = oque voce quer adequirir (Pode ser um nome parcial)
-            exemplo:
-            value = dhon, ira pegar qualquer valor que contenha os caracteres juntos dhon, ou seja, dhon, dhonatan, dhonatian, etc
+            column_name: nome da coluna a ser buscada.
+            value: String parcial do que voce precisa buscar.
+
+        Returns:
+            dict | None: Um dicionario representando a entidade(s) encontrada(s),
+            ou None se a coluna nao existir, ou vazio se nao for encontrado valores
+            que batam com o que foi pedido.
         """
 
         if not column_name.isidentifier():
             raise ValueError(f"Invalid column name: {column_name}")
 
+        # Nao ouse tirar o comentario abaixo
         data = {"value": f"%{value}%"}  # I like the like operation (:
 
         query = f"""SELECT * FROM {self.table_name} WHERE {column_name} LIKE :value;"""
 
-        return RepositoryConnection().query(query, data)
+        return RepositoryConnection().get_one(query, data)
 
     def delete_by_id(self, id: int):
         """
-        deleta alguma coisa usando seu id
+        Deleta uma entidade usando seu id.
+
+        Args:
+            id: O id que sera deletado da tabela.
+
+        Returns:
+
         """
         data = {"id": id}
 
         query = f"DELETE FROM {self.table_name} WHERE id=:id;"
 
-        return RepositoryConnection().query(query, data)
+        return RepositoryConnection().delete(query, data)
 
     def get_quantity_of_rown(self):
         """
@@ -114,7 +147,7 @@ class RepositoryQuerys:
         """
         query = f"SELECT COUNT(id) FROM {self.table_name};"
 
-        return RepositoryConnection().query(query)
+        return RepositoryConnection().get_one(query)
 
     def put_in_table(self, id: int, data: dict):
         """
@@ -136,4 +169,4 @@ class RepositoryQuerys:
         for query, param in zip(
             queries, params
         ):  # Isso serve para cada put ser colocado de forma individual.
-            RepositoryConnection.query(query, param)
+            RepositoryConnection.update(query, param)
