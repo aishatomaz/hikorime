@@ -42,12 +42,14 @@ class RepositoryConnection:
         Returns:
             Retorna o id do que foi criado (se tiver erro, retorna None.)
         """
-
-        with self._connect() as conn:
-            cursor = conn.cursor()
-            cursor.execute(query, params)
-            conn.commit()
-            return cursor.lastrowid
+        try:
+            with self._connect() as conn:
+                cursor = conn.cursor()
+                cursor.execute(query, params)
+                conn.commit()
+                return cursor.lastrowid
+        except sqlite3.Error as error:
+            raise ValueError(f"Erro ao executar: {error}")
 
     def get_one(self, query: str, params: Tuple | dict = ()) -> Optional[Dict]:
         """
@@ -121,9 +123,11 @@ class RepositoryConnection:
         Args:
             query: Query sql pura.
             params: Parametros da query em tupla ou dict.
+
         Returns:
             Quantidade de Linhas afetadas
         """
+
         with self._connect() as conn:
             cursor = conn.cursor()
             cursor.execute(query, params)

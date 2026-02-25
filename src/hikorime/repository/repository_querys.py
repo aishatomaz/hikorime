@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 
 from hikorime.repository.repository_connection import RepositoryConnection
 
@@ -30,14 +30,14 @@ class RepositoryQuerys:
             raise ValueError("Nenhum dado fornecido para salvar")
 
         # Valida os nomes das colunas
-        for column in kwargs.keys():
+        for column in kwargs.keys():  # {key: value}
             if not column.isidentifier():
                 raise ValueError(f"Nome de coluna inválido: {column}")
 
         columns = ", ".join(kwargs.keys())
         placeholders = ", ".join(
             f":{key}" for key in kwargs.keys()
-        )  # Isso foi horrivel de achar, basicamente faz um loop entre cada par de tupla
+        )  # faz um loop entre cada par de tupla
 
         query = f"""
             INSERT INTO {self.table_name} ({columns})
@@ -78,9 +78,9 @@ class RepositoryQuerys:
 
         return RepositoryConnection().get_one(query, data)
 
-    def get_by_column_name(self, column_name: str, value: str):
+    def get_by_column_name(self, column_name: str, value: str) -> Dict | None:
         """
-        Pega todas as entidades, de uma determinada coluna.
+        Pega entidade(s), de uma determinada coluna.
 
         args:
             column_name: nome da coluna a ser buscada.
@@ -123,7 +123,7 @@ class RepositoryQuerys:
 
         query = f"""SELECT * FROM {self.table_name} WHERE {column_name} LIKE :value;"""
 
-        return RepositoryConnection().get_one(query, data)
+        return RepositoryConnection().get_many(query, data)
 
     def delete_by_id(self, id: int):
         """
@@ -131,9 +131,8 @@ class RepositoryQuerys:
 
         Args:
             id: O id que sera deletado da tabela.
-
         Returns:
-
+            dict | None: um dicionario representando a entidade deletada, ou None, caso nao for encontrada.
         """
         data = {"id": id}
 
@@ -143,13 +142,16 @@ class RepositoryQuerys:
 
     def get_quantity_of_rown(self):
         """
-        so fiz isso para literalmente para saber quantos ids relmente existem na tabela.
+        Conta a quantiddade total de linhas de uma tabela.
+
+        Returns:
+            Um dicionario, contendo a quantidade de colunas.
         """
         query = f"SELECT COUNT(id) FROM {self.table_name};"
 
         return RepositoryConnection().get_one(query)
 
-    def put_in_table(self, id: int, data: dict):
+    def update_column(self, id: int, data: dict):
         """
         Um put, vai apenas mudar uma coluna da linha da tabela
         exemplo, posso mudar 'invers' para 'sudo invers', sem alterar qualquer outro dado dele.
@@ -170,3 +172,9 @@ class RepositoryQuerys:
             queries, params
         ):  # Isso serve para cada put ser colocado de forma individual.
             RepositoryConnection.update(query, param)
+
+    def get_table_name(self) -> str:  # Util para debug, e vai ser usado em controller
+        """
+        Retorna o nome da tabela que esta sendo usado
+        """
+        return self.table_name
