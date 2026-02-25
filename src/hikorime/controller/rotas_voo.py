@@ -1,14 +1,14 @@
 from fastapi import APIRouter, HTTPException
-from hikorime.service.visualizacao_de_voo import VisualizarVoos
+from typing import Dict, Any
 from hikorime.models.basemodels.bm_voo import Voo
+from hikorime.service.voo_service import VooService
 
-passageiro_voo_routes = APIRouter(prefix="/voo", tags=["Visualizar voo"])
+voo_model = Voo
 
-@passageiro_voo_routes.get("/visualizar/voos", response_model=None)
-def ver_todos_os_voos():
-    consulta = VisualizarVoos.get_all()
 
-    if not consulta:
-        raise HTTPException(status_code=404, detail="Nenhum voo foi encontrado.")
-
-    return consulta
+class VooController:
+    def __init__(self):
+        self.service = VooService
+        self.router = APIRouter(
+            prefix=f"/{self.table_name}", tags=[self.table_name.capitalize()]
+        )
