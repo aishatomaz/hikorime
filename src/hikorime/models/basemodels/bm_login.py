@@ -1,9 +1,6 @@
-
-from pydantic import EmailStr
-
+from pydantic import EmailStr, BaseModel, Field
 
 class login_request():
-
-    # TODO: fazer hash da senha
+    #formato de entrada para login de qualquer usuario
     email: EmailStr
     senha: str
