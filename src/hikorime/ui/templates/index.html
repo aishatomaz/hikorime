@@ -2,12 +2,15 @@
 
 {% block body %}
     <header>
-
+        <h1>Hikorime</h1>
     </header>
+
     <main>
-
+        {% if usr %}
+            <p>{{ usr.email }}</p>
+        {% endif %}
     </main>
-    <footer>
 
+    <footer>
     </footer>
 {% endblock %}

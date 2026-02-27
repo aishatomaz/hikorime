@@ -15,8 +15,8 @@ class HikorimeUI:
         Renderiza um template HTML utilizando Jinja2 e injeta automaticamente
         o objeto ``request`` no contexto do template.
 
-        Este método serve como utilitário para evitar repetição ao retornar
-        ``TemplateResponse`` nas rotas que exibem páginas.
+        Utilitário para evitar repetição ao retornar ``TemplateResponse``
+        nas rotas que exibem páginas.
 
         Args:
             template (str):

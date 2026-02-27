@@ -12,8 +12,21 @@
         {% block head %}
         {% endblock head %}
     </head>
+
     <body>
         {% block body %}
         {% endblock body %}
+
+        {% if msg %}
+        <script>
+            alert("{{ msg }}");
+        </script>
+        {% endif %}
+
+        {% if err %}
+        <script>
+            alert("{{ err }}");
+        </script>
+        {% endif %}
     </body>
 </html>
