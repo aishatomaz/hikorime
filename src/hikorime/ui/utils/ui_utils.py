@@ -4,7 +4,7 @@ from starlette.responses import TemplateResponse
 from main import templates
 
 
-class UIUtils:
+class HikorimeUI:
 
     @staticmethod
     def render(template: str, request: Request, **kwargs) -> TemplateResponse:
