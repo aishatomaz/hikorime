@@ -31,7 +31,15 @@ class Autenticacao:
         # Salvar na tabela de passageiros
         self.repo_passageiro.save(usuario_id=usuario_id, passaporte=dados.passaporte)
 
-        return {"message": "Passageiro registrado com sucesso", "id": usuario_id}
+        return {
+            "message": "Passageiro registrado com sucesso",
+            "usuario": {
+                "id": usuario_id,
+                "nome": dados.nome,
+                "email": dados.email,
+                "tipo":dados.tipo,
+            }
+        }
 
     def registrar_funcionario(self, dados: Funcionario):
         # Verificar se usuário já existe
@@ -55,7 +63,15 @@ class Autenticacao:
             usuario_id=usuario_id, cargo=dados.cargo, matricula=dados.matricula
         )
 
-        return {"message": "Funcionário registrado com sucesso", "id": usuario_id}
+        return {
+            "message": "Funcionário registrado com sucesso",
+            "usuario": {
+                "id": usuario_id,
+                "nome": dados.nome,
+                "email": dados.email,
+                "tipo":dados.tipo.value,
+            }
+        }
 
     def login(self, credentials: LoginRequest):
         usuario = self.repo_usuario.get_by_column_name("email", credentials.email)
@@ -80,6 +96,7 @@ class Autenticacao:
             "usuario": {
                 "id": user_data.get("id"),
                 "nome": user_data.get("nome"),
+                "email": user_data.get("email"),
                 "tipo": user_data.get("tipo"),
             },
         }
