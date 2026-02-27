@@ -1,13 +1,16 @@
+from pathlib import Path
+
 from fastapi import Request
-from starlette.responses import TemplateResponse
+from fastapi.templating import Jinja2Templates
+from starlette.responses import Response
 
-from main import templates
-
+BASE_DIR = Path(__file__).resolve().parent
+templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 class HikorimeUI:
 
     @staticmethod
-    def render(template: str, request: Request, **kwargs) -> TemplateResponse:
+    def render(template: str, request: Request, **kwargs) -> Response:
         """
         Renderiza um template HTML utilizando Jinja2 e injeta automaticamente
         o objeto ``request`` no contexto do template.
@@ -27,7 +30,7 @@ class HikorimeUI:
                 Variáveis adicionais que serão incluídas no contexto do template.
 
         Returns:
-            TemplateResponse:
+            Response:
                 Resposta HTTP contendo o template renderizado.
         """
         return templates.TemplateResponse(

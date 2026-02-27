@@ -1,4 +1,4 @@
-{% extends layout/base.html%}
+{% extends "layouts/base.html" %}
 
 {% block body %}
     <header>
@@ -10,16 +10,21 @@
             <section>
                 <div>
                     <label for="email">E-mail</label>
-                    <input id="email" name="email" type="email">
+                    <input id="email" name="email" type="email" value="{{ email or '' }}" required>
                 </div>
+
                 <div>
                     <label for="senha">Senha</label>
-                    <input id="senha" name="senha" type="password">
+                    <input id="senha" name="senha" type="password" required>
                 </div>
 
-                <!-- tipo -->
-
                 <button type="submit">Fazer Login</button>
+            </section>
+
+            <section>
+            {% if erro %}
+                <p style="color:red">{{ erro }}</p>
+            {% endif %}
             </section>
         </form>
     </main>
