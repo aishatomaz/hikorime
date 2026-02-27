@@ -1,4 +1,5 @@
 from fastapi import APIRouter, status, Request, Form, HTTPException
+import re
 
 from hikorime.models.basemodels.bm_login import LoginRequest
 from hikorime.models.basemodels.bm_passageiro import Passageiro
@@ -74,20 +75,22 @@ def exibir_registrar_passageiro(request: Request):
 @registro_router.post("/passageiro", status_code=status.HTTP_201_CREATED)
 def registrar_passageiro(
         request: Request,
-        nome : str = Form(...),
-        cpf : str = Form(...),
-        email : str = Form(...),
-        senha : str = Form(...),
+        nome: str = Form(...),
+        passaporte: str = Form(...),
+        cpf: str = Form(...),
+        email: str = Form(...),
+        senha: str = Form(...),
 ):
     """
     Registra um novo passageiro no sistema.
     """
     dados = Passageiro(
         nome=nome,
-        cpf=cpf,
+        passaporte=passaporte,
+        cpf=re.sub(r"\D", "", cpf),  # Romover não dígitos
         email=email,
         senha=senha,
-    ) # TODO: passaporte
+    )
 
     try:
         result: dict = service.registrar_passageiro(dados)
@@ -129,19 +132,19 @@ def exibir_registrar_funcionario(request: Request):
 @registro_router.post("/funcionario", status_code=status.HTTP_201_CREATED)
 def registrar_funcionario(
         request: Request,
-        nome : str = Form(...),
-        cpf : str = Form(...),
+        nome: str = Form(...),
+        cpf: str = Form(...),
         cargo: str = Form(...),
         matricula: str = Form(...),
-        email : str = Form(...),
-        senha : str = Form(...),
+        email: str = Form(...),
+        senha: str = Form(...),
     ):
     """
     Registra um novo funcionário no sistema.
     """
     dados = Funcionario(
         nome=nome,
-        cpf=cpf,
+        cpf=re.sub(r"\D", "", cpf), # Romover não dígitos
         cargo=cargo,
         matricula=matricula,
         email=email,
