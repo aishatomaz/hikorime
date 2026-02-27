@@ -9,6 +9,10 @@
         {% if usr %}
             <p>{{ usr.email }}</p>
         {% endif %}
+
+
+        <a href="{{ url_for('exibir_registrar_funcionario') }}">Funcionário</a>
+        <a href="{{ url_for('exibir_registrar_passageiro') }}">Passageiro</a>
     </main>
 
     <footer>
