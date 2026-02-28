@@ -5,69 +5,81 @@
         <h1>Registro de funcionário</h1>
     </header>
 
-    <main>
-        <h2>Insira suas credencias para efetuar o cadastro</h2>
+    {% if usr %}
+        <p>
+            Você está conectado com {{ usr.email }}
+        </p>
 
-        <form action="/registro/funcionario" method="post">
-            <section>
-                <h3>Dados pessoais</h3>
-
-                <div>
-                    <label for="nome">Nome completo</label>
-                    <input id="nome" name="nome" type="text" required>
-                </div>
-
-                <div>
-                    <label for="passaporte">Passaporte</label>
-                    <input id="passaporte" name="passaporte" type="text" required>
-                </div>
-
-                <div>
-                    <!-- JS para tentar forçar o formato do CPF -->
-                    <label for="cpf">CPF</label>
-                    <input id="cpf" name="cpf" type="text"
-                        placeholder="000.000.000-00"
-                        maxlength="14"
-                        oninput="formatCPF(this)"
-                    required>
-                </div>
-            </section>
-
-            <section>
-                <h3>Dados Laborais</h3>
-
-                <div>
-                    <label for="matricula">Matrícula</label>
-                    <input id="matricula" name="matricula" type="text">
-                </div>
-
-                <div>
-                    <label for="cargo">Cargo</label>
-                    <input id="cargo" name="cargo" type="text">
-                </div>
-            </section>
-
-            <!-- tipo -->
-            <!-- usuario_id -->
-
-            <section>
-                <h3>Dados de Login</h3>
-                <div>
-                    <label for="email">Insira seu e-mail</label>
-                    <input id="email" name="email" type="email" required>
-                </div>
-
-                <div>
-                    <label for="senha">Crie uma senha</label>
-                    <input id="senha" name="senha" type="password" required>
-                </div>
-            </section>
-
-            <section>
-                <button type="submit">Cadastrar-se</button>
-            </section>
+        <form action="/registro/logout" method="post">
+            <button type="submit">Logout</button>
         </form>
-    </main>
+
+    {% else %}
+        <main>
+            <h2>Insira suas credencias para efetuar o cadastro</h2>
+
+            <form action="/registro/funcionario" method="post">
+                <section>
+                    <h3>Dados pessoais</h3>
+
+                    <div>
+                        <label for="nome">Nome completo</label>
+                        <input id="nome" name="nome" type="text" required>
+                    </div>
+
+                    <div>
+                        <label for="passaporte">Passaporte</label>
+                        <input id="passaporte" name="passaporte" type="text" required>
+                    </div>
+
+                    <div>
+                        <!-- JS para tentar forçar o formato do CPF -->
+                        <label for="cpf">CPF</label>
+                        <input id="cpf" name="cpf" type="text"
+                            placeholder="000.000.000-00"
+                            maxlength="14"
+                            oninput="formatCPF(this)"
+                        required>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Dados Laborais</h3>
+
+                    <div>
+                        <label for="matricula">Matrícula</label>
+                        <input id="matricula" name="matricula" type="text">
+                    </div>
+
+                    <div>
+                        <label for="cargo">Cargo</label>
+                        <input id="cargo" name="cargo" type="text">
+                    </div>
+                </section>
+
+                <!-- tipo -->
+                <!-- usuario_id -->
+
+                <section>
+                    <h3>Dados de Login</h3>
+                    <div>
+                        <label for="email">Insira seu e-mail</label>
+                        <input id="email" name="email" type="email" required>
+                    </div>
+
+                    <div>
+                        <label for="senha">Crie uma senha</label>
+                        <input id="senha" name="senha" type="password" required>
+                    </div>
+                </section>
+
+                <section>
+                    <button type="submit">Cadastrar-se</button>
+                </section>
+            </form>
+        </main>
+    {% endif %}
+
     <footer>
         <!-- Alguma msg sobre LGPD-->
     </footer>

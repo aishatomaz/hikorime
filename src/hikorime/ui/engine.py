@@ -10,7 +10,7 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 class HikorimeUI:
 
     @staticmethod
-    def render(template: str, request: Request, **kwargs) -> Response:
+    def render(template: str, request: Request, usr: dict, **kwargs) -> Response:
         """
         Renderiza um template HTML utilizando Jinja2 e injeta automaticamente
         o objeto ``request`` no contexto do template.
@@ -26,6 +26,10 @@ class HikorimeUI:
                 Objeto da requisição atual. Necessário para funcionamento de
                 ``url_for``, arquivos estáticos e middlewares no Jinja2.
 
+            usr (dict):
+                Dados do usuário da sessão. Necessário para mantê-lo
+                autenticado.
+
             **kwargs:
                 Variáveis adicionais que serão incluídas no contexto do template.
 
@@ -35,5 +39,5 @@ class HikorimeUI:
         """
         return templates.TemplateResponse(
             template,
-            {"request": request, **kwargs}
+            {"request": request, "usr": usr, **kwargs}
         )

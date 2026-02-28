@@ -1,15 +1,17 @@
-from fastapi import APIRouter, status, Request, Form, HTTPException
 import re
+
+from fastapi import APIRouter, status, Request, Form, HTTPException
+from starlette.responses import RedirectResponse
 
 from hikorime.models.basemodels.bm_login import LoginRequest
 from hikorime.models.basemodels.bm_passageiro import Passageiro
 from hikorime.models.basemodels.bm_funcionario import Funcionario
-from hikorime.service.autenticacao import Autenticacao
+from hikorime.service.autenticacao_service import AutenticacaoService
 from hikorime.ui.engine import HikorimeUI
 
 
-registro_router = APIRouter(prefix="/registro", tags=["Registro e Autenticação"])
-service = Autenticacao()
+registro_router = APIRouter(prefix="/registro", tags=["registro", "autenticação"])
+auth_service = AutenticacaoService()
 
 
 @registro_router.get("/login")
@@ -21,6 +23,8 @@ def exibir_login(request: Request):
         template="registro/login.html",
         request=request,
         title="Login",
+        usr=auth_service.get_current_user(request),
+        data={},
     )
 
 @registro_router.post("/login", status_code=status.HTTP_200_OK)
@@ -32,19 +36,16 @@ def login(
     """
     Realiza o login de um usuário (passageiro ou funcionário).
     """
-    dados = LoginRequest(
+    dados_login = LoginRequest(
         email=email,
         senha=senha
     )
 
     try:
-        result: dict = service.login(dados)
-        return HikorimeUI.render(
-            template="index.html",
-            request=request,
-            msg=result['message'],
-            usr=result['usuario'],
-        )
+        result: dict = auth_service.login(dados_login)
+        request.session["user"] = result["usuario"] # Conectar o usuário à sessão
+        return RedirectResponse(url="/", status_code=303)
+
 
     except HTTPException as e:
 
@@ -55,11 +56,20 @@ def login(
         return HikorimeUI.render(
             template="registro/login.html",
             request=request,
+            usr=auth_service.get_current_user(request),
             title="Falha no Login",
             err=e.detail,
             data=input_data,
         )
 
+@registro_router.post("/logout")
+def logout(request: Request):
+    """
+        Remove o usuário da sessão e redireciona para página inicial.
+    """
+    request.session.clear()
+
+    return RedirectResponse(url="/", status_code=303)
 
 @registro_router.get("/passageiro")
 def exibir_registrar_passageiro(request: Request):
@@ -69,7 +79,9 @@ def exibir_registrar_passageiro(request: Request):
     return HikorimeUI.render(
         template="registro/passageiro.html",
         request=request,
-        title = "Registro de Passageiros",
+        title="Registro de Passageiros",
+        usr=auth_service.get_current_user(request),
+        data={},
     )
 
 @registro_router.post("/passageiro", status_code=status.HTTP_201_CREATED)
@@ -84,7 +96,7 @@ def registrar_passageiro(
     """
     Registra um novo passageiro no sistema.
     """
-    dados = Passageiro(
+    dados_passageiro = Passageiro(
         nome=nome,
         passaporte=passaporte,
         cpf=re.sub(r"\D", "", cpf),  # Romover não dígitos
@@ -93,13 +105,9 @@ def registrar_passageiro(
     )
 
     try:
-        result: dict = service.registrar_passageiro(dados)
-        return HikorimeUI.render(
-            template="index.html",
-            request=request,
-            msg=result['message'],
-            usr=result['usuario'],
-        )
+        result: dict = auth_service.registrar_passageiro(dados_passageiro)
+        request.session["user"] = result["usuario"] # Conectar o usuário à sessão
+        return RedirectResponse(url="/", status_code=303)
 
     except HTTPException as e:
 
@@ -112,6 +120,7 @@ def registrar_passageiro(
         return HikorimeUI.render(
             template="registro/passageiro.html",
             request=request,
+            usr=auth_service.get_current_user(request),
             title="Falha ao Registrar Novo Passageiro",
             err=e.detail,
             data=input_data,
@@ -127,6 +136,8 @@ def exibir_registrar_funcionario(request: Request):
         template="registro/funcionario.html",
         request=request,
         title="Registro de Funcionarios",
+        usr=auth_service.get_current_user(request),
+        data={},
     )
 
 @registro_router.post("/funcionario", status_code=status.HTTP_201_CREATED)
@@ -142,7 +153,7 @@ def registrar_funcionario(
     """
     Registra um novo funcionário no sistema.
     """
-    dados = Funcionario(
+    dados_funcionario = Funcionario(
         nome=nome,
         cpf=re.sub(r"\D", "", cpf), # Romover não dígitos
         cargo=cargo,
@@ -152,13 +163,9 @@ def registrar_funcionario(
     )
 
     try:
-        result: dict = service.registrar_funcionario(dados)
-        return HikorimeUI.render(
-            template="index.html",
-            request=request,
-            msg=result['message'],
-            usr=result['usuario'],
-        )
+        result: dict = auth_service.registrar_funcionario(dados_funcionario)
+        request.session["user"] = result["usuario"] # Conectar o usuário à sessão
+        return RedirectResponse(url="/", status_code=303)
 
     except HTTPException as e:
 
@@ -173,6 +180,7 @@ def registrar_funcionario(
         return HikorimeUI.render(
             template="registro/funcionario.html",
             request=request,
+            usr=auth_service.get_current_user(request),
             title="Falha ao Registrar Novo Funcionario",
             err=e.detail,
             data=input_data,

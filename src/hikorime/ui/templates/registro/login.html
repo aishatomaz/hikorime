@@ -1,31 +1,37 @@
 {% extends "layouts/base.html" %}
 
 {% block body %}
-    <header>
-        <h1>Login</h1>
-    </header>
+  <header>
+      <h1>Login</h1>
+  </header>
 
-    <main>
-        <form action="/registro/login" method="post">
-            <section>
-                <div>
-                    <label for="email">E-mail</label>
-                    <input id="email" name="email" type="email" value="{{ email or '' }}" required>
-                </div>
+    {% if usr %}
+        <p>
+            Você está conectado com {{ usr.email }}
+        </p>
 
-                <div>
-                    <label for="senha">Senha</label>
-                    <input id="senha" name="senha" type="password" required>
-                </div>
-
-                <button type="submit">Fazer Login</button>
-            </section>
-
-            <section>
-            {% if err %}
-                <p style="color:red">{{ err }}</p>
-            {% endif %}
-            </section>
+        <form action="/registro/logout" method="post">
+            <button type="submit">Logout</button>
         </form>
-    </main>
+
+    {% else %}
+        <main>
+            <form action="/registro/login" method="post">
+                <section>
+                    <div>
+                        <label for="email">E-mail</label>
+                        <input id="email" name="email" type="email" value="{{ data.email or '' }}" required>
+                    </div>
+
+                    <div>
+                        <label for="senha">Senha</label>
+                        <input id="senha" name="senha" type="password" required>
+                    </div>
+
+                    <button type="submit">Fazer Login</button>
+                </section>
+            </form>
+        </main>
+    {% endif %}
+
 {% endblock body %}

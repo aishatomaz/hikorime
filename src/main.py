@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from starlette.middleware.sessions import SessionMiddleware
 from starlette.staticfiles import StaticFiles
 from pathlib import Path
 
@@ -20,6 +21,11 @@ app.mount(
     app=StaticFiles(directory=BASE_DIR / "hikorime" / "ui" / "static"),
     path="/static",
     name="static"
+)
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="super-secret-key"
 )
 app.include_router(base_router)
 app.include_router(registro_router)

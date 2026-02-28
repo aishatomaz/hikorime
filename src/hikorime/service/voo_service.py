@@ -8,7 +8,7 @@ class VooService(BaseService):
     def __init__(self):
         self.repo = RepositoryQuerys("voo")
 
-    def create_voo(self, voo_data: dict):
+    def create_voo(self, voo_data: dict) -> dict:
         """
         cria um novo voo, usando o modelo genérico de save.
 
@@ -23,3 +23,8 @@ class VooService(BaseService):
             return self.save(voo)
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Erro ao criar voo: {str(e)}")
+
+        # TODO: add return statement!
+
+
+    # TODO: get_all()!

@@ -17,16 +17,22 @@
         {% block body %}
         {% endblock body %}
 
+         <section>
+            {% if err %}
+                <p style="color:red">{{ err }}</p>
+            {% endif %}
+        </section>
+
         {% if msg %}
-        <script>
-            alert("{{ msg }}");
-        </script>
+            <script>
+                alert("{{ msg }}");
+            </script>
         {% endif %}
 
         {% if err %}
-        <script>
-            alert("{{ err }}");
-        </script>
+            <script>
+                alert("{{ err }}");
+            </script>
         {% endif %}
     </body>
 </html>

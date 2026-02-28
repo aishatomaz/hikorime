@@ -24,7 +24,7 @@ class PassagemService(BaseService):
             passagem = Passagem(**passagem_data)
             return self.save(passagem)
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Erro ao criar voo: {str(e)}")
+            raise HTTPException(status_code=400, detail=f"Erro ao comprar a passagem: {str(e)}")
 
     def get_passagem_by_passageiro(self, passageiro_id: int):
         """

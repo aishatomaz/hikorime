@@ -8,4 +8,6 @@ class Voo(BaseModel):
     local_origem: str
     local_destino: str
     assentos_ocupados: int
-    valor_passagens: float
+    valor_passagens: float # TODO: remover
+    # TODO: assentos totais
+    # TODO: id_aviao
