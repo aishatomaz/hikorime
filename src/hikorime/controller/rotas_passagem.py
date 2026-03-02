@@ -3,8 +3,11 @@ from fastapi import APIRouter, HTTPException, status
 from hikorime.models.basemodels.bm_compra import CompraPassagem
 from hikorime.service.passagem_service import PassagemService
 
+from hikorime.controller.rotas_base import create_generic_router
 
-passageiro_routes = APIRouter(prefix="/passagens", tags=["Passagens"])
+service = VooService()
+
+passageiro_routes = create_generic_router(schema=Voo, service=service)
 
 
 @passageiro_routes.post("/comprar", status_code=status.HTTP_201_CREATED)

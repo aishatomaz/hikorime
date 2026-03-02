@@ -1,14 +1,15 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import HTTPException
+from hikorime.controller.rotas_base import create_generic_router
 from hikorime.service.compra_service import CompraService
 from hikorime.models.basemodels.bm_compra import CompraPassagem
 
-pagamento_router = APIRouter(prefix="/compras", tags=["Compras"])
-
 service = CompraService()
 
+route = create_generic_router(schema=CompraPassagem, service=service)
 
-@pagamento_router.post("/finalizar-compra")
-def finalizar_compra(compra: CompraPassagem):
+
+@route.post("/finalizar-compra")
+def create(compra: CompraPassagem):
     try:
         service.save(compra)
         return {"mensagem": "Compra realizada com sucesso!", "compra": compra}
@@ -18,9 +19,9 @@ def finalizar_compra(compra: CompraPassagem):
         )
 
 
-@pagamento_router.get("/historico_de_compras")
-def ver_minhas_compras(passageiro_id: int):
-    compras = service.visualizar_compras(passageiro_id)
+@route.get("/historico")
+def get_compras_by_passageiro_id(passageiro_id: int):
+    compras = service.get_like_by_column_name("passageiro_id", passageiro_id)
     if not compras:
         raise HTTPException(
             status_code=404,

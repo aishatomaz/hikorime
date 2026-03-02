@@ -1,19 +1,19 @@
-from fastapi import APIRouter, HTTPException
-
+from hikorime.controller.rotas_base import create_generic_router
 from hikorime.service.cupom_service import CupomService
 from hikorime.models.basemodels.bm_cupom import Cupom
 
 """A rota do comissário deve conter os gerenciamentos dos voos."""
 
-comissario_routes = APIRouter(prefix="/cupom", tags=[""])
 
 service = CupomService()
 
+route = create_generic_router(schema=Cupom, service=service)
 
-@comissario_routes.post("/cadastro")
-def Criar_Cupom(cupom_data: Cupom):
+
+@route.post("/criar")
+def criar_cupom(self, cupom_data: Cupom):
     try:
-        service.save(cupom_data)
+        self.service.save(cupom_data)
         return {"status": "sucesso", "mensagem": "Voo cadastrado com sucesso!"}
     except Exception as erro:
         raise HTTPException(status_code=400, detail=str(erro))
