@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import sqlite3
 from hikorime.repository.config import DATABASE_PATH, SCHEMA_PATH
@@ -51,7 +51,9 @@ class RepositoryConnection:
         except sqlite3.Error as error:
             raise ValueError(f"Erro ao executar: {error}")
 
-    def get_one(self, query: str, params: Tuple | dict = ()) -> Optional[Dict]:
+    def get_one(
+        self, query: str, params: Tuple | dict = ()
+    ) -> Optional[Dict[Any, Any]]:
         """
         Funcao de retirar apenas uma entradas da tabela.
 
@@ -72,7 +74,9 @@ class RepositoryConnection:
             row = cursor.fetchone()
             return dict(row) if row else None
 
-    def get_many(self, query: str, params: Tuple | dict = ()) -> List[Dict]:
+    def get_many(
+        self, query: str, params: Tuple | dict[str, Any] = ()
+    ) -> List[Dict] | Dict | None:
         """
         Funcao de retirar varias entradas da tabela (Inclusive get_all).
 

@@ -10,6 +10,7 @@ class RepositoryQuerys:
 
     def __init__(self, table_name: str):
         self.table_name = table_name
+        self.conn = RepositoryConnection()
 
     def save(self, **kwargs: Any):
         """
@@ -44,7 +45,7 @@ class RepositoryQuerys:
             VALUES ({placeholders});
         """
 
-        return RepositoryConnection().save(query, kwargs)
+        return self.conn.save(query, kwargs)
 
     def get_all(self):
         """
@@ -59,7 +60,7 @@ class RepositoryQuerys:
 
         query = f"select * from {self.table_name};"
 
-        return RepositoryConnection().get_many(query)
+        return self.conn.get_many(query)
 
     def get_by_id(self, id: int):
         """
@@ -76,15 +77,15 @@ class RepositoryQuerys:
 
         query = f"select * from {self.table_name} where id = :id;"
 
-        return RepositoryConnection().get_one(query, data)
+        return self.conn.get_one(query, data)
 
-    def get_by_column_name(self, column_name: str, value: str) -> Dict | None:
+    def get_by_column_name(self, column_name: str, value: str | int) -> Dict | None:
         """
         Pega entidade(s), de uma determinada coluna.
 
         args:
             column_name: nome da coluna a ser buscada.
-            value: String do que voce quer buscar (Tem que bater todos os caracteres).
+            value: String do que voce quer buscar (Tem que bater todos os caracteres), ou inteiro se for id por exemplo.
 
         Returns:
             dict | None: Um dicionario representando a entidade(s) encontrada(s),
@@ -99,9 +100,9 @@ class RepositoryQuerys:
 
         query = f"""SELECT * FROM {self.table_name} WHERE {column_name} = :value;"""
 
-        return RepositoryConnection().get_one(query, data)
+        return self.conn.get_many(query, data)
 
-    def get_like_by_column_name(self, column_name: str, value: str):
+    def get_like_by_column_name(self, column_name: str, value: str | int):
         """
         Pega todas as entidades, de uma determinada coluna.
 
@@ -123,7 +124,7 @@ class RepositoryQuerys:
 
         query = f"""SELECT * FROM {self.table_name} WHERE {column_name} LIKE :value;"""
 
-        return RepositoryConnection().get_many(query, data)
+        return self.conn.get_many(query, data)
 
     def delete_by_id(self, id: int):
         """
@@ -138,18 +139,18 @@ class RepositoryQuerys:
 
         query = f"DELETE FROM {self.table_name} WHERE id=:id;"
 
-        return RepositoryConnection().delete(query, data)
+        return self.conn.delete(query, data)
 
     def get_quantity_of_rown(self):
         """
         Conta a quantiddade total de linhas de uma tabela.
 
         Returns:
-            Um dicionario, contendo a quantidade de colunas.
+            Um dicionario, contendo a quantidade de  linhas.
         """
         query = f"SELECT COUNT(id) FROM {self.table_name};"
 
-        return RepositoryConnection().get_one(query)
+        return self.conn.get_one(query)
 
     def update_column(self, id: int, data: dict):
         """
