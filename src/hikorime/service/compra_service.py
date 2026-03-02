@@ -1,5 +1,7 @@
+from fastapi.exceptions import HTTPException
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_compra import RepositoryCompra
+from hikorime.models.basemodels.bm_compra import CompraPassagem
 
 
 class CompraService(BaseService):
@@ -8,6 +10,15 @@ class CompraService(BaseService):
     def __init__(self):
         # Retirei events, e deixei apenas service. em repoCompra, ele ja pega oque tem em repoQuery.
         self.service = RepositoryCompra("compra")
+
+    def create_compra_passagem(self, passagem: dict):
+        try:
+            compra_passagem = CompraPassagem(**passagem)
+            return self.save(compra_passagem)
+        except Exception as e:
+            raise HTTPException(
+                status_code=400, detail=f"Erro ao criar a passagem: {str(e)}"
+            )
 
     def verificar_passageiro_apto_aplicar_cupom(self, passageiro_id: int) -> bool:
         """Verifica se existem cupons válidos para o passageiro, com validade maior que a data atual.
@@ -74,4 +85,13 @@ class CompraService(BaseService):
                 desconto = cupom["desconto"]
                 valor_total *= 1 - desconto  # Aplica o desconto
 
-        return round(valor_total, 2)  # Retorna o valor total arredondado
+        return round(valor_total, 2)  # Retorna o valor total arredondad
+
+    def get_compras_by_id(self, passageiro_id: int):
+        return self.service.get_compras(passageiro_id)
+
+    def get_valid_cupom_by_passageiro_id(self, passageiro_id: int):
+        return self.service.get_valid_cupom_by_passageiro(passageiro_id)
+
+    def get_passagens_by_passageiro_id(self, passageiro_id: int):
+        return self.service.get_passagens_by_passageiro(passageiro_id)

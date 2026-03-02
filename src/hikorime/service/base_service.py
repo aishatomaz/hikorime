@@ -1,7 +1,6 @@
 from typing import Dict, Optional
 from warnings import deprecated
 from hikorime.repository.repository_querys import RepositoryQuerys
-from pydantic import BaseModel
 
 
 class BaseService:
@@ -14,7 +13,7 @@ class BaseService:
         self.repo = repository
 
     def save(
-        self, model: BaseModel
+        self, model
     ):  # Gracas ao modulo basemodels, posso finalmente fazer um save generico
         """
         Método genérico para salvar um modelo Pydantic no banco de dados.
@@ -72,7 +71,7 @@ class BaseService:
         else:
             return self.repo.get_by_column_name(column_name, value)
 
-    def get_like_by_column_name(self, column_name: str, value: str):
+    def get_like_by_column_name(self, column_name: str, value: str | int):
         """
         Retorna o(s) valor(es) parciais(s) de uma coluna especifica
 
@@ -102,9 +101,12 @@ class BaseService:
         else:
             return None
 
-    def get_quantity_of_rown(self):
+    def get_quantity_of_rown(self) -> Dict[str, int] | None:
         """
         retorna a quantidade de linhas de uma coluna
+
+        Returns:
+            Dict | None: Um dicionario contendo a quantidade de linhas da tabela, Caso a tabela nao exista, None
         """
         return self.repo.get_quantity_of_rown()
 
@@ -118,6 +120,6 @@ class BaseService:
         """
         return self.repo.update_column(id, data)
 
-    @staticmethod
-    def get_table_name():
-        return RepositoryQuerys.get_table_name()
+    def table_name(self) -> str:
+        """Retorna o nome da tabela atual"""
+        return self.repo.table_name
