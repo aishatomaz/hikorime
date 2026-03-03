@@ -1,8 +1,21 @@
 {% extends "layout/base.html %}
 
-{% block head %}
-{% endblock head %}
-
 {% block body %}
-em andamento...
+    <header>
+        <h1>Vôos Disponíveis</h1>
+    </header>
+
+    <main>
+        <section>
+            {% for voo in voos %}
+                <div>
+                    <!-- TODO -->
+                </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>
+
+    </footer>
 {% endblock body %}
