@@ -1,0 +1,43 @@
+{% extends "layouts/base.html" %}
+
+{% block body %}
+    {% if usr.tipo == "funcionario"  %}
+
+        <header>
+            <h1>Cadatro de Vôos</h1>
+        </header>
+
+        <main>
+            <h2>Insira os dados do vôo</h2>
+
+            <form action="/voo/cadastrar-aeronave" method="post">
+                 <section>
+                    <h3>Dados da Aeronave</h3>
+                     <div>
+                         <label for="modelo">Modelo da Aeronave</label>
+                         <input id="modelo" name="modelo" type="text">
+                     </div>
+
+                     <div>
+                         <label for="total_assentos">Total de Assentos</label>
+                         <input id="total_assentos" name="total_assentos" type="text">
+                     </div>
+                </section>
+
+                <section>
+                    <button type="submit">Cadastrar Vôo</button>
+                </section>
+            </form>
+        </main>
+
+        <footer>
+
+        </footer>
+    {% else %}
+
+        <h1>Acesso Indisponível :(</h1>
+        <p>Parece que voçê não tem permissão para acessar esta página.</p>
+
+    {% endif %}
+
+{% endblock body %}

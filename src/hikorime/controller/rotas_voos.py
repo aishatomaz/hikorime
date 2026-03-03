@@ -3,6 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException, status, Form
 from starlette.requests import Request
 
+from hikorime.models.basemodels.bm_aeronave import Aeronave
 from hikorime.models.basemodels.bm_voo import Voo
 from hikorime.service.autenticacao_service import AutenticacaoService
 from hikorime.service.voo_service import VooService
@@ -86,3 +87,36 @@ def cadastrar_voo(
             err=e.detail,
             data=input_data,
         )
+
+@voos_router.get("/cadastrar-aeronave")
+def exibir_cadastrar_aeronave(
+        request: Request,
+    ):
+    """
+    Exibe a tela de cadastro de aeronaves (usado para funcionários)
+    """
+    return HikorimeUI.render(
+        template="voos/cadastrar-aeronave.html",
+        request=request,
+        usr=auth_service.get_current_user(request),
+        title="Cadastrar Aeronave",
+    )
+
+
+
+@voos_router.post("/cadastrar-aeronave")
+def cadastrar_aeronave(
+        request: Request,
+        modelo: str = Form(...),
+        total_assentos: int = Form(...),
+    ):
+    """
+    Cadastra uma areonave no sistema.
+    """
+    dados_aeronave = Aeronave(
+        modelo=modelo,
+        total_assentos=total_assentos,
+    )
+
+    # TODO: salvar aeronave;
+    pass
