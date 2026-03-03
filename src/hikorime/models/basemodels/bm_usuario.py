@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from pydantic import EmailStr, Field, validator
 from hikorime.models.enums.tipo_usuario import TipoUsuario
 from hikorime.models.basemodels.bm_login import PasswordBase
@@ -32,3 +33,17 @@ class UsuarioBase(PasswordBase):
             if int(cpf[i]) != digito:
                 raise ValueError('CPF inválido.')
         return cpf
+=======
+from pydantic import BaseModel, EmailStr, Field
+
+from hikorime.models.enums.tipo_usuario import TipoUsuario
+
+
+class UsuarioBase(BaseModel):
+    #modelo de entrada de dados de usuario - parte de cadastro de novo usuario
+    nome: str
+    email: EmailStr
+    cpf: str = Field(..., min_length=11, max_length=11)
+    senha: str
+    tipo: TipoUsuario
+>>>>>>> ui_test

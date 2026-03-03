@@ -1,20 +1,29 @@
+from fastapi import HTTPException
+from hikorime.models.basemodels.bm_cupom import Cupom
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_compra import RepositoryCompra
 
-'''Salva os relacionados à cupom no Banco de Dados.'''
+
 class CupomService(BaseService):
     events_repository: RepositoryCompra
 
     def __init__(self):
         self.repo = RepositoryQuerys("cupom")
-        self.events_repository = RepositoryCompra()
 
-    def save(
-        self, percentual_desconto, validade 
-    ):
-        return self.repo.save(
-            percentual_desconto=percentual_desconto, validade=validade 
-        )
+    def create_cupom(self, cupom_data: dict):
+        """
+        cria um novo cupom
 
-    
+        args:
+            cupom_data: dicionario com os dados do cumpom a ser salvo.
+
+        returns:
+            dict: dados do cupom salvo (id gerado, etc.)
+        """
+
+        try:
+            cupom = Cupom(**cupom_data)
+            return self.save(cupom)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Erro ao criar voo: {str(e)}")

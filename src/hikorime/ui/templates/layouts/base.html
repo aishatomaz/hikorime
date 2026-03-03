@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% if title %}
+                Hikorime - {{ title }}
+            {% else %}
+                Hikorime
+            {% endif %}
+        </title>
+        {% block head %}
+        {% endblock head %}
+    </head>
+
+    <body>
+        {% block body %}
+        {% endblock body %}
+
+         <section>
+            {% if err %}
+                <p style="color:red">{{ err }}</p>
+            {% endif %}
+        </section>
+
+        {% if msg %}
+            <script>
+                alert("{{ msg }}");
+            </script>
+        {% endif %}
+
+        {% if err %}
+            <script>
+                alert("{{ err }}");
+            </script>
+        {% endif %}
+    </body>
+</html>

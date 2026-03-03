@@ -1,0 +1,84 @@
+{% extends "layout/base.html %}
+
+{% block body %}
+    {% if usr.tipo == "funcionario"  %}
+
+        <header>
+            <h1>Cadatro de Vôos</h1>
+        </header>
+
+        <main>
+            <h2>Insira os dados do vôo</h2>
+
+            <form action="/voo/cadastrar" method="post">
+                 <section>
+                    <h3>Dados da Aeronave</h3>
+
+                    <div>
+                        <select id="id_aeromave" name="id_aeronave" required>
+                        <option value="" disabled selected>Selecione uma Aeronave</option>
+
+                            {% for aeronave in aeronaves %}
+                                <option value="{{ aeronave.id_aeronave }}">
+                                    {{ aeronave.modelo }} | {{ aeronave.total_assentos }} assentos
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Data e Hora</h3>
+
+                    <div>
+                        <label for="data_hora_partida">Data e Hora de Partida</label>
+                        <input id="data_hora_partida" name="data_hora_partida" type="datetime-local" required>
+                    </div>
+
+                    <div>
+                        <label for="data_hora_chegada">Data e Hora de Chegada</label>
+                        <input id="data_hora_chegada" name="data_hora_chegada" type="datetime-local" required>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Local</h3>
+
+                    <div>
+                        <label for="local_origem">Local de Origem</label>
+                        <input id="local_origem" name="local_origem" type="text">
+                    </div>
+
+                    <div>
+                        <label for="local_destino">Local Destino</label>
+                        <input id="local_destino" name="local_destino" type="text">
+                    </div>
+
+                    <div>
+                        <label for="terminal">Terminal</label>
+                        <input id="terminal" name="terminal" type="text">
+                    </div>
+
+                    <div>
+                        <label for="portao_embarque">Portão de Embarque</label>
+                        <input id="portao_embarque" name="portao_embarque" type="text">
+                    </div>
+                </section>
+
+                <section>
+                    <button type="submit">Cadastrar Vôo</button>
+                </section>
+            </form>
+        </main>
+
+        <footer>
+
+        </footer>
+    {% else %}
+
+        <h1>Acesso Indisponível :(</h1>
+        <p>Parece que voçê não tem permissão para acessar esta página.</p>
+
+    {% endif %}
+
+{% endblock body %}

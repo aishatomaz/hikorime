@@ -1,11 +1,10 @@
 from hikorime.models.notificacao import Notificacao
 
-
 '''
 A passagem comprada pelo passageiro deve informar o assento e o valor da passagem. Após a compra, o passageiro receberá uma notificação.
 '''
 class Passagem:
-    def __init__(self, assento, valor_final, notificacao: Notificacao):
+    def __init__(self, assento, valor_final, notificacao: "Notificacao"):
         self.assento = assento
         self.valor_final = valor_final
         self.notificacao = notificacao
@@ -28,8 +27,10 @@ class Passagem:
 
     @valor_final.setter
     def valor_final(self, valor_final_valido):
-        if not isinstance(valor_final_valido, float):
-            raise ValueError("Valor final inválido! O valor deve ser numérico!")
+        try:
+            float(valor_final_valido)
+        except (ValueError, TypeError):  
+            raise ValueError("O peso deve ser representado por um valor numérico")
         else:
             self.__valor_final = valor_final_valido
 

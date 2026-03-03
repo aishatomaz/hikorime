@@ -1,17 +1,15 @@
+from typing import Any, Dict, List, Optional, Tuple
+
 import sqlite3
-
-from typing import Any
-
 from hikorime.repository.config import DATABASE_PATH, SCHEMA_PATH
+
 
 class RepositoryConnection:
     """
-    Conecta ao banco de dados, e faz querys automaticas.
+    Classe para conecao com o repositorio do sqlite3.
     """
 
-    def __init__(
-        self, db_path=DATABASE_PATH
-    ):  # Voce pode sobrescrever a path em testes, path da db em config.py
+    def __init__(self, db_path=DATABASE_PATH):
         self.db_path = db_path  # caminho do database
         self._init_db()
 
@@ -23,49 +21,119 @@ class RepositoryConnection:
         connect.executescript(sql)
         connect.commit()
 
-    def query(
-        self, query: str, data: dict[str, Any] | None = None
-    ):  # o Any do dicionario, e que as vezes devo usar int para selecionar id po exemplo
-        """
-        Faz as querys sql
-        args:
-            query: query sql
-            data: dados da query (dict ou tupla, default = None)
-        """
+    def _connect(
+        self,
+    ):  # Isso tambem serve para fechar o repositorio, entao nao preciso usar o finally
+        conn = sqlite3.connect(self.db_path)
+        conn.row_factory = sqlite3.Row  # Vou poder usar dicionarios e tuplas com isso
+        return conn
 
-        # Se nao existir, cria o repositorio automaticamente
-        connect = sqlite3.connect(self.db_path)
-        connect.row_factory = sqlite3.Row
-        cursor = connect.cursor()
+    def save(self, query: str, params: Tuple | dict = ()) -> int | None:
+        """
+        Funcao de criar novas entradas na tabela.
 
+        SqlType:
+            INSERT
+
+        Args:
+            query: Query sql pura.
+            params: Parametros da query em tupla ou dict.
+
+        Returns:
+            Retorna o id do que foi criado (se tiver erro, retorna None.)
+        """
         try:
-            # Executa Select
-            if query.strip().upper().startswith("SELECT"):
-                if data is not None:
-                    cursor.execute(query, data)
-                else:
-                    cursor.execute(query)
-                print("Dados selecionados com sucesso")
-                rows = cursor.fetchall()
-                return [
-                    dict(row) for row in rows
-                ]  # Converte para dicionario os valores, corrigido o problema de get em registro.service
+            with self._connect() as conn:
+                cursor = conn.cursor()
+                cursor.execute(query, params)
+                conn.commit()
+                return cursor.lastrowid
+        except sqlite3.Error as error:
+            raise ValueError(f"Erro ao executar: {error}")
 
-            # Executa 'update', 'insert' e 'delete'
-            if data is not None:
-                cursor.execute(query, data)
-            else:
-                cursor.execute(query)
+    def get_one(
+        self, query: str, params: Tuple | dict = ()
+    ) -> Optional[Dict[Any, Any]]:
+        """
+        Funcao de retirar apenas uma entradas da tabela.
 
-            connect.commit()
-            print("Mudancas realizadas com sucesso!")
-            return cursor.rowcount  # Antes estava True
+        SqlType:
+            GET
 
-        except Exception as error:
-            print(f"error - {error} dando rollback")
-            connect.rollback()  # GOTO antes da ultima interacao
-            return None
+        Args:
+            query: Query sql pura.
+            params: Parametros da query em tupla ou dict.
 
-        finally:
-            cursor.close()
-            connect.close()
+        Returns:
+            registro afetado
+        """
+
+        with self._connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            row = cursor.fetchone()
+            return dict(row) if row else None
+
+    def get_many(
+        self, query: str, params: Tuple | dict[str, Any] = ()
+    ) -> List[Dict] | Dict | None:
+        """
+        Funcao de retirar varias entradas da tabela (Inclusive get_all).
+
+        SqlType:
+            GET
+
+        Args:
+            query: Query sql pura.
+            params: Parametros da query em tupla ou dict.
+
+        Returns:
+            Registros afetados
+        """
+
+        with self._connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            rows = cursor.fetchall()
+            return [dict(row) for row in rows]
+
+    def update(self, query: str, params: Tuple | dict = ()) -> int:
+        """
+        Funcao que modifica parametros de linhas da tabela.
+
+        SqlType:
+            UPDATE(PUT), LIKE
+
+        Args:
+            query: Query sql pura.
+            params: Parametros da query em tupla ou dict.
+
+        Returns:
+            quantidade de linhas afetadas.
+        """
+        with self._connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            conn.commit()
+            return cursor.rowcount
+
+    def delete(self, query: str, params: Tuple | dict = ()) -> int:
+        """
+        Funcao que deleta uma linha da tabela.
+
+        SqlType:
+            DELETE
+
+        Args:
+            query: Query sql pura.
+            params: Parametros da query em tupla ou dict.
+
+        Returns:
+            Quantidade de Linhas afetadas
+        """
+
+        with self._connect() as conn:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            conn.commit()
+            return cursor.rowcount

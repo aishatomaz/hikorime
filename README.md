@@ -5,7 +5,14 @@
 seguindo os princípios SOLID.
 
 # Como usar:
-(em andamento)
+### 1. Instalar depêndencias:
+````bash
+poetry install
+````
+### 2. Rodar a aplicação:
+````bash
+poetry run uvicorn main:app
+````
 
 ### Estrutura do projeto atualmente
 

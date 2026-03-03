@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from pydantic import EmailStr, BaseModel, validator
 
 class PasswordBase(BaseModel):
@@ -25,3 +26,13 @@ class login_request(PasswordBase):
     Formato de entrada para login de qualquer usuário.
     """
     email: EmailStr
+=======
+from pydantic import EmailStr, BaseModel
+
+
+class LoginRequest(BaseModel):
+    # formato de entrada para login de qualquer usuario
+    email: EmailStr
+    senha: str
+
+>>>>>>> ui_test
