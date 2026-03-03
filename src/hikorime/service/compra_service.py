@@ -1,7 +1,7 @@
 from fastapi.exceptions import HTTPException
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_compra import RepositoryCompra
-from hikorime.models.basemodels.bm_compra import CompraPassagem
+from hikorime.models.basemodels.bm_passagem import CompraPassagem
 
 
 class CompraService(BaseService):
@@ -9,7 +9,7 @@ class CompraService(BaseService):
 
     def __init__(self):
         # Retirei events, e deixei apenas service. em repoCompra, ele ja pega oque tem em repoQuery.
-        self.service = RepositoryCompra("compra")
+        self.service = RepositoryCompra("compras")
 
     def create_compra_passagem(self, passagem: dict):
         try:

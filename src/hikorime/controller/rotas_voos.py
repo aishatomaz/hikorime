@@ -14,6 +14,7 @@ voos_router = APIRouter(prefix="/voos", tags=["voos"])
 voos_service = VooService()
 auth_service = AutenticacaoService()
 
+voos_router = Create
 
 @voos_router.get("/disponiveis")
 def exibir_voos_disponiveis(

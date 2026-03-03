@@ -9,7 +9,7 @@ class CupomService(BaseService):
     events_repository: RepositoryCompra
 
     def __init__(self):
-        self.repo = RepositoryQuerys("cupom")
+        self.repo = RepositoryQuerys("cupons")
 
     def create_cupom(self, cupom_data: dict):
         """

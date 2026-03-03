@@ -8,7 +8,7 @@ class RepositoryQuerys:
     Guarda as querys base para outro repositorios, e services
     """
 
-    def __init__(self, table_name: str):
+    def __init__(self, *, table_name: str):
         self.table_name = table_name
         self.conn = RepositoryConnection()
 
