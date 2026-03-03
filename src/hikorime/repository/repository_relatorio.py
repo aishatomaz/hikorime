@@ -1,7 +1,9 @@
 from hikorime.repository.repository_connection import RepositoryConnection
 
 
-class AnalyticsRepository:
+class RelatorioRepository:
+    '''A classe possui o objetivo de acessar o Banco de dados diretamente, buscando consultas específicas para gerara gráficos no relatório.
+Aqui, ela não usa as bibibliotas (no caso, pandas e matplotlib), apenas realiza as consultas que serão utilizadas em Service, posteriormente.'''
     def __init__(self):
         self.conn = RepositoryConnection()
 

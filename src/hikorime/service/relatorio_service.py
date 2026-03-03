@@ -1,12 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from hikorime.repository.repository_analytics import AnalyticsRepository
+from hikorime.repository.repository_relatorio import RelatorioRepository
 
-class AnalyticsService:
+class RelatorioService:
     def __init__(self):
-        self.repo = AnalyticsRepository()
-    '''A classe possui o objetivo de acessar o Banco de dados diretamente, buscando consultas específicas para gerara gráficos no relatório.
-    Aqui, ela não usa as bibibliotas (no caso, pandas e matplotlib), apenas realiza as consultas que serão utilizadas em Service, posteriormente.'''
+        self.repo = RelatorioRepository()
 
     def quantidade_voo_semanal(self):
         dados = self.repo.get_quantidade_voo_semanal()
