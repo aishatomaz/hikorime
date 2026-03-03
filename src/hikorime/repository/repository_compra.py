@@ -1,6 +1,7 @@
 from warnings import deprecated
-from hikorime.repository.repository_querys import RepositoryQuerys
+
 from hikorime.repository.repository_connection import RepositoryConnection
+from hikorime.repository.repository_querys import RepositoryQuerys
 
 
 class RepositoryCompra(RepositoryQuerys):
