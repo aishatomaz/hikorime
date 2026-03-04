@@ -28,3 +28,10 @@ CREATE TABLE IF NOT EXISTS passagens_vendidas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     passageiro_id INTEGER NOT NULL
 );
+
+--- Temporário, apenas para testar os relatórios ---
+
+CREATE TABLE IF NOT EXISTS compra (
+    id_compra INTEGER PRIMARY KEY AUTOINCREMENT,
+    passageiro_id INTEGER NOT NULL
+);
