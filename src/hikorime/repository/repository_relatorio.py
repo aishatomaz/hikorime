@@ -8,32 +8,33 @@ Aqui, ela não usa as bibibliotas (no caso, pandas e matplotlib), apenas realiza
         self.conn = RepositoryConnection()
 
     def get_quantidade_voo_semanal(self):
-        ''''''
         query = """
         SELECT COUNT(*)
         FROM voos
-        WHERE strftime('%Y-%W', data_hora_partida) = strftime('%Y-%W', 'now');
+        WHERE data_hora_partida >= date('now', 'weekday 1', '-7 days')
+          AND data_hora_partida < date('now', 'weekday 1');
         """
         return self.conn.get_many(query)
 
 
     def get_quantidade_voo_mensal(self):
-        query ="""
+        query = """
         SELECT COUNT(*)
         FROM voos
-        WHERE strftime('%Y-%W', data_hora_partida) = strftime('%Y-%M', 'now');
+        WHERE data_hora_partida >= date('now', 'start of month')
+        AND data_hora_partida < date('now', 'start of month', '+1 month');
         """
         return self.conn.get_many(query)
 
 
     def get_quantidade_voo_anual(self):
-        query ="""
+        query = """
         SELECT COUNT(*)
         FROM voos
-        WHERE strftime('%Y', data_hora_partida) = strftime('%Y', 'now');
+        WHERE data_hora_partida >= date('now', 'start of year')
+        AND data_hora_partida < date('now', 'start of year', '+1 year');
         """
         return self.conn.get_many(query)
-
 
     def get_faturamento_semanal(self):
         query = """
