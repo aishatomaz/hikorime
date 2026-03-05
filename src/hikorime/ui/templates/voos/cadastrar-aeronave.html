@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block body %}
-    {% if usr.tipo == "funcionario"  %}
+    {% if usr and usr.tipo == "funcionario"  %}
 
         <header>
             <h1>Cadatro de Vôos</h1>

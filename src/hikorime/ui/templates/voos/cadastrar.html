@@ -4,11 +4,11 @@
     {% if usr.tipo == "funcionario"  %}
 
         <header>
-            <h1>Cadatro de Vôos</h1>
+            <h1>Cadatro de Voos</h1>
         </header>
 
         <main>
-            <h2>Insira os dados do vôo</h2>
+            <h2>Insira os dados do voo</h2>
 
             <form action="/voo/cadastrar" method="post">
                  <section>
@@ -62,6 +62,15 @@
                     <div>
                         <label for="portao_embarque">Portão de Embarque</label>
                         <input id="portao_embarque" name="portao_embarque" type="text">
+                    </div>
+                </section>
+
+                <section>
+                    <h3>Valor</h3>
+
+                    <div>
+                        <label for="valor_base_passagem">Valor base da passagem</label>
+                        <input id="valor_base_passagem" name="valor_base_passagem" type="number">
                     </div>
                 </section>
 

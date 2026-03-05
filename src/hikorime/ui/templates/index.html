@@ -6,16 +6,10 @@
     </header>
 
     <main>
-        {% if usr %}
-            <p>{{ usr.email }}</p>
-        {% endif %}
+        {% if
 
-
-        <a href="{{ url_for('exibir_registrar_funcionario') }}">Funcionário</a>
-        <a href="{{ url_for('exibir_registrar_passageiro') }}">Passageiro</a>
-        <a href="{{ url_for('exibir_login') }}">Login</a>
+        <a href="{{ url_for('exibir_voos_disponiveis') }}">Voos</a>
+        <a href=""></a>
     </main>
 
-    <footer>
-    </footer>
 {% endblock %}

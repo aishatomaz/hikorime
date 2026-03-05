@@ -11,13 +11,13 @@
         </p>
 
         <form action="/registro/logout" method="post">
-            <button type="submit">Logout</button>
+            <button type="submit">Sair</button>
         </form>
 
     {% else %}
         <main>
-            <form action="/registro/login" method="post">
-                <section>
+            <section>
+                <form action="/registro/login" method="post">
                     <div>
                         <label for="email">E-mail</label>
                         <input id="email" name="email" type="email" value="{{ data.email or '' }}" required>
@@ -28,9 +28,17 @@
                         <input id="senha" name="senha" type="password" required>
                     </div>
 
-                    <button type="submit">Fazer Login</button>
-                </section>
-            </form>
+                    <div>
+                        <button type="submit">Fazer Login</button>
+                    </div>
+                </form>
+            </section>
+            
+            <section>
+                <p>Ainda não tem uma conta? Casdastre-se!</p>
+                <a href="{{ url_for('exibir_registrar_funcionario') }}">Funcionário</a>
+                <a href="{{ url_for('exibir_registrar_passageiro') }}">Passageiro</a>
+            </section>
         </main>
     {% endif %}
 

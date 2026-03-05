@@ -1,8 +1,47 @@
-{% extends "layout/base.html %}
-
-{% block head %}
-{% endblock head %}
+{% extends "layouts/base.html %}
 
 {% block body %}
-em andamento...
+    {% if usr %}
+        <header>
+            <h1>Minhas Passagens</h1>
+        </header>
+
+        <main>
+            {% if passagens %}
+                {% for p in passagens %}
+                    <section>
+                        <div>
+                            <h3>Origem</h3>
+                            <p>{{ p.data_hora_partida }}</p>
+                            <p>{{ p.local_origem }}</p>
+                        </div>
+
+                        <div>
+                            <h3>Destino</h3>
+                            <p>{{ p.data_hora_chegada }}</p>
+                            <p>{{ p.local_destino }}</p>
+                        </div>
+
+                        <div>
+                            <h3>Informações de Embarque</h3>
+                            <p>Terminal: {{ p.terminal }}</p>
+                            <p>Portão de Embarque: {{ p.portao_embarque }}</p>
+                            <p>Assento: {{ p.assento }}</p>
+                        </div>
+                    </section>
+                {% endfor %}
+
+            {% else %}
+
+                <section>
+                    <p>Você não tem passagens cadastradas</p>
+                </section>
+            {% endif %}
+        </main>
+
+    {% else %}
+        <p>
+            Faça login para ter acesso a visualização de passagens
+        </p>
+    {% endif %}
 {% endblock body %}

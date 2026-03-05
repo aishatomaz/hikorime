@@ -23,6 +23,25 @@
             {% endif %}
         </section>
 
+        <footer>
+            {% if usr %}
+                <p>
+                    Conectado como {{ usr.nome }}, <br>
+                    {{ usr.email }}
+                </p>
+
+                <a href="{{ url_for('logout') }}"></a>
+
+            {% else %}
+                <p>
+                    Visitante não autenticado. <br>
+                    Faça login para acessar todos os recursos.
+                </p>
+
+                <a href="{{ url_for('exibir_login') }}">Login</a>
+            {% endif %}
+        </footer>
+
         {% if msg %}
             <script>
                 alert("{{ msg }}");
