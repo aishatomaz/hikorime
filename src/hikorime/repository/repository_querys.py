@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from hikorime.repository.repository_connection import RepositoryConnection
 
@@ -47,12 +47,12 @@ class RepositoryQuerys:
 
         return self.conn.save(query, kwargs)
 
-    def get_all(self):
+    def get_all(self) -> List[Dict]:
         """
         Pega todos as entidades da tabela.
 
         Returns:
-            dict: um dicionario representando todas as entidades da tabela.
+            List[dict]: um dicionario representando todas as entidades da tabela.
         """
 
         if not self.table_name.isidentifier():
@@ -79,7 +79,9 @@ class RepositoryQuerys:
 
         return self.conn.get_one(query, data)
 
-    def get_by_column_name(self, column_name: str, value: str | int) -> Dict | None:
+    def get_by_column_name(
+        self, column_name: str, value: str | int
+    ) -> List[Dict] | None:
         """
         Pega entidade(s), de uma determinada coluna.
 

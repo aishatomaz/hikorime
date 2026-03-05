@@ -16,7 +16,7 @@ from hikorime.ui.engine import HikorimeUI
 from hikorime.controller.rotas_base import create_generic_router
 
 
-#passagens_router = APIRouter(prefix="/passagens", tags=["passagens", "compras"])
+# passagens_router = APIRouter(prefix="/passagens", tags=["passagens", "compras"])
 passagens_service = PassagemService()
 compra_service = CompraService()
 cupom_service = CupomService()
@@ -42,11 +42,12 @@ def exibir_minhas_passagens(request: Request, id_passageiro: int):
         passagens=passagens,
     )
 
+
 @passagens_router.get("/comprar")
 def exibir_comprar_passagem(
-        request: Request,
-        id_voo: int,
-    ):
+    request: Request,
+    id_voo: int,
+):
     """
     Exibe a tela de compra de passagens.
     """
@@ -58,12 +59,13 @@ def exibir_comprar_passagem(
         id_voo=id_voo,
     )
 
+
 @passagens_router.post("/comprar")
 def comprar_passagem(
-        request: Request,
-        id_voo: int = Form(...),
-        assento: int = Form(...),
-    ):
+    request: Request,
+    id_voo: int = Form(...),
+    assento: int = Form(...),
+):
 
     usr = auth_service.get_current_user(request)
     id_passageiro = usr["id_usuario"]
@@ -84,7 +86,7 @@ def comprar_passagem(
             usr=auth_service.get_current_user(request),
             passagem=passagem,
         )
-    
+
     except HTTPException as e:
         return HikorimeUI.render(
             template="passagens/comprar.html",
@@ -97,9 +99,9 @@ def comprar_passagem(
 
 @passagens_router.get("/finalizar-compra")
 def exibir_finalizar_compra(
-        request: Request,
-        passagem: dict,
-    ):
+    request: Request,
+    passagem: dict,
+):
     return HikorimeUI.render(
         template="passagens/finalizar-compra.html",
         request=request,
@@ -108,14 +110,15 @@ def exibir_finalizar_compra(
         passagem=passagem,
     )
 
+
 @passagens_router.post("/finalizar-compra")
 def finalizar_compra(
-        request: Request,
-        passagem: dict,
-        cupom: dict,
-    ):
+    request: Request,
+    passagem: dict,
+    cupom: dict,
+):
 
-    valor_pago: float = 0.0 # TODO: calcular valor da passagem considerando o cupom
+    valor_pago: float = 0.0  # TODO: calcular valor da passagem considerando o cupom
 
     dados_compra = Compra(
         id_passagem=passagem["id_passagem"],
@@ -124,7 +127,7 @@ def finalizar_compra(
     )
 
     try:
-        compra_service.save(dados_compra) # TODO
+        compra_service.save(dados_compra)  # TODO
         return RedirectResponse(url="passagens/minhas-passagens", status_code=303)
 
     except HTTPException as e:
@@ -141,3 +144,4 @@ def finalizar_compra(
 def exibir_cupons(request: Request):
     cupons = cupom_service.get_all()
     pass
+
