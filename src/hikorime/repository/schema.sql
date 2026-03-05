@@ -1,30 +1,81 @@
--- Temporario, apenas para fins de demonstracao e test;
+--DB reformulado
 
-CREATE TABLE IF NOT EXISTS usuarios (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE,
-    cpf TEXT NOT NULL,
-    senha TEXT NOT NULL, -- Apenas para estudo, talvez usaremos bcrypt ou afins no futuro
-    tipo TEXT NOT NULL CHECK (tipo IN ('passageiro', 'funcionario'))
-);
+CREATE TABLE IF NOT EXISTS "usuarios" (
+    "id_usuario" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "nome" TEXT,
+    "cpf" TEXT,
+    "data_nascimento" DATE,
+    "email" TEXT,
+    "senha" TEXT,
+    "tipo" TEXT
+) ;
 
-CREATE TABLE IF NOT EXISTS passageiros (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    usuario_id INTEGER NOT NULL,
-    passaporte TEXT,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS "funcionarios" (
+    "id_funcionario" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_usuario" INTEGER,
+    "cargo" TEXT,
+    "matricula" TEXT,
+    FOREIGN KEY ("id_usuario") REFERENCES "usuarios" ("id_usuario")
+) ;
 
-CREATE TABLE IF NOT EXISTS funcionarios (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    usuario_id INTEGER NOT NULL,
-    cargo TEXT NOT NULL,
-    matricula TEXT NOT NULL,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);
+CREATE TABLE IF NOT EXISTS "passageiros" (
+    "id_passageiro" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_usuario" INTEGER,
+    "codigo_passaporte" TEXT,
+    "tipo_passaporte" TEXT,
+    FOREIGN KEY ("id_usuario") REFERENCES "usuarios" ("id_usuario")
+) ;
 
-CREATE TABLE IF NOT EXISTS passagens_vendidas (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    passageiro_id INTEGER NOT NULL
-);
+CREATE TABLE IF NOT EXISTS "aeronaves" (
+    "id_aeronave" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "modelo" TEXT,
+    "total_assentos" INTEGER
+) ;
+
+CREATE TABLE IF NOT EXISTS "voos" (
+    "id_voo" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_aeronave" INTEGER,
+    "data_hora_partida" DATETIME,
+    "data_hora_chegada" DATETIME,
+    "local_origem" TEXT,
+    "local_destino" TEXT,
+    "terminal" TEXT,
+    "portao_embarque" TEXT,
+    "valor_base_passagem" REAL,
+    FOREIGN KEY ("id_aeronave") REFERENCES "aeronaves" ("id_aeronave")
+) ;
+
+CREATE TABLE IF NOT EXISTS "passagens" (
+    "id_passagem" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_voo" INTEGER,
+    "id_passageiro" INTEGER,
+    "assento" TEXT,
+    FOREIGN KEY ("id_voo") REFERENCES "voos" ("id_voo"),
+    FOREIGN KEY ("id_passageiro") REFERENCES "passageiros" ("id_passageiro")
+) ;
+
+CREATE TABLE IF NOT EXISTS "cupons" (
+    "id_cupom" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "percentual_desconto" REAL,
+    "validade" DATE,
+    "status" TEXT
+) ;
+
+CREATE  IF NOT EXISTS "bagagens" (
+    "id_bagagem" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "tipo_bagagem" TEXT,
+    "peso" REAL,
+    "valor_bagagem" REAL
+) ;
+
+CREATE TABLE IF NOT EXISTS "compras" (
+    "id_compra" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_passagem" INTEGER,
+    "id_bagagem" INTEGER,
+    "id_cupom" INTEGER,
+    "tipo_pagamento" TEXT,
+    "valor_pago" REAL,
+    FOREIGN KEY ("id_passagem") REFERENCES "passagens" ("id_passagem"),
+    FOREIGN KEY ("id_bagagem") REFERENCES "bagagens" ("id_bagagem"),
+    FOREIGN KEY ("id_cupom") REFERENCES "cupons" ("id_cupom")
+) ;
