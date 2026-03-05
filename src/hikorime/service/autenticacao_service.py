@@ -28,17 +28,19 @@ class AutenticacaoService:
             )
 
         # Salvar na tabela de usuários
-        usuario_id = self.repo_usuario.save(
+        result = self.repo_usuario.save(
             nome=dados.nome,
             email=dados.email,
             cpf=dados.cpf,
-            senha=dados.senha,  # Em produção, usar hash de senha
+            senha=dados.senha,
             tipo=dados.tipo.value,
         )
 
+        usuario_id = result["id"]
+
         # Salvar na tabela de passageiros
         self.repo_passageiro.save(usuario_id=usuario_id, passaporte=dados.passaporte)
-
+        
         return {
             "message": "Passageiro registrado com sucesso",
             "usuario": {
@@ -80,31 +82,25 @@ class AutenticacaoService:
                 "tipo":dados.tipo.value,
             }
         }
-
+        
     def login(self, credentials: LoginRequest):
-        usuario = self.repo_usuario.get_by_column_name("email", credentials.email)
+        usuarios = self.repo_usuario.get_by_column_name("email", credentials.email)
 
-        if not usuario:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciais inválidas"
-            )
+        if not usuarios:
+            #ao tentar acessar login que nao existe deve ser lançada a exceção de credencias inválidas
+            raise HTTPException(status_code=401, detail="Credenciais inválidas")
 
-        # A query retorna uma lista de resultados
-        user_data = (
-            usuario[0] if isinstance(usuario, list) and len(usuario) > 0 else None
-        )
+        user = usuarios[0]
 
-        if not user_data or user_data.get("senha") != credentials.senha:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED, detail="Credenciais inválidas"
-            )
+        if user["senha"] != credentials.senha:
+            raise HTTPException(status_code=401, detail="Credenciais inválidas")
 
         return {
             "message": "Login realizado com sucesso",
             "usuario": {
-                "id": user_data.get("id"),
-                "nome": user_data.get("nome"),
-                "email": user_data.get("email"),
-                "tipo": user_data.get("tipo"),
+                "id": user["id"],
+                "nome": user["nome"],
+                "email": user["email"],
+                "tipo": user["tipo"],
             },
         }
