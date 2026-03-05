@@ -30,16 +30,16 @@ def exibir_minhas_passagens(request: Request, id_passageiro: int):
     """
     Exibe a lista de passagens associadas a um usuário.
     """
-    passagens: dict = passagens_service.get_passagem_by_passageiro(id_passageiro)
-
-    # TODO: retornar info de passagem + voo
+    #passagens: dict = passagens_service.get_passagem_by_passageiro(id_passageiro)
+    # TODO: RETORNAR INFO DE PASSAGEM + VOO + CUPOM
 
     return HikorimeUI.render(
         template="passagens/minhas-passagens.html",
         request=request,
         title="Minhas Passagens",
         usr=auth_service.get_current_user(request),
-        passagens=passagens,
+        #passagens=passagens,
+        # TODO: RETORNAR INFO DE PASSAGEM + VOO + CUPOM
     )
 
 @passagens_router.get("/comprar")

@@ -4,7 +4,7 @@
     {% if usr.tipo == "funcionario"  %}
 
         <header>
-            <h1>Cadatro de Voos</h1>
+            <h1>Cadastro de Voos</h1>
         </header>
 
         <main>
@@ -15,7 +15,8 @@
                     <h3>Dados da Aeronave</h3>
 
                     <div>
-                        <select id="id_aeromave" name="id_aeronave" required>
+                        <label for="id_aeronave">Aeronave</label>
+                        <select id="id_aeronave" name="id_aeronave" required>
                         <option value="" disabled selected>Selecione uma Aeronave</option>
 
                             {% for aeronave in aeronaves %}
