@@ -31,7 +31,7 @@ def create_generic_router(service: BaseService, schema: Type[SchemaType]) -> API
     @router.get("/", response_model=List[schema])
     def get_all():
         """Retorna todos os registros da entidade."""
-        return service.get_all()
+        return service.get_all() # TODO: ????
 
     @router.get("/{id}", response_model=schema)
     def get_by_id(id: int):

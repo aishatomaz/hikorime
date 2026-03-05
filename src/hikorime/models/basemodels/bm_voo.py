@@ -10,4 +10,5 @@ class Voo(BaseModel):
     local_destino: str
     terminal: str
     portao_embarque: str
+    valor_base_passagem: float
     

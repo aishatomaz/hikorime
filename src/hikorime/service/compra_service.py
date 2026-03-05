@@ -1,7 +1,7 @@
 from fastapi.exceptions import HTTPException
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_compra import RepositoryCompra
-from hikorime.models.basemodels.bm_passagem import CompraPassagem
+from hikorime.models.basemodels.bm_passagem import Passagem
 
 
 class CompraService(BaseService):
@@ -13,7 +13,7 @@ class CompraService(BaseService):
 
     def create_compra_passagem(self, passagem: dict):
         try:
-            compra_passagem = CompraPassagem(**passagem)
+            compra_passagem = Passagem(**passagem)
             return self.save(compra_passagem)
         except Exception as e:
             raise HTTPException(

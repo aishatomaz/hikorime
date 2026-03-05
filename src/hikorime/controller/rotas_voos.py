@@ -3,6 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException, status, Form
 from starlette.requests import Request
 
+from hikorime.controller.rotas_base import create_generic_router
 from hikorime.models.basemodels.bm_aeronave import Aeronave
 from hikorime.models.basemodels.bm_voo import Voo
 from hikorime.service.autenticacao_service import AutenticacaoService
@@ -10,11 +11,10 @@ from hikorime.service.voo_service import VooService
 from hikorime.ui.engine import HikorimeUI
 
 
-voos_router = APIRouter(prefix="/voos", tags=["voos"])
 voos_service = VooService()
 auth_service = AutenticacaoService()
 
-voos_router = Create
+voos_router = create_generic_router(service=voos_service, schema=Voo)
 
 @voos_router.get("/disponiveis")
 def exibir_voos_disponiveis(
@@ -23,8 +23,14 @@ def exibir_voos_disponiveis(
     """
     Exibe a lista de voos disponiveis.
     """
-    # TODO:  voos_service.get_all()
-    pass
+    voos = voos_service.get_all()
+
+    return HikorimeUI.render(
+        template="voos/disponiveis.html",
+        request=request,
+        title="Voo Disponiveis",
+        usr=auth_service.get_current_user(request),
+    )
 
 
 # Somente para funcionários
@@ -102,7 +108,6 @@ def exibir_cadastrar_aeronave(
         usr=auth_service.get_current_user(request),
         title="Cadastrar Aeronave",
     )
-
 
 
 @voos_router.post("/cadastrar-aeronave")

@@ -3,6 +3,7 @@ import re
 from fastapi import APIRouter, status, Request, Form, HTTPException
 from starlette.responses import RedirectResponse
 
+from hikorime.controller.rotas_base import create_generic_router
 from hikorime.models.basemodels.bm_login import LoginRequest
 from hikorime.models.basemodels.bm_passageiro import Passageiro
 from hikorime.models.basemodels.bm_funcionario import Funcionario

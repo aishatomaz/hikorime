@@ -30,7 +30,7 @@ class BaseService:
         )  # Passa os dados como kwargs para o repositorio
 
     @deprecated("Jamais use em producao, debug e teste apenas")
-    def get_all(self):
+    def get_all(self): # TODO: ???
         """
         Retorna todas as linhas e colunas de uma tabela.
 

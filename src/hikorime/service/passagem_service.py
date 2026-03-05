@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_passagem import RepositoryPassagem
-from hikorime.models.basemodels.bm_passageiro import Passagem
+from hikorime.models.basemodels.bm_passagem import Passagem
 
 
 class PassagemService(BaseService):
