@@ -1,0 +1,25 @@
+{% extends "layouts/base.html %}
+
+{% block body %}
+
+    {% if usr %}
+        <header>
+            <h1>Comprar Passagem</h1>
+        </header>
+
+        <main>
+            <form action="/passagens/comprar" method="post">
+                <section>
+                    <input id="id_voo" name="id_voo" value="{{ id_voo }}" type="hidden">
+
+                    <label for=""></label>
+                </section>
+            </form>
+        </main>
+    {% else %}
+        <p>
+            Faça login para ter acesso a compra de passagens
+        </p>
+    {% endif %}
+
+{% endblock body %}

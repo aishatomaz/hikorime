@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field
+
+from pydantic import BaseModel
 
 class Passagem(BaseModel):
-    #modelo de entrada de dados de passagem - lado do comissario
+    #base de compra passagem - lado do usuario
+    id_voo: int
+    id_passageiro: int
     assento: int
-    valor_final: float

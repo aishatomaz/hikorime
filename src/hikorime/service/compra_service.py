@@ -1,60 +1,97 @@
+from fastapi.exceptions import HTTPException
 from hikorime.service.base_service import BaseService
-from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.repository.repository_compra import RepositoryCompra
-
-"""Classe salva os valores de Compra no Banco de Dados."""
+from hikorime.models.basemodels.bm_passagem import Passagem
 
 
 class CompraService(BaseService):
-    events_repository: RepositoryCompra
+    """Classe salva os valores de Compra no Banco de Dados."""
 
     def __init__(self):
-        self.repo = RepositoryQuerys("compra")
-        self.events = RepositoryCompra()
+        # Retirei events, e deixei apenas service. em repoCompra, ele ja pega oque tem em repoQuery.
+        self.service = RepositoryCompra("compras")
 
-    def save(self, data_compra, valor_total, pagamento):
-        return self.repo.save(
-            data_compra=data_compra, valor_total=valor_total, pagamento=pagamento
-        )
+    def create_compra_passagem(self, passagem: dict):
+        try:
+            compra_passagem = Passagem(**passagem)
+            return self.save(compra_passagem)
+        except Exception as e:
+            raise HTTPException(
+                status_code=400, detail=f"Erro ao criar a passagem: {str(e)}"
+            )
 
-    # Regras de negócio
+    def verificar_passageiro_apto_aplicar_cupom(self, passageiro_id: int) -> bool:
+        """Verifica se existem cupons válidos para o passageiro, com validade maior que a data atual.
 
-    def verificar_passageiro_apto_aplicar_cupom(self, id: int) -> bool:
-        """Verifica se o passageiro está apto a aplicar um cupom de desconto.
-
-        A função checa duas condições:
-        1. O passageiro possui 3 ou mais compras registradas.
-        2. Existem cupons válidos disponíveis (com validade maior que a data atual).
-
-        Ambas as condições devem ser verdadeiras para que o passageiro seja considerado apto.
+        Args:
+            passageiro_id (int): ID do passageiro a ser verificado.
 
         Returns:
-            bool: True se o passageiro puder aplicar o cupom, False caso contrário.
+            bool: True se o passageiro possui cupons válidos, False caso contrário.
         """
-        return (
-            self.events_repository.verificar_quantidade_compras_passageiro_maior_igual_3(
-                id
-            )
-            and self.events_repository.verificar_data_validade_maior_que_hoje()
-        )
+        # Chama o repositório para verificar cupons válidos para o passageiro
+        cupons_validos = self.service.get_valid_cupom_by_passageiro(passageiro_id)
 
+        # Verifica se existem cupons válidos
+        return bool(cupons_validos)
+
+    def get_valor_bagagens_by_passageiro_id(self, passageiro_id: int):
+        """Recupera todas as bagagens associadas a um passageiro.
+
+        Args:
+            passageiro_id (int): ID do passageiro.
+
+        Returns:
+            List[Dict]: Lista de dicionários representando as bagagens do passageiro.
+        """
+        return self.service.get_valor_bagagens_by_passageiro_id(passageiro_id)
+
+    # TODO: trocar para decimal
     def calcular_total(self, passageiro_id: int):
         """Calcula o valor total da compra de um passageiro.
-        TODO:
-            *A função soma o valor da última passagem adquirida pelo passageiro
-            com o valor das bagagens (quando disponível) e aplica o desconto de cupom,
-            caso o passageiro seja elegível.
 
-            *Args:
-                passageiro_id (int): ID do passageiro para o qual o total será calculado.
+        A função soma o valor da última passagem adquirida pelo passageiro
+        com o valor das bagagens (quando disponível) e aplica o desconto de cupom,
+        caso o passageiro seja elegível.
 
-            *Returns:
-                float: Valor total da compra após somar passagens, bagagens e aplicar desconto do cupom.
-                    Retorna 0 se o passageiro não possuir passagens registradas.
+        Args:
+            passageiro_id (int): ID do passageiro para o qual o total será calculado.
+
+        Returns:
+            float: Valor total da compra após somar passagens, bagagens e aplicar desconto do cupom.
+                Retorna 0 se o passageiro não possuir passagens registradas.
         """
-        if self.verificar_passageiro_apto_aplicar_cupom():
-            return
+        # Obter as passagens do passageiro
+        passagens = self.service.get_passagens_by_passageiro(passageiro_id)
 
-    def visualizar_compras(passageiro_id: int):
-        return RepositoryCompra.vizualizar_compras(passageiro_id)
+        if not passagens:
+            raise RuntimeError("Passageiro não tem passagens cadastradas")
 
+        # Pega o valor da última passagem
+        ultima_passagem = passagens[0]
+        valor_total = ultima_passagem["valor_pago"]
+
+        # Obter o valor das bagagens, se houver
+        bagagens = self.service.get_valor_bagagens_by_passageiro_id(passageiro_id)
+        valor_bagagens = sum(b["valor"] for b in bagagens)
+
+        # Somar o valor das bagagens ao total
+        valor_total += valor_bagagens
+
+        # Verificar se o passageiro pode aplicar o cupom de desconto
+        if self.verificar_passageiro_apto_aplicar_cupom(passageiro_id):
+            cupom = self.service.get_valid_cupom_by_passageiro(passageiro_id)
+            if cupom:
+                desconto = cupom["desconto"]
+                valor_total *= 1 - desconto  # Aplica o desconto
+
+        return round(valor_total, 2)  # Retorna o valor total arredondad
+
+    def get_compras_by_id(self, passageiro_id: int):
+        return self.service.get_compras(passageiro_id)
+
+    def get_valid_cupom_by_passageiro_id(self, passageiro_id: int):
+        return self.service.get_valid_cupom_by_passageiro(passageiro_id)
+
+    def get_passagens_by_passageiro_id(self, passageiro_id: int):
+        return self.service.get_passagens_by_passageiro(passageiro_id)

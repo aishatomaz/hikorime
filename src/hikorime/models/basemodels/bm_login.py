@@ -1,6 +1,8 @@
-from pydantic import EmailStr, BaseModel, Field
+from pydantic import EmailStr, BaseModel
 
-class login_request():
-    #formato de entrada para login de qualquer usuario
+
+class LoginRequest(BaseModel):
+    # formato de entrada para login de qualquer usuario
     email: EmailStr
     senha: str
+

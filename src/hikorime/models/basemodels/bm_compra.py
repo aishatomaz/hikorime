@@ -1,9 +1,7 @@
-
 from pydantic import BaseModel
 
-class CompraPassagem(BaseModel):
-    #base de compra passagem - lado do usuario
-    assento: int
-    id_voo: int
-    id_passageiro: int
+class Compra(BaseModel):
+    #base de compra - lado do usuario
+    id_passagem: int
+    id_cupom: int
     valor_pago: float

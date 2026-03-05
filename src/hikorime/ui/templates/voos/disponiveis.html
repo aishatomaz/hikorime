@@ -1,0 +1,39 @@
+{% extends "layouts/base.html" %}
+
+{% block body %}
+    <header>
+        <h1>Voos Disponíveis</h1>
+    </header>
+
+    <main>
+        {% if voos %}
+            {% for voo in voos %}
+                <section>
+                    <div>
+                        <h3>Origem</h3>
+                        <p>{{ voo.data_hora_partida }}</p>
+                        <p>{{ voo.local_origem }}</p>
+                    </div>
+
+                    <div>
+                        <h3>Destino</h3>
+                        <p>{{ voo.data_hora_chegada }}</p>
+                        <p>{{ voo.local_detino }}</p>
+                    </div>
+
+                    <div>
+                        <a href="{{ url_for('exibir_comprar_passagem', id_voo=voo.id_voo) }}">
+                            Comprar Passagem
+                        </a>
+                    </div>
+                </section>
+            {% endfor %}
+        {% else %}
+            <section>
+                <p>
+                    Não há voos disponíveis no momento :(
+                </p>
+            </section>
+        {% endif %}
+    </main>
+{% endblock body %}
