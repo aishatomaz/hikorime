@@ -1,5 +1,4 @@
-from typing import Dict, Optional
-from warnings import deprecated
+from typing import Dict, List
 from hikorime.repository.repository_querys import RepositoryQuerys
 
 
@@ -29,8 +28,7 @@ class BaseService:
             **model_dict
         )  # Passa os dados como kwargs para o repositorio
 
-    @deprecated("Jamais use em producao, debug e teste apenas")
-    def get_all(self): # TODO: ???
+    def get_all(self) -> List[Dict]:
         """
         Retorna todas as linhas e colunas de uma tabela.
 
@@ -54,7 +52,7 @@ class BaseService:
         else:
             raise ValueError(f"id '{id}' não existe")
 
-    def get_by_column_name(self, column_name: str, value: str) -> Optional[Dict]:
+    def get_by_column_name(self, column_name: str, value: str) -> List[Dict] | None:
         """
         Retira o(s) valor(es) exato(s) de uma coluna especifica
         Args:
@@ -62,14 +60,24 @@ class BaseService:
             value: o valor exato que quer buscar
 
         Returns:
-            Dict | ValueError: Um dicionario com o(s) valores encontrados
+            List[Dict]: Uma lista de dicionario(s) com o(s) valore(s) encontrado(s)
         """
-        if value.rstrip() is None or "":
+
+        # Remove espacos em branco para checagem
+        val = value.strip() if value else ""
+        col = column_name.strip() if column_name else ""
+
+        # Verifica se os campos estao vazios
+        if not val:
             raise ValueError("ERROR: Falta o valor para iniciar a busca")
-        elif column_name.rstrip() is None or "":
-            raise ValueError("ERROR: Falta o Nome da coluna, para iniciar a busca")
-        else:
-            return self.repo.get_by_column_name(column_name, value)
+
+        if not col:
+            raise ValueError("ERROR: Falta o nome da coluna para iniciar a busca")
+
+        if not col.isidentifier():
+            raise ValueError(f"ERROR: Nome de coluna inválido: {col}")
+
+        return self.repo.get_by_column_name(col, val)
 
     def get_like_by_column_name(self, column_name: str, value: str | int):
         """

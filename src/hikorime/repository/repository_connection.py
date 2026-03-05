@@ -25,6 +25,7 @@ class RepositoryConnection:
         self,
     ):  # Isso tambem serve para fechar o repositorio, entao nao preciso usar o finally
         conn = sqlite3.connect(self.db_path)
+        conn.execute("PRAGMA foreign_key = ON ;")  # habilita chavas estangeiras
         conn.row_factory = sqlite3.Row  # Vou poder usar dicionarios e tuplas com isso
         return conn
 
@@ -74,9 +75,7 @@ class RepositoryConnection:
             row = cursor.fetchone()
             return dict(row) if row else None
 
-    def get_many(
-        self, query: str, params: Tuple | dict[str, Any] = ()
-    ) -> List[Dict] | Dict | None:
+    def get_many(self, query: str, params: Tuple | dict[str, Any] = ()) -> List[Dict]:
         """
         Funcao de retirar varias entradas da tabela (Inclusive get_all).
 
@@ -88,7 +87,7 @@ class RepositoryConnection:
             params: Parametros da query em tupla ou dict.
 
         Returns:
-            Registros afetados
+            Lista de dicionarios contendo os dados dos registros
         """
 
         with self._connect() as conn:
