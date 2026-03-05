@@ -14,7 +14,7 @@ from hikorime.ui.engine import HikorimeUI
 voos_service = VooService()
 auth_service = AutenticacaoService()
 
-voos_router = create_generic_router(service=voos_service, schema=Voo)
+voos_router = APIRouter(prefix="/voos")
 
 @voos_router.get("/disponiveis")
 def exibir_voos_disponiveis(
@@ -23,13 +23,14 @@ def exibir_voos_disponiveis(
     """
     Exibe a lista de voos disponiveis.
     """
-    voos = voos_service.get_all()
+    #voos: dict = voos_service.get_all() # TODO: CONSERTAR EERO NO SERVICE
 
     return HikorimeUI.render(
         template="voos/disponiveis.html",
         request=request,
-        title="Voo Disponiveis",
+        title="Voos Disponiveis",
         usr=auth_service.get_current_user(request),
+        #voos=voos, # TODO: CONSERTAR ERRO NO SERVICE
     )
 
 
@@ -39,10 +40,16 @@ def exibir_cadastrar_voo(
         request: Request,
     ):
     """
-    Exibe a tela de cadastro de vôos (usado por funcionários)
+    Exibe a tela de cadastro de voos (usado por funcionários)
     """
-    # TODO: aeronave.get_all(), render()
-    pass
+    # TODO: CRIAR FUNÇÃO QUE RETORNE TODAS AS AERONAVES
+    return HikorimeUI.render(
+        template="voos/cadastrar.html",
+        request=request,
+        title="Cadastrar Voo",
+        usr=auth_service.get_current_user(request),
+        #aeronaves # TODO: CRIAR FUNÇÃO QUE RETORNE TODAS AS AERONAVES
+    )
 
 # Somente para funcionários
 @voos_router.get("/cadastrar")
@@ -55,6 +62,7 @@ def cadastrar_voo(
         local_destino: str = Form(...),
         terminal: str = Form(...),
         portao_embarque: str = Form(...),
+        valor_base_passagem: float = Form(...),
     ):
     """
     Cadastra um voo no sistema (usado por funcionários)
@@ -68,11 +76,17 @@ def cadastrar_voo(
         local_destino=local_destino,
         terminal=terminal,
         portao_embarque=portao_embarque,
+        valor_base_passagem=valor_base_passagem
     )
 
     try:
         result: dict = voos_service.save(dados_voo)
-        # TODO: render()
+        return HikorimeUI.render(
+            template="index.html",
+            request=request,
+            usr=auth_service.get_current_user(request),
+            #msg=result.msg # TODO: RETURN DA MSG DE SUCESSO
+        )
 
 
     except HTTPException as e:
@@ -124,5 +138,5 @@ def cadastrar_aeronave(
         total_assentos=total_assentos,
     )
 
-    # TODO: salvar aeronave;
+    # TODO: CRIAR SERVICE PARA SALVAR AERONAVES
     pass

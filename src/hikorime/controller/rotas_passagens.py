@@ -22,9 +22,7 @@ compra_service = CompraService()
 cupom_service = CupomService()
 auth_service = AutenticacaoService()
 
-passagens_router = create_generic_router(schema=Passagem, service=passagens_service)
-compra_router = create_generic_router(schema=Compra, service=compra_service)
-cupom_router = create_generic_router(schema=Cupom, service=cupom_service)
+passagens_router = APIRouter(prefix="/passagens")
 
 
 @passagens_router.get("/minhas-passagens")
@@ -37,7 +35,7 @@ def exibir_minhas_passagens(request: Request, id_passageiro: int):
     # TODO: retornar info de passagem + voo
 
     return HikorimeUI.render(
-        template="passgens/minhas-passagens.html",
+        template="passagens/minhas-passagens.html",
         request=request,
         title="Minhas Passagens",
         usr=auth_service.get_current_user(request),
@@ -80,7 +78,7 @@ def comprar_passagem(
         passagem: dict = passagens_service.create_passagem(dados_passagem)
 
         return HikorimeUI.render(
-            template="compras/finalizar-compra.html",
+            template="passagens/finalizar-compra.html",
             request=request,
             title="Finalizar Compra",
             usr=auth_service.get_current_user(request),
@@ -97,7 +95,7 @@ def comprar_passagem(
         )
 
 
-@compra_router.get("/finalizar-compra")
+@passagens_router.get("/finalizar-compra")
 def exibir_finalizar_compra(
         request: Request,
         passagem: dict,
@@ -110,7 +108,7 @@ def exibir_finalizar_compra(
         passagem=passagem,
     )
 
-@compra_router.post("/finalizar-compra")
+@passagens_router.post("/finalizar-compra")
 def finalizar_compra(
         request: Request,
         passagem: dict,
@@ -131,7 +129,7 @@ def finalizar_compra(
 
     except HTTPException as e:
         return HikorimeUI.render(
-            template="compras/finalizar-compra.html",
+            template="passagens/finalizar-compra.html",
             request=request,
             title="Erro ao Finalizar Compra",
             usr=auth_service.get_current_user(request),
@@ -139,7 +137,7 @@ def finalizar_compra(
         )
 
 
-@cupom_router.get("/cupons")
+@passagens_router.get("/cupons")
 def exibir_cupons(request: Request):
     cupons = cupom_service.get_all()
     pass

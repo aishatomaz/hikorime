@@ -1,4 +1,4 @@
-{% extends "layout/base.html %}
+{% extends "layouts/base.html" %}
 
 {% block body %}
     <header>
@@ -22,7 +22,7 @@
                     </div>
 
                     <div>
-                        <a href="{{ url_for('exibir_comprar_passagem'), id_voo=voo.id_voo }}">
+                        <a href="{{ url_for('exibir_comprar_passagem', id_voo=voo.id_voo) }}">
                             Comprar Passagem
                         </a>
                     </div>
