@@ -1,4 +1,5 @@
 import re
+from datetime import date
 
 from fastapi import APIRouter, status, Request, Form, HTTPException
 from starlette.responses import RedirectResponse
@@ -7,6 +8,7 @@ from hikorime.controller.rotas_base import create_generic_router
 from hikorime.models.basemodels.bm_login import LoginRequest
 from hikorime.models.basemodels.bm_passageiro import Passageiro
 from hikorime.models.basemodels.bm_funcionario import Funcionario
+from hikorime.models.enums.tipo_passaporte import TipoPassaporte
 from hikorime.service.autenticacao_service import AutenticacaoService
 from hikorime.ui.engine import HikorimeUI
 
@@ -66,7 +68,7 @@ def login(
 @registro_router.post("/logout")
 def logout(request: Request):
     """
-        Remove o usuário da sessão e redireciona para página inicial.
+    Remove o usuário da sessão e redireciona para página inicial.
     """
     request.session.clear()
 
@@ -82,6 +84,7 @@ def exibir_registrar_passageiro(request: Request):
         request=request,
         title="Registro de Passageiros",
         usr=auth_service.get_current_user(request),
+        tipo_passaporte=TipoPassaporte.enum_to_dict(),
         data={},
     )
 
@@ -89,18 +92,22 @@ def exibir_registrar_passageiro(request: Request):
 def registrar_passageiro(
         request: Request,
         nome: str = Form(...),
-        passaporte: str = Form(...),
+        data_nascimento: date = Form(...),
         cpf: str = Form(...),
         email: str = Form(...),
         senha: str = Form(...),
+        codigo_passaporte: str = Form(...),
+        tipo_passaporte: str = Form(...),
 ):
     """
     Registra um novo passageiro no sistema.
     """
     dados_passageiro = Passageiro(
         nome=nome,
-        passaporte=passaporte,
-        cpf=re.sub(r"\D", "", cpf),  # Romover não dígitos
+        data_nascimento=data_nascimento,
+        cpf=re.sub(r"\D", "", cpf),  # Remover não dígitos
+        codigo_passaporte=codigo_passaporte,
+        tipo_passaporte=TipoPassaporte[tipo_passaporte],
         email=email,
         senha=senha,
     )
@@ -145,6 +152,7 @@ def exibir_registrar_funcionario(request: Request):
 def registrar_funcionario(
         request: Request,
         nome: str = Form(...),
+        data_nascimento: date = Form(...),
         cpf: str = Form(...),
         cargo: str = Form(...),
         matricula: str = Form(...),
@@ -156,11 +164,12 @@ def registrar_funcionario(
     """
     dados_funcionario = Funcionario(
         nome=nome,
-        cpf=re.sub(r"\D", "", cpf), # Romover não dígitos
+        cpf=re.sub(r"\D", "", cpf), # Remover não dígitos
         cargo=cargo,
         matricula=matricula,
         email=email,
         senha=senha,
+        data_nascimento=data_nascimento,
     )
 
     try:

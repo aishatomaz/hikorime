@@ -6,13 +6,15 @@
   </header>
 
     {% if usr %}
-        <p>
-            Você está conectado com {{ usr.email }}
-        </p>
+        <main>
+            <p>
+                Você já está conectado com o e-mail {{ usr.email }}
+            </p>
 
-        <form action="/registro/logout" method="post">
-            <button type="submit">Sair</button>
-        </form>
+            <form action="{{ url_for('logout') }}" method="post">
+                <button type="submit">Logout</button>
+            </form>
+        </main>
 
     {% else %}
         <main>
@@ -33,13 +35,18 @@
                     </div>
                 </form>
             </section>
-            
+
             <section>
                 <p>Ainda não tem uma conta? Casdastre-se!</p>
                 <a href="{{ url_for('exibir_registrar_funcionario') }}">Funcionário</a>
+                <br>
                 <a href="{{ url_for('exibir_registrar_passageiro') }}">Passageiro</a>
             </section>
         </main>
     {% endif %}
+
+    {% block footer %}
+
+    {% endblock footer %}
 
 {% endblock body %}

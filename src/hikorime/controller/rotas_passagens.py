@@ -12,21 +12,22 @@ from hikorime.service.compra_service import CompraService
 from hikorime.service.cupom_service import CupomService
 from hikorime.service.passagem_service import PassagemService
 
+from hikorime.models.enums.tipo_pagamento import TipoPagamento
+
 from hikorime.ui.engine import HikorimeUI
 from hikorime.controller.rotas_base import create_generic_router
 
 
-# passagens_router = APIRouter(prefix="/passagens", tags=["passagens", "compras"])
 passagens_service = PassagemService()
 compra_service = CompraService()
 cupom_service = CupomService()
 auth_service = AutenticacaoService()
 
-passagens_router = APIRouter(prefix="/passagens")
+passagens_router = APIRouter(prefix="/passagens", tags=["passagens", "compras"])
 
 
 @passagens_router.get("/minhas-passagens")
-def exibir_minhas_passagens(request: Request, id_passageiro: int):
+def exibir_minhas_passagens(request: Request):
     """
     Exibe a lista de passagens associadas a um usuário.
     """
@@ -118,12 +119,16 @@ def finalizar_compra(
     cupom: dict,
 ):
 
-    valor_pago: float = 0.0  # TODO: calcular valor da passagem considerando o cupom
+    # TODO: CALCULAR VALOR PASSAGEM CONSIDERANDO O CUPOM
+    valor_pago: float = 0.0
+    tipo_pagamento = TipoPagamento(passagem["tipo_pagamento"])
 
     dados_compra = Compra(
         id_passagem=passagem["id_passagem"],
         id_cupom=cupom["id_cupom"],
         valor_pago=valor_pago,
+        id_bagagem=0,
+        tipo_pagamento=tipo_pagamento,
     )
 
     try:

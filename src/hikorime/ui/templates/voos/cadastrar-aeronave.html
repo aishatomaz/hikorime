@@ -1,14 +1,14 @@
 {% extends "layouts/base.html" %}
 
 {% block body %}
-    {% if usr and usr.tipo == "funcionario"  %}
+    {% if usr and usr.tipo_usuario == "funcionario"  %}
 
         <header>
-            <h1>Cadatro de Vôos</h1>
+            <h1>Cadastro de Voos</h1>
         </header>
 
         <main>
-            <h2>Insira os dados do vôo</h2>
+            <h2>Insira os Dados da Aeronave</h2>
 
             <form action="/voo/cadastrar-aeronave" method="post">
                  <section>
@@ -25,19 +25,14 @@
                 </section>
 
                 <section>
-                    <button type="submit">Cadastrar Vôo</button>
+                    <button type="submit">Cadastrar Voo</button>
                 </section>
             </form>
         </main>
 
-        <footer>
-
-        </footer>
     {% else %}
-
         <h1>Acesso Indisponível :(</h1>
-        <p>Parece que voçê não tem permissão para acessar esta página.</p>
-
+        <p>Parece que você não tem permissão para acessar esta página.</p>
     {% endif %}
 
 {% endblock body %}

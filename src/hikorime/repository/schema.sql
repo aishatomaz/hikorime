@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "usuarios" (
     "data_nascimento" DATE,
     "email" TEXT,
     "senha" TEXT,
-    "tipo" TEXT
+    "tipo_usuario" TEXT
 ) ;
 
 CREATE TABLE IF NOT EXISTS "funcionarios" (
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS "cupons" (
     "status" TEXT
 ) ;
 
-CREATE  IF NOT EXISTS "bagagens" (
+CREATE TABLE IF NOT EXISTS "bagagens" (
     "id_bagagem" INTEGER PRIMARY KEY AUTOINCREMENT,
     "tipo_bagagem" TEXT,
     "peso" REAL,

@@ -2,6 +2,8 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+
         <title>
             {% if title %}
                 Hikorime - {{ title }}
@@ -23,32 +25,34 @@
             {% endif %}
         </section>
 
-        <footer>
-            {% if usr %}
-                <section>
-                    <p>
-                        Conectado como {{ usr.nome }}, <br>
-                        {{ usr.email }}
-                    </p>
+        {% block footer %}
+            <footer>
+                {% if usr %}
+                    <section>
+                        <p>
+                            Conectado como {{ usr.nome }}, <br>
+                            {{ usr.email }}
+                        </p>
 
-                    <form action="{{ url_for('logout') }}" method="post">
-                        <button type="submit">Logout</button>
-                    </form>
-                </section>
+                        <form action="{{ url_for('logout') }}" method="post">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </section>
 
-            {% else %}
-                <section>
-                    <p>
-                        Visitante não autenticado. <br>
-                        Faça login para acessar todos os recursos.
-                    </p>
+                {% else %}
+                    <section>
+                        <p>
+                            Visitante não autenticado. <br>
+                            Faça login para acessar todos os recursos.
+                        </p>
 
-                    <form action="{{ url_for('login') }}" method="get">
-                        <button type="submit">Login</button>
-                    </form>
-                </section>
-            {% endif %}
-        </footer>
+                        <form action="{{ url_for('login') }}" method="get">
+                            <button type="submit">Login</button>
+                        </form>
+                    </section>
+                {% endif %}
+            </footer>
+        {% endblock footer %}
 
         {% if msg %}
             <script>
