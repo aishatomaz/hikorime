@@ -8,11 +8,13 @@ from hikorime.models.basemodels.bm_aeronave import Aeronave
 from hikorime.models.basemodels.bm_voo import Voo
 from hikorime.service.autenticacao_service import AutenticacaoService
 from hikorime.service.voo_service import VooService
+from hikorime.service.aeronave_service import AeronaveService
 from hikorime.ui.engine import HikorimeUI
 
 
 voos_service = VooService()
 auth_service = AutenticacaoService()
+aeronave_service = AeronaveService()
 
 voos_router = APIRouter(prefix="/voos")
 
@@ -135,12 +137,33 @@ def cadastrar_aeronave(
         total_assentos: int = Form(...),
     ):
     """
-    Cadastra uma areonave no sistema.
+    Cadastra uma aeronave no sistema.
     """
+
     dados_aeronave = Aeronave(
         modelo=modelo,
         total_assentos=total_assentos,
     )
 
-    # TODO: CRIAR SERVICE PARA SALVAR AERONAVES
-    pass
+    try:
+        result = aeronave_service.save(dados_aeronave)
+
+        return HikorimeUI.render(
+            template="index.html",
+            request=request,
+            usr=auth_service.get_current_user(request),
+            msg="Aeronave cadastrada com sucesso!"
+        )
+
+    except HTTPException as e:
+        return HikorimeUI.render(
+            template="voos/cadastrar-aeronave.html",
+            request=request,
+            usr=auth_service.get_current_user(request),
+            title="Erro ao cadastrar aeronave",
+            err=e.detail,
+            data={
+                "modelo": modelo,
+                "total_assentos": total_assentos
+            }
+        )

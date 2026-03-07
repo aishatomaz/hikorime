@@ -10,3 +10,4 @@ def test_calculo_bagagem():
     )
     bagagem.calcular_valor_bagagem()
     assert bagagem
+    

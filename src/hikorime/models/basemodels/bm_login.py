@@ -6,3 +6,4 @@ class LoginRequest(BaseModel):
     email: EmailStr
     senha: str
 
+login_request = LoginRequest
