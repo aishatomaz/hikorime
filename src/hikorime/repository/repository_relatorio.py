@@ -1,4 +1,5 @@
 from hikorime.repository.repository_connection import RepositoryConnection
+import json
 
 
 class RelatorioRepository:
@@ -9,68 +10,78 @@ Aqui, ela não usa as bibibliotas (no caso, pandas e matplotlib), apenas realiza
 
     def get_quantidade_voo_semanal(self):
         query = """
-        SELECT COUNT(*)
+        SELECT 
+        strftime('%Y', data_saida) || '-S' || strftime('%W', data_saida) AS semana,
+        COUNT(*) AS quantidade_voos
         FROM voos
-        WHERE data_hora_partida >= date('now', 'weekday 1', '-7 days')
-          AND data_hora_partida < date('now', 'weekday 1');
+        GROUP BY semana
+        ORDER BY semana;
         """
         return self.conn.get_many(query)
-
 
     def get_quantidade_voo_mensal(self):
         query = """
-        SELECT COUNT(*)
+        SELECT 
+        strftime('%Y-%m', data_saida) AS mes,
+        COUNT(*) AS quantidade_voos
         FROM voos
-        WHERE data_hora_partida >= date('now', 'start of month')
-        AND data_hora_partida < date('now', 'start of month', '+1 month');
+        GROUP BY mes
+        ORDER BY mes;
         """
         return self.conn.get_many(query)
 
-
     def get_quantidade_voo_anual(self):
         query = """
-        SELECT COUNT(*)
+        SELECT 
+        strftime('%Y', data_saida) AS ano,
+        COUNT(*) AS quantidade_voos
         FROM voos
-        WHERE data_hora_partida >= date('now', 'start of year')
-        AND data_hora_partida < date('now', 'start of year', '+1 year');
+        GROUP BY ano
+        ORDER BY ano;
         """
         return self.conn.get_many(query)
 
     def get_faturamento_semanal(self):
         query = """
-        SELECT COALESCE(SUM(valor_total), 0) AS faturamento_semana
+        SELECT 
+        strftime('%Y', data_compra) || '-S' || strftime('%W', data_compra) AS semana,
+        SUM(valor_compra) AS faturamento
         FROM compras
-        WHERE data_compra >= date('now', 'weekday 1', '-7 days')
-        AND data_compra < date('now', 'weekday 1');
+        GROUP BY semana
+        ORDER BY semana;
         """
         return self.conn.get_many(query)
 
 
     def get_faturamento_mensal(self):
-        query = """SELECT COALESCE(SUM(valor_total), 0) AS faturamento_mes
+        query = """
+        SELECT 
+        strftime('%Y-%m', data_compra) AS mes,
+        SUM(valor_compra) AS faturamento
         FROM compras
-        WHERE data_compra >= date('now', 'start of month')
-        AND data_compra < date('now', 'start of month', '+1 month');
+        GROUP BY mes
+        ORDER BY mes;
         """
         return self.conn.get_many(query)
 
-
     def get_faturamento_anual(self):
-        query = """SELECT COALESCE(SUM(valor_total), 0) AS faturamento_ano
+        query = """
+        SELECT 
+        strftime('%Y', data_compra) AS ano,
+        SUM(valor_compra) AS faturamento
         FROM compras
-        WHERE data_compra >= date('now', 'start of year')
+        GROUP BY ano
+        ORDER BY ano;
         """
         return self.conn.get_many(query)
 
 
     def get_passageiro_comprou_mais_passagens(self):
         query = """
-        SELECT passageiro_id, COUNT(*) as quantidade
-        FROM passagens_vendidas 
-        GROUP BY passageiro_id
+        SELECT id_passageiro, COUNT(*) AS quantidade
+        FROM passagens
+        GROUP BY id_passageiro
         ORDER BY quantidade DESC
         LIMIT 5;
         """
         return self.conn.get_many(query)
-        
-        

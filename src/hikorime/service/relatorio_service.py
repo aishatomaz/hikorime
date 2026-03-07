@@ -1,120 +1,55 @@
-import pandas as pd
-import matplotlib.pyplot as plt
 from hikorime.repository.repository_relatorio import RelatorioRepository
-
+import json 
 class RelatorioService:
     def __init__(self):
         self.repo = RelatorioRepository()
 
-    def quantidade_voo_semanal(self):
+    def quantidade_voos_semanal(self):
         dados = self.repo.get_quantidade_voo_semanal()
-        df = pd.DataFrame(dados, columns=["semana", "quantidade"])
-        df.plot(
-            kind="bar",
-            x="semana",
-            y="quantidade",
-            legend=False,
-        )
-        plt.title("Quantidade de voos na semana atual")
-        plt.show()
-        return df
+        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
+        return resultado_json
 
     def quantidade_voo_mensal(self):
         dados = self.repo.get_quantidade_voo_mensal()
-        df = pd.DataFrame(dados, columns=["mes", "quantidade"])
-        df.plot (
-            kind="bar",
-            x="mes",
-            y="quantidade",
-            legend=False,
-        )
-        plt.title("Quantidade de voos no mês atual")
-        plt.show()
-        return df
-
+        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
+        return resultado_json
+    
     def quantidade_voo_anual(self):
-        dados = self.repo.get_quantidade_voo_mensal()
-        df = pd.DataFrame(dados, columns=["ano", "quantidade"])
-        df.plot (
-            kind="bar",
-            x="ano",
-            y="quantidade",
-            legend=False,
-        )
-        plt.title("Quantidade de voos no ano atual")
-        plt.show()
-        return df
-
+        dados = self.repo.get_quantidade_voo_anual()
+        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
+        return resultado_json
+    
     def faturamento_semanal(self):
-        dados = self.repo.get_faturamento_mensal()
-        df = pd.DataFrame(dados, columns=["mes", "faturamento"])
-        df["mes"] = pd.to_datetime(df["mes"])
-        df = df.sort_values("mes")
-        df.plot(
-            kind="bar",
-            x="mes",
-            y="faturamento",
-            legend=False,
-        )
-        plt.xlabel("Mês")
-        plt.ylabel("Faturamento")
-        plt.title("Faturamento Semanal")
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.show()
-        return df
+        dados = self.repo.get_faturamento_semanal()
+        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
+        return resultado_json
 
     def faturamento_mensal(self):
         dados = self.repo.get_faturamento_mensal()
-        df = pd.DataFrame(dados, columns=["mes", "faturamento"])
-        df["mes"] = pd.to_datetime(df["mes"])
-        df = df.sort_values("mes")
-        df.plot(
-            kind="bar",
-            x="mes",
-            y="faturamento",
-            legend=False,
-        )
-        plt.xlabel("Mês")
-        plt.ylabel("Faturamento")
-        plt.title("Faturamento Mensal")
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.show()
-        return df
-
+        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
+        return resultado_json
+    
     def faturamento_anual(self):
         dados = self.repo.get_faturamento_anual()
-        df = pd.DataFrame(dados, columns=["ano", "faturamento"])
-        df["ano"] = pd.to_datetime(df["ano"])
-        df = df.sort_values("ano")
-        df.plot(
-            kind="bar",
-            x="ano",
-            y="faturamento",
-            legend=False,
-        )
-        plt.xlabel("Ano")
-        plt.ylabel("Faturamento")
-        plt.title("Faturamento Anual")
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.show()
-        return df
-
-    def grafico_passageiro_comprou_mais_passagens(self):
+        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
+        return resultado_json
+    
+    def passageiro_comprou_mais_passagens(self):
         dados = self.repo.get_passageiro_comprou_mais_passagens()
-        df = pd.DataFrame(dados, columns=["passageiro_id", "quantidade"])
-        df["passageiro_id"] = df["passageiro_id"].astype(str)
-        df.plot(
-            kind="bar",
-            x="passageiro_id",
-            y="quantidade",
-            legend=False,
-        )
-        plt.xlabel("Passageiro ID")
-        plt.ylabel("Quantidade de Passagens")
-        plt.title("Top 5 passageiros que mais compraram passagens")
-        plt.tight_layout()
-        plt.show()
-        return df
+        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
+        return resultado_json
+
+    def todos_relatorios(self, arquivo="relatorios.json"):
+        relatorios = {
+            "quantidade_voos_semanal": self.repo.get_quantidade_voo_semanal(),
+            "quantidade_voos_mensal": self.repo.get_quantidade_voo_mensal(),
+            "quantidade_voos_anual": self.repo.get_quantidade_voo_anual(),
+            "faturamento_semanal": self.repo.get_faturamento_semanal(),
+            "faturamento_mensal": self.repo.get_faturamento_mensal(),
+            "faturamento_anual": self.repo.get_faturamento_anual(),
+            "top_passageiros": self.repo.get_passageiro_comprou_mais_passagens()
+        }
+
+        with open(arquivo, "w", encoding="utf-8") as f:
+            json.dump(relatorios, f, indent=4, ensure_ascii=False)
+        return relatorios

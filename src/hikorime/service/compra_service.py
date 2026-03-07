@@ -95,3 +95,6 @@ class CompraService(BaseService):
 
     def get_passagens_by_passageiro_id(self, passageiro_id: int):
         return self.service.get_passagens_by_passageiro(passageiro_id)
+
+
+#
