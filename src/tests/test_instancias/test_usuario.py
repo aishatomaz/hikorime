@@ -11,10 +11,10 @@ def test_criar_usuario_base():
         email="carlos.santos@example.com",
         cpf="11223344556",
         senha="senha789",
-        tipo=TipoUsuario.PASSAGEIRO  # Ou outro tipo válido 
+        tipo_usuario=TipoUsuario.PASSAGEIRO
     )
     assert usuario.nome == "Carlos Santos"
     assert usuario.email == "carlos.santos@example.com"
     assert usuario.cpf == "11223344556"
     assert usuario.senha == "senha789"
-    assert usuario.tipo == TipoUsuario.PASSAGEIRO
+    assert usuario.tipo_usuario == TipoUsuario.PASSAGEIRO

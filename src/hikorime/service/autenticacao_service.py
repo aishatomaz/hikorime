@@ -33,21 +33,21 @@ class AutenticacaoService:
             email=dados.email,
             cpf=dados.cpf,
             senha=dados.senha,
-            tipo_usuario=dados.tipo_usuario.value,
+            tipo=dados.tipo.value,
         )
 
-        id_usuario = result["id"]
+        usuario_id = result["id"]
 
         # Salvar na tabela de passageiros
-        self.repo_passageiro.save(id_usuario=id_usuario, passaporte=dados.passaporte)
+        self.repo_passageiro.save(usuario_id=usuario_id, passaporte=dados.passaporte)
         
         return {
             "message": "Passageiro registrado com sucesso",
             "usuario": {
-                "id_usuario": id_usuario,
+                "id": usuario_id,
                 "nome": dados.nome,
                 "email": dados.email,
-                "tipo_usuario":dados.tipo_usuario.value,
+                "tipo":dados.tipo.value,
             }
         }
 
@@ -60,27 +60,26 @@ class AutenticacaoService:
             )
 
         # Salvar na tabela de usuários
-        id_usuario = self.repo_usuario.save(
+        usuario_id = self.repo_usuario.save(
             nome=dados.nome,
             email=dados.email,
             cpf=dados.cpf,
             senha=dados.senha,
-            tipo_usuario=dados.tipo_usuario.value,
-            data_nascimento=dados.data_nascimento,
+            tipo=dados.tipo.value,
         )
 
         # Salvar na tabela de funcionários
         self.repo_funcionario.save(
-            id_usuario=id_usuario, cargo=dados.cargo, matricula=dados.matricula
+            usuario_id=usuario_id, cargo=dados.cargo, matricula=dados.matricula
         )
 
         return {
             "message": "Funcionário registrado com sucesso",
             "usuario": {
-                "id_usuario": id_usuario,
+                "id": usuario_id,
                 "nome": dados.nome,
                 "email": dados.email,
-                "tipo_usuario":dados.tipo_usuario.value,
+                "tipo":dados.tipo.value,
             }
         }
         
@@ -88,7 +87,7 @@ class AutenticacaoService:
         usuarios = self.repo_usuario.get_by_column_name("email", credentials.email)
 
         if not usuarios:
-            #ao tentar acessar login que não existe deve ser lançada a exceção de credencias inválidas
+            #ao tentar acessar login que nao existe deve ser lançada a exceção de credencias inválidas
             raise HTTPException(status_code=401, detail="Credenciais inválidas")
 
         user = usuarios[0]
@@ -99,9 +98,10 @@ class AutenticacaoService:
         return {
             "message": "Login realizado com sucesso",
             "usuario": {
-                "id_usuario": user["id_usuario"],
+                "id": user["id"],
                 "nome": user["nome"],
                 "email": user["email"],
-                "tipo_usuario": user["tipo_usuario"],
+                "tipo": user["tipo"],
             },
         }
+    

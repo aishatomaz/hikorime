@@ -1,6 +1,6 @@
-from base_service import BaseService
-from repository.repository_querys import RepositoryQuerys
-from models.basemodels.bm_aeronave import Aeronave
+from hikorime.service.base_service import BaseService
+from hikorime.repository.repository_querys import RepositoryQuerys
+from hikorime.models.basemodels.bm_aeronave import Aeronave
 
 class AeronaveService(BaseService):
 
