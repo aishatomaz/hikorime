@@ -10,22 +10,36 @@
         <main>
             <h2>Insira os Dados da Aeronave</h2>
 
-            <form action="/voo/cadastrar-aeronave" method="post">
+            <form action="/voos/cadastrar-aeronave" method="post">
                  <section>
                     <h3>Dados da Aeronave</h3>
                      <div>
                          <label for="modelo">Modelo da Aeronave</label>
-                         <input id="modelo" name="modelo" type="text">
+                         <input
+                             id="modelo"
+                             name="modelo"
+                             type="text"
+                             value="{{ data.modelo or '' }}"
+                             required
+                         >
                      </div>
 
                      <div>
                          <label for="total_assentos">Total de Assentos</label>
-                         <input id="total_assentos" name="total_assentos" type="text">
+                         <input
+                            id="total_assentos"
+                            name="total_assentos"
+                            type="number"
+                            value="{{ data.total_assentos or '' }}"
+                            required
+                         >
                      </div>
                 </section>
 
                 <section>
-                    <button type="submit">Cadastrar Voo</button>
+                    <button type="submit">
+                        Cadastrar Aeronave
+                    </button>
                 </section>
             </form>
         </main>

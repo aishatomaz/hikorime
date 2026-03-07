@@ -10,14 +10,16 @@
         <main>
             <h2>Insira os dados do voo</h2>
 
-            <form action="/voo/cadastrar" method="post">
+            <form action="/voos/cadastrar" method="post">
                  <section>
                     <h3>Dados da Aeronave</h3>
 
                     <div>
                         <label for="id_aeronave">Aeronave</label>
                         <select id="id_aeronave" name="id_aeronave" required>
-                        <option value="" disabled selected>Selecione uma Aeronave</option>
+                            <option value="" disabled selected>
+                                Selecione uma Aeronave
+                            </option>
 
                             {% for aeronave in aeronaves %}
                                 <option value="{{ aeronave.id_aeronave }}">
@@ -33,12 +35,24 @@
 
                     <div>
                         <label for="data_hora_partida">Data e Hora de Partida</label>
-                        <input id="data_hora_partida" name="data_hora_partida" type="datetime-local" required>
+                        <input
+                            id="data_hora_partida"
+                            name="data_hora_partida"
+                            type="datetime-local"
+                            value="{{ data.data_hora_partida or '' }}"
+                            required
+                        >
                     </div>
 
                     <div>
                         <label for="data_hora_chegada">Data e Hora de Chegada</label>
-                        <input id="data_hora_chegada" name="data_hora_chegada" type="datetime-local" required>
+                        <input
+                            id="data_hora_chegada"
+                            name="data_hora_chegada"
+                            type="datetime-local"
+                            value="{{ data.data_hora_chegada or '' }}"
+                            required
+                        >
                     </div>
                 </section>
 
@@ -47,22 +61,46 @@
 
                     <div>
                         <label for="local_origem">Local de Origem</label>
-                        <input id="local_origem" name="local_origem" type="text">
+                        <input
+                            id="local_origem"
+                            name="local_origem"
+                            type="text"
+                            value="{{ data.local_origem or '' }}"
+                            required
+                        >
                     </div>
 
                     <div>
                         <label for="local_destino">Local Destino</label>
-                        <input id="local_destino" name="local_destino" type="text">
+                        <input
+                            id="local_destino"
+                            name="local_destino"
+                            type="text"
+                            value="{{ data.local_destino or '' }}"
+                            required
+                        >
                     </div>
 
                     <div>
                         <label for="terminal">Terminal</label>
-                        <input id="terminal" name="terminal" type="text">
+                        <input
+                            id="terminal"
+                            name="terminal"
+                            type="text"
+                            value="{{ data.terminal or '' }}"
+                            required
+                        >
                     </div>
 
                     <div>
                         <label for="portao_embarque">Portão de Embarque</label>
-                        <input id="portao_embarque" name="portao_embarque" type="text">
+                        <input
+                            id="portao_embarque"
+                            name="portao_embarque"
+                            type="text"
+                            value="{{ data.portao_embarque or '' }}"
+                            required
+                        >
                     </div>
                 </section>
 
@@ -71,12 +109,19 @@
 
                     <div>
                         <label for="valor_base_passagem">Valor base da passagem</label>
-                        <input id="valor_base_passagem" name="valor_base_passagem" type="number">
+                        <input
+                            id="valor_base_passagem"
+                            name="valor_base_passagem"
+                            type="number"
+                            required
+                        >
                     </div>
                 </section>
 
                 <section>
-                    <button type="submit">Cadastrar Voo</button>
+                    <button type="submit">
+                        Cadastrar Voo
+                    </button>
                 </section>
             </form>
         </main>

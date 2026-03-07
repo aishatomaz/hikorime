@@ -44,7 +44,7 @@ def exibir_minhas_passagens(request: Request):
     )
 
 
-@passagens_router.get("/comprar")
+@passagens_router.get("/comprar/{id_voo:int}")
 def exibir_comprar_passagem(
     request: Request,
     id_voo: int,
@@ -52,7 +52,7 @@ def exibir_comprar_passagem(
     """
     Exibe a tela de compra de passagens.
     """
-    HikorimeUI.render(
+    return HikorimeUI.render(
         template="passagens/comprar.html",
         request=request,
         usr=auth_service.get_current_user(request),

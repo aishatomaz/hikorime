@@ -8,12 +8,11 @@ class AeronaveService(BaseService):
     def __init__(self):
         self.repo = RepositoryQuerys("aeronaves")
 
-    def cadastrar_aeronave(self, aeronave_data: dict):
+    def cadastrar_aeronave(self, aeronave: Aeronave):
         """
         Cadastra uma nova aeronave usando os campos do BaseModel
         """
         try:
-            aeronave = Aeronave(**aeronave_data)
             return self.save(aeronave)
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Erro ao criar voo: {str(e)}")
