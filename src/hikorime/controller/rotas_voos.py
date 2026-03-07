@@ -23,14 +23,16 @@ def exibir_voos_disponiveis(
     """
     Exibe a lista de voos disponiveis.
     """
-    #voos: dict = voos_service.get_all() # TODO: CONSERTAR EERO NO SERVICE
+    voos: dict = voos_service.get_all()
+    # TODO: CONSERTAR ERRO NO SERVICE
 
     return HikorimeUI.render(
         template="voos/disponiveis.html",
         request=request,
         title="Voos Disponiveis",
         usr=auth_service.get_current_user(request),
-        #voos=voos, # TODO: CONSERTAR ERRO NO SERVICE
+        voos=voos,
+        # TODO: CONSERTAR ERRO NO SERVICE
     )
 
 
@@ -48,7 +50,8 @@ def exibir_cadastrar_voo(
         request=request,
         title="Cadastrar Voo",
         usr=auth_service.get_current_user(request),
-        #aeronaves # TODO: CRIAR FUNÇÃO QUE RETORNE TODAS AS AERONAVES
+        #aeronaves
+        # TODO: CRIAR FUNÇÃO QUE RETORNE TODAS AS AERONAVES
     )
 
 # Somente para funcionários
@@ -85,7 +88,8 @@ def cadastrar_voo(
             template="index.html",
             request=request,
             usr=auth_service.get_current_user(request),
-            #msg=result.msg # TODO: RETURN DA MSG DE SUCESSO
+            #msg=result.msg
+            # TODO: RETURN DA MSG DE SUCESSO
         )
 
 

@@ -1,4 +1,4 @@
-{% extends "layouts/base.html %}
+{% extends "layouts/base.html" %}
 
 {% block body %}
     {% if usr %}
@@ -40,8 +40,7 @@
         </main>
 
     {% else %}
-        <p>
-            Faça login para ter acesso a visualização de passagens
-        </p>
+        <h1>Acesso Indisponível :(</h1>
+        <p>Faça login para ter acesso a visualização de passagens</p>
     {% endif %}
 {% endblock body %}

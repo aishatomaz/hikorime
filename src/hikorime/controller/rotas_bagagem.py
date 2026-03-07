@@ -4,4 +4,4 @@ from hikorime.service.bagagem_service import BagagemService
 
 service = BagagemService()
 
-route = create_generic_router(schema=Bagagem, service=service)
+

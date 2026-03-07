@@ -4,5 +4,12 @@ from enum import Enum
 evitando o manuseio inadequado.'''
 
 class TipoBagagem(Enum):
-    FRAGIL = "FRAGIL"
-    NORMAL = "NORMAL"
+    FRAGIL = "frágil"
+    NORMAL = "normal"
+
+    @classmethod
+    def enum_to_dict(cls):
+        """
+        Converte o Enum para um dicionário
+        """
+        return {item.name: item.value for item in cls}

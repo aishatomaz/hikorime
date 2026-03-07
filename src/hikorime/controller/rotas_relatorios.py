@@ -36,6 +36,3 @@ def relatorio_passageiros_que_mais_compraram_passagens():
 @relatorios_routes.get("/todos_relatorios")
 def relatorio_todos_relatorios():
     return relatorio_service.todos_relatorios()
-
-app = FastAPI()
-app.include_router(relatorios_routes)
