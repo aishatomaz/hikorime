@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS "compras" (
     "id_passagem" INTEGER,
     "id_bagagem" INTEGER,
     "id_cupom" INTEGER,
+    "data_compra" DATE,
     "tipo_pagamento" TEXT,
     "valor_pago" REAL,
     FOREIGN KEY ("id_passagem") REFERENCES "passagens" ("id_passagem"),

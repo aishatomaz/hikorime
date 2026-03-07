@@ -21,6 +21,10 @@ class RepositoryConnection:
         connect.executescript(sql)
         connect.commit()
 
+
+        connect = sqlite3.connect(self.db_path)
+        connect.commit()
+
     def _connect(
         self,
     ):  # Isso tambem serve para fechar o repositorio, entao nao preciso usar o finally
@@ -136,3 +140,7 @@ class RepositoryConnection:
             cursor.execute(query, params)
             conn.commit()
             return cursor.rowcount
+
+
+
+
