@@ -32,4 +32,3 @@ def test_validade_none():
     """Verifica se a validade inserida é nula"""
     with pytest.raises(ValueError):
         Cupom(10.0, None, StatusCupom)
-

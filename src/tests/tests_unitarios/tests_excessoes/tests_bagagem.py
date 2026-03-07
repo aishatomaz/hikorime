@@ -21,4 +21,3 @@ def test_peso_no_limite():
     limite = ConstantesBagagem.PESO_MAXIMO.value
     bagagem = Bagagem(limite, TipoBagagem.NORMAL)
     assert bagagem.peso == limite
-
