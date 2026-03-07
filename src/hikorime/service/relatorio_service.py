@@ -1,6 +1,8 @@
 from hikorime.repository.repository_relatorio import RelatorioRepository
 import json 
 class RelatorioService:
+    '''O service de Relatório foi alterado para gerear os relatórios em JSON. Importa as consultas específicas de Repository e
+    retorna um JSON dessas consultas'''
     def __init__(self):
         self.repo = RelatorioRepository()
 
