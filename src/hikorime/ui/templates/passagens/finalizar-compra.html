@@ -1,0 +1,92 @@
+// Exibe detalhes do Voo, Passagem e Cupons disponíveis.
+// Permite selecionar um cupom e tipo de pagamento para finalizar a compra.
+
+{% extends "layouts/base.html" %}
+
+{% block body %}
+    {% if usr %}
+        <header>
+            <h1>Finalizar Compra</h1>
+        </header>
+
+        <main>
+            {% if err %}
+                <div style="color: red; margin-bottom: 20px;">
+                    <strong>Erro:</strong> {{ err }}
+                </div>
+            {% endif %}
+
+            <section>
+                <h2>Informações da Passagem e Voo</h2>
+                <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <th>Origem</th>
+                        <td>{{ passagem.local_origem }}</td>
+                    </tr>
+                    <tr>
+                        <th>Destino</th>
+                        <td>{{ passagem.local_destino }}</td>
+                    </tr>
+                    <tr>
+                        <th>Data/Hora Partida</th>
+                        <td>{{ passagem.data_hora_partida }}</td>
+                    </tr>
+                    <tr>
+                        <th>Data/Hora Chegada</th>
+                        <td>{{ passagem.data_hora_chegada }}</td>
+                    </tr>
+                    <tr>
+                        <th>Terminal / Portão</th>
+                        <td>{{ passagem.terminal }} / {{ passagem.portao_embarque }}</td>
+                    </tr>
+                    <tr>
+                        <th>Assento</th>
+                        <td>{{ passagem.assento }}</td>
+                    </tr>
+                    <tr>
+                        <th>Valor Base</th>
+                        <td>R$ {{ "%.2f"|format(passagem.valor_base_passagem) }}</td>
+                    </tr>
+                </table>
+            </section>
+
+            <section style="margin-top: 30px;">
+                <form action="/passagens/finalizar-compra" method="post">
+                    <input type="hidden" name="id_passagem" value="{{ passagem.id_passagem }}">
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h3>Selecione um Cupom (Opcional)</h3>
+                        <p><small>Valor mínimo de compra para desconto: R$ 250,00</small></p>
+                        {% if cupons %}
+                            <select name="id_cupom">
+                                <option value="">Nenhum cupom selecionado</option>
+                                {% for cupom in cupons %}
+                                    <option value="{{ cupom.id_cupom }}">
+                                        Desconto de {{ (cupom.percentual_desconto * 100)|int }}% - Validade: {{ cupom.validade }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        {% else %}
+                            <p>Você não possui cupons disponíveis no momento.</p>
+                        {% endif %}
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h3>Tipo de Pagamento</h3>
+                        <select name="tipo_pagamento" required>
+                            {% for key, value in tipos_pagamento.items() %}
+                                <option value="{{ value }}">{{ key }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+                        Confirmar Pagamento
+                    </button>
+                </form>
+            </section>
+        </main>
+    {% else %}
+        <p>Faça login para finalizar sua compra.</p>
+    {% endif %}
+{% endblock body %}

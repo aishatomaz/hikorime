@@ -1,46 +1,53 @@
+// Histórico completo com valores gastos
+
 {% extends "layouts/base.html" %}
 
 {% block body %}
     {% if usr %}
         <header>
-            <h1>Minhas Passagens</h1>
+            <h1>Minhas Passagens e Compras</h1>
         </header>
 
         <main>
             {% if passagens %}
-                {% for p in passagens %}
-                    <section>
-                        <div>
-                            <h3>Origem</h3>
-                            <p>{{ p.data_hora_partida }}</p>
-                            <p>{{ p.local_origem }}</p>
-                        </div>
-
-                        <div>
-                            <h3>Destino</h3>
-                            <p>{{ p.data_hora_chegada }}</p>
-                            <p>{{ p.local_destino }}</p>
-                        </div>
-
-                        <div>
-                            <h3>Informações de Embarque</h3>
-                            <p>Terminal: {{ p.terminal }}</p>
-                            <p>Portão de Embarque: {{ p.portao_embarque }}</p>
-                            <p>Assento: {{ p.assento }}</p>
-                        </div>
-                    </section>
-                {% endfor %}
+                <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr style="background-color: #c2eafa;">
+                            <th>Data da Compra</th>
+                            <th>Voo (Origem - Destino)</th>
+                            <th>Partida - Chegada</th>
+                            <th>Assento</th>
+                            <th>Tipo de Pagamento</th>
+                            <th>Valor Gasto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in passagens %}
+                            <tr>
+                                <td>{{ p.data_compra }}</td>
+                                <td>{{ p.local_origem }} -> {{ p.local_destino }}</td>
+                                <td>{{ p.data_hora_partida }} - {{ p.data_hora_chegada }}</td>
+                                <td>{{ p.assento }}</td>
+                                <td>{{ p.tipo_pagamento }}</td>
+                                <td><strong>R$ {{ "%.2f"|format(p.valor_pago) }}</strong></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                <p style="margin-top: 20px;">
+                    <small>A cada 3 compras você ganha um novo cupom de desconto!</small>
+                </p>
 
             {% else %}
-
                 <section>
-                    <p>Você não tem passagens cadastradas</p>
+                    <p>Você não tem compras ou passagens registradas.</p>
                 </section>
             {% endif %}
         </main>
 
     {% else %}
         <h1>Acesso Indisponível :(</h1>
-        <p>Faça login para ter acesso a visualização de passagens</p>
+        <p>Faça login para ter acesso a visualização de passagens e histórico de compras.</p>
     {% endif %}
 {% endblock body %}

@@ -15,7 +15,17 @@
         {% endblock head %}
     </head>
 
+    // Barra de navegação
     <body>
+        <nav style="background-color: #333; color: white; padding: 10px; margin-bottom: 20px;">
+            <a href="/" style="color: white; margin-right: 15px; text-decoration: none;">Início</a>
+            <a href="/voos/disponiveis" style="color: white; margin-right: 15px; text-decoration: none;">Voos Disponíveis</a>
+            {% if usr %}
+                <a href="/passagens/minhas-passagens" style="color: white; margin-right: 15px; text-decoration: none;">Minhas Compras</a>
+                <a href="/passagens/cupons" style="color: white; margin-right: 15px; text-decoration: none;">Meus Cupons</a>
+            {% endif %}
+        </nav>
+
         {% block body %}
         {% endblock body %}
 
@@ -26,11 +36,11 @@
         </section>
 
         {% block footer %}
-            <footer>
+            <footer style="margin-top: 50px; border-top: 1px solid #ccc; padding-top: 20px;">
                 {% if usr %}
                     <section>
                         <p>
-                            Conectado como {{ usr.nome }}, <br>
+                            Conectado como {{ usr.nome }} ({{ usr.tipo_usuario }}), <br>
                             {{ usr.email }}
                         </p>
 
