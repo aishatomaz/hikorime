@@ -20,32 +20,19 @@ class RepositoryConnection:
         connect = sqlite3.connect(self.db_path)
         connect.executescript(sql)
         connect.commit()
-
-
-        connect = sqlite3.connect(self.db_path)
-        connect.commit()
+        connect.close()
 
     def _connect(
         self,
     ):  # Isso tambem serve para fechar o repositorio, entao nao preciso usar o finally
         conn = sqlite3.connect(self.db_path)
-        conn.execute("PRAGMA foreign_key = ON ;")  # habilita chavas estangeiras
+        conn.execute("PRAGMA foreign_keys = ON;")  # Corrigido: foreign_keys
         conn.row_factory = sqlite3.Row  # Vou poder usar dicionarios e tuplas com isso
         return conn
 
     def save(self, query: str, params: Tuple | dict = ()) -> int | None:
         """
         Funcao de criar novas entradas na tabela.
-
-        SqlType:
-            INSERT
-
-        Args:
-            query: Query sql pura.
-            params: Parametros da query em tupla ou dict.
-
-        Returns:
-            Retorna o id do que foi criado (se tiver erro, retorna None.)
         """
         try:
             with self._connect() as conn:
@@ -61,18 +48,7 @@ class RepositoryConnection:
     ) -> Optional[Dict[Any, Any]]:
         """
         Funcao de retirar apenas uma entradas da tabela.
-
-        SqlType:
-            GET
-
-        Args:
-            query: Query sql pura.
-            params: Parametros da query em tupla ou dict.
-
-        Returns:
-            registro afetado
         """
-
         with self._connect() as conn:
             cursor = conn.cursor()
             cursor.execute(query, params)
@@ -82,18 +58,7 @@ class RepositoryConnection:
     def get_many(self, query: str, params: Tuple | dict[str, Any] = ()) -> List[Dict]:
         """
         Funcao de retirar varias entradas da tabela (Inclusive get_all).
-
-        SqlType:
-            GET
-
-        Args:
-            query: Query sql pura.
-            params: Parametros da query em tupla ou dict.
-
-        Returns:
-            Lista de dicionarios contendo os dados dos registros
         """
-
         with self._connect() as conn:
             cursor = conn.cursor()
             cursor.execute(query, params)
@@ -103,16 +68,6 @@ class RepositoryConnection:
     def update(self, query: str, params: Tuple | dict = ()) -> int:
         """
         Funcao que modifica parametros de linhas da tabela.
-
-        SqlType:
-            UPDATE(PUT), LIKE
-
-        Args:
-            query: Query sql pura.
-            params: Parametros da query em tupla ou dict.
-
-        Returns:
-            quantidade de linhas afetadas.
         """
         with self._connect() as conn:
             cursor = conn.cursor()
@@ -123,24 +78,9 @@ class RepositoryConnection:
     def delete(self, query: str, params: Tuple | dict = ()) -> int:
         """
         Funcao que deleta uma linha da tabela.
-
-        SqlType:
-            DELETE
-
-        Args:
-            query: Query sql pura.
-            params: Parametros da query em tupla ou dict.
-
-        Returns:
-            Quantidade de Linhas afetadas
         """
-
         with self._connect() as conn:
             cursor = conn.cursor()
             cursor.execute(query, params)
             conn.commit()
             return cursor.rowcount
-
-
-
-
