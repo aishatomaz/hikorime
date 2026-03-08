@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Request
 from fastapi.params import Form
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
+from datetime import date
 
 from hikorime.models.basemodels.bm_passagem import Passagem
 from hikorime.models.basemodels.bm_cupom import Cupom
@@ -29,22 +30,26 @@ passagens_router = APIRouter(prefix="/passagens", tags=["passagens", "compras"])
 @passagens_router.get("/minhas-passagens")
 def exibir_minhas_passagens(request: Request):
     """
-    Exibe a lista de passagens associadas a um usuário.
+    Exibe o histórico de compras do passageiro.
     """
-    #passagens: dict = passagens_service.get_passagem_by_passageiro(id_passageiro)
-    # TODO: RETORNAR INFO DE PASSAGEM + VOO + CUPOM
+    usr = auth_service.get_current_user(request)
+    if not usr:
+        return RedirectResponse(url="/registro/login", status_code=303)
+        
+    id_passageiro = usr["id_usuario"]
+    # Retornar histórico de compras (incluindo valor gasto)
+    compras = compra_service.get_compras_by_passageiro(id_passageiro)
 
     return HikorimeUI.render(
         template="passagens/minhas-passagens.html",
         request=request,
-        title="Minhas Passagens",
-        usr=auth_service.get_current_user(request),
-        #passagens=passagens,
-        # TODO: RETORNAR INFO DE PASSAGEM + VOO + CUPOM
+        title="Minhas Passagens e Compras",
+        usr=usr,
+        passagens=compras,
     )
 
 
-@passagens_router.get("/comprar/{id_voo:int}")
+@passagens_router.get("/comprar")
 def exibir_comprar_passagem(
     request: Request,
     id_voo: int,
@@ -52,10 +57,14 @@ def exibir_comprar_passagem(
     """
     Exibe a tela de compra de passagens.
     """
+    usr = auth_service.get_current_user(request)
+    if not usr:
+        return RedirectResponse(url="/registro/login", status_code=303)
+
     return HikorimeUI.render(
         template="passagens/comprar.html",
         request=request,
-        usr=auth_service.get_current_user(request),
+        usr=usr,
         title="Comprar Passagem",
         id_voo=id_voo,
     )
@@ -65,10 +74,12 @@ def exibir_comprar_passagem(
 def comprar_passagem(
     request: Request,
     id_voo: int = Form(...),
-    assento: int = Form(...),
+    assento: str = Form(...),
 ):
-
     usr = auth_service.get_current_user(request)
+    if not usr:
+        return RedirectResponse(url="/registro/login", status_code=303)
+        
     id_passageiro = usr["id_usuario"]
 
     dados_passagem = Passagem(
@@ -78,21 +89,18 @@ def comprar_passagem(
     )
 
     try:
-        passagem: dict = passagens_service.create_passagem(dados_passagem)
-
-        return HikorimeUI.render(
-            template="passagens/finalizar-compra.html",
-            request=request,
-            title="Finalizar Compra",
-            usr=auth_service.get_current_user(request),
-            passagem=passagem,
-        )
+        # Cria a passagem primeiro
+        passagem_criada: dict = passagens_service.create_passagem(dados_passagem)
+        id_passagem = passagem_criada["id"]
+        
+        # Redireciona para finalizar compra com detalhes
+        return RedirectResponse(url=f"/passagens/finalizar-compra?id_passagem={id_passagem}", status_code=303)
 
     except HTTPException as e:
         return HikorimeUI.render(
             template="passagens/comprar.html",
             request=request,
-            usr=auth_service.get_current_user(request),
+            usr=usr,
             title="Falha ao Comprar Passagem",
             err=e.detail,
         )
@@ -101,52 +109,85 @@ def comprar_passagem(
 @passagens_router.get("/finalizar-compra")
 def exibir_finalizar_compra(
     request: Request,
-    passagem: dict,
+    id_passagem: int,
 ):
+    usr = auth_service.get_current_user(request)
+    if not usr:
+        return RedirectResponse(url="/registro/login", status_code=303)
+        
+    id_passageiro = usr["id_usuario"]
+    
+    # Obter detalhes da passagem e voo
+    passagem_detalhada = compra_service.get_passagem_detalhada(id_passagem)
+    
+    # Obter cupons disponíveis para o passageiro
+    cupons_disponiveis = cupom_service.get_cupons_disponiveis(id_passageiro)
+    
     return HikorimeUI.render(
         template="passagens/finalizar-compra.html",
         request=request,
         title="Finalizar Compra",
-        usr=auth_service.get_current_user(request),
-        passagem=passagem,
+        usr=usr,
+        passagem=passagem_detalhada,
+        cupons=cupons_disponiveis,
+        tipos_pagamento=TipoPagamento.enum_to_dict(),
     )
 
 
 @passagens_router.post("/finalizar-compra")
 def finalizar_compra(
     request: Request,
-    passagem: dict,
-    cupom: dict,
+    id_passagem: int = Form(...),
+    id_cupom: int = Form(None),
+    tipo_pagamento: str = Form(...),
 ):
-
-    # TODO: CALCULAR VALOR PASSAGEM CONSIDERANDO O CUPOM
-    valor_pago: float = 0.0
-    tipo_pagamento = TipoPagamento(passagem["tipo_pagamento"])
-
-    dados_compra = Compra(
-        id_passagem=passagem["id_passagem"],
-        id_cupom=cupom["id_cupom"],
-        valor_pago=valor_pago,
-        id_bagagem=0,
-        tipo_pagamento=tipo_pagamento,
-    )
+    usr = auth_service.get_current_user(request)
+    if not usr:
+        return RedirectResponse(url="/registro/login", status_code=303)
+        
+    id_passageiro = usr["id_usuario"]
 
     try:
-        compra_service.save(dados_compra)  # TODO
-        return RedirectResponse(url="passagens/minhas-passagens", status_code=303)
+        dados_compra = {
+            "id_passageiro": id_passageiro,
+            "id_passagem": id_passagem,
+            "id_cupom": id_cupom if id_cupom else None,
+            "tipo_pagamento": TipoPagamento(tipo_pagamento),
+        }
+        
+        compra_service.finalizar_compra(dados_compra)
+        return RedirectResponse(url="/passagens/minhas-passagens", status_code=303)
 
     except HTTPException as e:
+        # Recarregar dados em caso de erro
+        passagem_detalhada = compra_service.get_passagem_detalhada(id_passagem)
+        cupons_disponiveis = cupom_service.get_cupons_disponiveis(id_passageiro)
+        
         return HikorimeUI.render(
             template="passagens/finalizar-compra.html",
             request=request,
             title="Erro ao Finalizar Compra",
-            usr=auth_service.get_current_user(request),
-            detail=e.detail,
+            usr=usr,
+            passagem=passagem_detalhada,
+            cupons=cupons_disponiveis,
+            tipos_pagamento=TipoPagamento.enum_to_dict(),
+            err=e.detail,
         )
 
 
 @passagens_router.get("/cupons")
 def exibir_cupons(request: Request):
-    cupons = cupom_service.get_all()
-    pass
-
+    usr = auth_service.get_current_user(request)
+    if not usr:
+        return RedirectResponse(url="/registro/login", status_code=303)
+        
+    id_passageiro = usr["id_usuario"]
+    cupons = cupom_service.get_cupons_disponiveis(id_passageiro)
+    
+    return HikorimeUI.render(
+        template="passagens/cupons.html", # Assumindo que este template existe ou será criado
+        request=request,
+        title="Meus Cupons",
+        usr=usr,
+        cupons=cupons,
+    )
