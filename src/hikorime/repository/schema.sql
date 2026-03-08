@@ -50,32 +50,45 @@ CREATE TABLE IF NOT EXISTS "passagens" (
     "id_voo" INTEGER,
     "id_passageiro" INTEGER,
     "assento" TEXT,
+    "valor_pago" REAL DEFAULT 0,
+    "data_compra" DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY ("id_voo") REFERENCES "voos" ("id_voo"),
     FOREIGN KEY ("id_passageiro") REFERENCES "passageiros" ("id_passageiro")
 ) ;
 
 CREATE TABLE IF NOT EXISTS "cupons" (
     "id_cupom" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_passageiro" INTEGER,
     "percentual_desconto" REAL,
     "validade" DATE,
-    "status" TEXT
+    "status" TEXT,
+    "usado" INTEGER DEFAULT 0,
+    "data_criacao" DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("id_passageiro") REFERENCES "passageiros" ("id_passageiro")
 ) ;
 
 CREATE TABLE IF NOT EXISTS "bagagens" (
     "id_bagagem" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_passageiro" INTEGER,
     "tipo_bagagem" TEXT,
     "peso" REAL,
-    "valor_bagagem" REAL
+    "valor_bagagem" REAL,
+    "data_criacao" DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("id_passageiro") REFERENCES "passageiros" ("id_passageiro")
 ) ;
 
 CREATE TABLE IF NOT EXISTS "compras" (
     "id_compra" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id_passageiro" INTEGER,
     "id_passagem" INTEGER,
     "id_bagagem" INTEGER,
     "id_cupom" INTEGER,
-    "data_compra" DATE,
+    "data_compra" DATETIME DEFAULT CURRENT_TIMESTAMP,
     "tipo_pagamento" TEXT,
     "valor_pago" REAL,
+    "valor_desconto" REAL DEFAULT 0,
+    "valor_total" REAL,
+    FOREIGN KEY ("id_passageiro") REFERENCES "passageiros" ("id_passageiro"),
     FOREIGN KEY ("id_passagem") REFERENCES "passagens" ("id_passagem"),
     FOREIGN KEY ("id_bagagem") REFERENCES "bagagens" ("id_bagagem"),
     FOREIGN KEY ("id_cupom") REFERENCES "cupons" ("id_cupom")
