@@ -153,7 +153,9 @@ class RepositoryCompra(RepositoryQuerys):
         data = {"cupom_id": cupom_id}
         return RepositoryConnection().update(query, data)
 
-    def criar_cupom(self, passageiro_id: int, percentual_desconto: float, validade: date) -> int:
+    def criar_cupom(
+        self, passageiro_id: int, percentual_desconto: float, validade: date
+    ) -> int:
         """Cria um novo cupom para um passageiro."""
         query = """
             INSERT INTO cupons (id_passageiro, percentual_desconto, validade, status, usado)
@@ -162,7 +164,7 @@ class RepositoryCompra(RepositoryQuerys):
         data = {
             "passageiro_id": passageiro_id,
             "percentual_desconto": percentual_desconto,
-            "validade": validade
+            "validade": validade,
         }
         return RepositoryConnection().save(query, data)
 
@@ -180,7 +182,9 @@ class RepositoryCompra(RepositoryQuerys):
         """
         return RepositoryConnection().save(query, compra_data)
 
-    def get_tickets_disponiveis(self, local_origem: str = None, local_destino: str = None) -> list[dict]:
+    def get_tickets_disponiveis(
+        self, local_origem: str, local_destino: str
+    ) -> list[dict]:
         """Busca passagens disponíveis com filtros opcionais."""
         query = """
             SELECT 
@@ -228,7 +232,10 @@ class RepositoryCompra(RepositoryQuerys):
 
     def count_compras_passageiro(self, id_passageiro: int) -> int:
         """Conta o total de compras de um passageiro."""
-        sql = "SELECT COUNT(*) as total FROM compras WHERE id_passageiro = :id_passageiro"
+        sql = (
+            "SELECT COUNT(*) as total FROM compras WHERE id_passageiro = :id_passageiro"
+        )
         data = {"id_usuario": id_passageiro}
         result = self.connection.get_one(sql, data)
         return result["total"] if result else 0
+

@@ -30,7 +30,7 @@ class RepositoryConnection:
         conn.row_factory = sqlite3.Row  # Vou poder usar dicionarios e tuplas com isso
         return conn
 
-    def save(self, query: str, params: Tuple | dict = ()) -> int | None:
+    def save(self, query: str, params: Tuple | dict = ()) -> int:
         """
         Funcao de criar novas entradas na tabela.
         """
