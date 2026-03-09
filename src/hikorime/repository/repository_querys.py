@@ -190,23 +190,3 @@ class RepositoryQuerys:
                 """
         return self.conn.get_one(query, {"id_usuario": id_usuario})
 
-    conn = RepositoryConnection()
-
-
-    # sql = """
-    # INSERT INTO compras (id_compra, id_passageiro, id_passagem, id_bagagem, id_cupom, data_compra, tipo_pagamento, valor_pago, valor_desconto, valor_total)
-    # VALUES (1, 1, 1, 1, 1, '2026-01-01', 'Pix', 700.0, 500.0, 500.00)
-    # """
-    # conn.save(sql)
-
-    conn = RepositoryConnection()
-
-
-    sql = """
-    INSERT INTO passagens (id_passagem, id_voo, id_passageiro, assento, valor_pago, data_compra)
-    VALUES (10, 1, 1, 20, 500.00, '2026-01-01')
-    """
-
-
-    conn.save(sql)
-

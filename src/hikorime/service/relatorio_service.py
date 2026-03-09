@@ -48,11 +48,3 @@ class RelatorioService:
         with open(arquivo, "w", encoding="utf-8") as f:
             json.dump(relatorios, f, indent=4, ensure_ascii=False)
         return relatorios
-
-# Instância
-
-service = RelatorioService()
-service.faturamento_semanal()
-service.passageiro_comprou_mais_passagens()
-service.todos_relatorios()
-service.faturamento_anual()
