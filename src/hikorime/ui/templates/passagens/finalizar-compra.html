@@ -83,7 +83,7 @@
                         <h3>Tipo de Pagamento</h3>
                         <select name="tipo_pagamento" required>
                             {% for key, value in tipos_pagamento.items() %}
-                                <option value="{{ value }}">{{ key }}</option>
+                                <option value="{{ key }}">{{ value }}</option>
                             {% endfor %}
                         </select>
                     </div>

@@ -171,7 +171,7 @@ def finalizar_compra(
             id_passageiro=id_passageiro,
             id_passagem=id_passagem,
             id_cupom=(id_cupom if id_cupom else None),
-            tipo_pagamento=TipoPagamento(tipo_pagamento),
+            tipo_pagamento=TipoPagamento[tipo_pagamento],
         )
         
         compra_service.finalizar_compra(dados_compra)
