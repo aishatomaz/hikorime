@@ -28,7 +28,7 @@ class AutenticacaoService:
             )
 
         # Salvar na tabela de usuários
-        result = self.repo_usuario.save(
+        id_usuario:int = self.repo_usuario.save(
             nome=dados.nome,
             email=dados.email,
             cpf=dados.cpf,
@@ -36,8 +36,6 @@ class AutenticacaoService:
             tipo_usuario=dados.tipo_usuario.value,
             data_nascimento=dados.data_nascimento,
         )
-
-        id_usuario = result["id"]
 
         # Salvar na tabela de passageiros
         self.repo_passageiro.save(id_usuario=id_usuario, codigo_passaporte=dados.codigo_passaporte, tipo_passaporte=dados.tipo_passaporte.value)
@@ -61,7 +59,7 @@ class AutenticacaoService:
             )
 
         # Salvar na tabela de usuários
-        result = self.repo_usuario.save(
+        id_usuario = self.repo_usuario.save(
             nome=dados.nome,
             email=dados.email,
             cpf=dados.cpf,
@@ -69,8 +67,6 @@ class AutenticacaoService:
             tipo_usuario=dados.tipo_usuario.value,
             data_nascimento=dados.data_nascimento,
         )
-        
-        id_usuario = result["id"]
 
         # Salvar na tabela de funcionários
         self.repo_funcionario.save(
@@ -97,7 +93,7 @@ class AutenticacaoService:
         user = usuarios[0]
 
         if user["senha"] != credentials.senha:
-            raise HTTPException(status_code=401, detail="Credenciais inválidas")
+            raise HTTPException(status_code=401, detail="Senha Incorreta!")
 
         return {
             "message": "Login realizado com sucesso",

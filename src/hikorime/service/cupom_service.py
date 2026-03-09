@@ -50,7 +50,7 @@ class CupomService(BaseService):
         try:
             # Validar percentual
             if not isinstance(percentual_desconto, (int, float)):
-                raise ValueError("Percentual deve ser numérico")
+                raise TypeError("Percentual deve ser numérico")
             
             if percentual_desconto < 0 or percentual_desconto > 1:
                 raise ValueError("Percentual deve estar entre 0 e 1")
@@ -76,7 +76,7 @@ class CupomService(BaseService):
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Erro ao criar cupom: {str(e)}")
 
-    def obter_cupons_passageiro(self, passageiro_id: int) -> list:
+    def obter_cupons_passageiro(self, passageiro_id: int) -> list[dict]:
         """Obtém todos os cupons de um passageiro.
 
         Args:

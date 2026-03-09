@@ -112,7 +112,11 @@
                         <input
                             id="valor_base_passagem"
                             name="valor_base_passagem"
-                            type="number"
+                            type="text"
+                            placeholder="R$ 00,00"
+                            maxlength="15"
+                            oninput="formatMoney(this)"
+                            value="{{ data.valor_base_passagem or '' }}"
                             required
                         >
                     </div>
@@ -131,4 +135,5 @@
         <p>Parece que você não tem permissão para acessar esta página.</p>
     {% endif %}
 
+    <script src="{{ url_for('static', path='scripts/format-money.js') }}"></script>
 {% endblock body %}

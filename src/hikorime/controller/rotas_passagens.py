@@ -14,12 +14,14 @@ from hikorime.service.cupom_service import CupomService
 from hikorime.service.passagem_service import PassagemService
 
 from hikorime.models.enums.tipo_pagamento import TipoPagamento
+from hikorime.service.voo_service import VooService
 
 from hikorime.ui.engine import HikorimeUI
 from hikorime.controller.rotas_base import create_generic_router
 
 
 passagens_service = PassagemService()
+voo_service = VooService()
 compra_service = CompraService()
 cupom_service = CupomService()
 auth_service = AutenticacaoService()
@@ -38,18 +40,18 @@ def exibir_minhas_passagens(request: Request):
         
     id_passageiro = usr["id_usuario"]
     # Retornar histórico de compras (incluindo valor gasto)
-    compras = compra_service.get_compras_by_passageiro(id_passageiro)
+    passagens:list[dict] = compra_service.get_passagens_by_passageiro_id(id_passageiro)
 
     return HikorimeUI.render(
         template="passagens/minhas-passagens.html",
         request=request,
         title="Minhas Passagens e Compras",
         usr=usr,
-        passagens=compras,
+        passagens=passagens,
     )
 
 
-@passagens_router.get("/comprar")
+@passagens_router.get("/comprar/{id_voo:int}")
 def exibir_comprar_passagem(
     request: Request,
     id_voo: int,
@@ -61,12 +63,14 @@ def exibir_comprar_passagem(
     if not usr:
         return RedirectResponse(url="/registro/login", status_code=303)
 
+    voo:dict = passagens_service.get_voo_by_id(id_voo)
+
     return HikorimeUI.render(
         template="passagens/comprar.html",
         request=request,
         usr=usr,
         title="Comprar Passagem",
-        id_voo=id_voo,
+        voo=voo,
     )
 
 
@@ -90,19 +94,22 @@ def comprar_passagem(
 
     try:
         # Cria a passagem primeiro
-        passagem_criada: dict = passagens_service.create_passagem(dados_passagem)
+        passagem_criada:dict = passagens_service.create_passagem(dados_passagem)
         id_passagem = passagem_criada["id"]
         
         # Redireciona para finalizar compra com detalhes
         return RedirectResponse(url=f"/passagens/finalizar-compra?id_passagem={id_passagem}", status_code=303)
 
     except HTTPException as e:
+        voo:dict = passagens_service.get_voo_by_id(id_voo)
+
         return HikorimeUI.render(
             template="passagens/comprar.html",
             request=request,
             usr=usr,
             title="Falha ao Comprar Passagem",
             err=e.detail,
+            voo=voo,
         )
 
 

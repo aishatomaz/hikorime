@@ -12,11 +12,11 @@ class PassagemService(BaseService):
         self.repo = RepositoryQuerys("passagens")
         self.service = RepositoryPassagem()
 
-    def create_passagem(self, passagem_data):
+    def create_passagem(self, passagem: Passagem):
         """Cria uma nova passagem.
 
         Args:
-            passagem_data: Dicionário com os dados da passagem a ser salva.
+            passagem: dados da passagem a ser salva.
 
         Returns:
             dict: Dados da passagem salva
@@ -25,7 +25,6 @@ class PassagemService(BaseService):
             HTTPException: Se houver erro na criação.
         """
         try:
-            passagem = Passagem(**passagem_data)
             return self.save(passagem)
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Erro ao comprar a passagem: {str(e)}")

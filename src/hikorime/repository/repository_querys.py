@@ -12,16 +12,16 @@ class RepositoryQuerys:
         self.table_name = table_name
         self.conn = RepositoryConnection()
 
-    def save(self, **kwargs: Any):
+    def save(self, **kwargs: Any) -> int:
         """
-        Salva os dados dentro do banco de dados(metodo POST)
+        Salva os dados dentro do banco de dados(método POST)
 
         Args:
             kwargs: qualquer elemento a ser salvo(
             os argumentos tem que bater junto ao da classe modelo)
 
         Returns:
-            dict[str, Any]: um dicionario a ser salvo no banco de dados
+            int: o id da entidade salva
         """
 
         if not self.table_name.isidentifier():
@@ -62,7 +62,7 @@ class RepositoryQuerys:
 
         return self.conn.get_many(query)
 
-    def get_by_id(self, id: int):
+    def get_by_id(self, id: int) -> dict | None:
         """
         Pega uma entidade da tabela por seu id.
 

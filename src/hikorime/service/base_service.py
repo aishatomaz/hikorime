@@ -37,20 +37,22 @@ class BaseService:
         """
         return self.repo.get_all()
 
-    def get_by_id(self, id: int) -> int | None:
+    def get_by_id(self, entity_id: int) -> dict | None:
         """
-        Retira um id especifico da tabela:
+        Retira uma entidade especifíca da tabela:
 
         Args:
-            id: O id que queira buscar na tabela
+            entity_id: O id que queira buscar na tabela
 
         returns:
             int | None: um int se encontrado, caso não, None
         """
-        if self.repo.get_by_id(id) is not None:
-            return id
+        entity:dict = self.repo.get_by_id(entity_id)
+
+        if entity:
+            return entity
         else:
-            raise ValueError(f"id '{id}' não existe")
+            raise ValueError(f"id '{entity_id}' não existe")
 
     def get_by_column_name(self, column_name: str, value: str) -> List[Dict] | None:
         """

@@ -10,15 +10,20 @@
             {% for voo in voos %}
                 <section>
                     <div>
-                        <h3>Origem</h3>
+                        <h2>Origem</h2>
                         <p>{{ voo.data_hora_partida }}</p>
                         <p>{{ voo.local_origem }}</p>
                     </div>
 
                     <div>
-                        <h3>Destino</h3>
+                        <h2>Destino</h2>
                         <p>{{ voo.data_hora_chegada }}</p>
                         <p>{{ voo.local_destino }}</p>
+                    </div>
+
+                    <div>
+                        <h3>Valor Base</h3>
+                        <p>R$ {{ "%.2f"|format(voo.valor_base_passagem) }}</p>
                     </div>
 
                     <div>

@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 from fastapi import APIRouter, HTTPException, Form
@@ -25,7 +26,7 @@ def exibir_voos_disponiveis(
     """
     Exibe a lista de voos disponíveis.
     """
-    voos: dict = voos_service.get_all()
+    voos: list[dict] = voos_service.get_all()
     # TODO: CONSERTAR ERRO NO SERVICE
 
     return HikorimeUI.render(
@@ -69,7 +70,7 @@ def cadastrar_voo(
         local_destino: str = Form(...),
         terminal: str = Form(...),
         portao_embarque: str = Form(...),
-        valor_base_passagem: float = Form(...),
+        valor_base_passagem: str = Form(...),
     ):
     """
     Cadastra um voo no sistema (usado por funcionários).
@@ -78,6 +79,12 @@ def cadastrar_voo(
 
     if not usr or usr["tipo_usuario"] != "funcionario":
         raise HTTPException(status_code=403)
+
+    # Remover não dígitos e converter para float,
+    # necessário devido ao RegEx usado para formatar valores monetários
+    valor_base_passagem:float = float(
+        re.sub(pattern=r"\D", repl="",string=valor_base_passagem)
+    )
 
     dados_voo = Voo(
         id_aeronave=id_aeronave,
@@ -159,7 +166,7 @@ def cadastrar_aeronave(
 
     try:
         aeronave_service.cadastrar_aeronave(dados_aeronave)
-        return RedirectResponse("/", status_code=303)
+        return RedirectResponse(url="/", status_code=303)
 
     except HTTPException as e:
 

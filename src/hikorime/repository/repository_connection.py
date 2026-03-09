@@ -47,7 +47,7 @@ class RepositoryConnection:
         self, query: str, params: Tuple | dict = ()
     ) -> Optional[Dict[Any, Any]]:
         """
-        Funcao de retirar apenas uma entradas da tabela.
+        Funcao de retirar apenas uma entrada da tabela.
         """
         with self._connect() as conn:
             cursor = conn.cursor()

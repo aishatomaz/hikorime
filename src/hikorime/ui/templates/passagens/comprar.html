@@ -1,4 +1,4 @@
-{% extends "layouts/base.html %}
+{% extends "layouts/base.html" %}
 
 {% block body %}
 
@@ -8,13 +8,30 @@
         </header>
 
         <main>
-            <form action="/passagens/comprar" method="post">
-                <section>
-                    <input id="id_voo" name="id_voo" value="{{ id_voo }}" type="hidden">
+            <section>
+                <h2>Dados do Voo</h2>
+                <div>
+                    <strong>Origem</strong>
+                    <p>{{ voo.data_hora_partida }}</p>
+                    <p>{{ voo.local_origem }}</p>
+                </div>
 
-                    <label for=""></label>
-                </section>
-            </form>
+                <div>
+                    <strong>Destino</strong>
+                    <p>{{ voo.data_hora_chegada }}</p>
+                    <p>{{ voo.local_destino }}</p>
+                </div>
+
+                <form action="/passagens/comprar" method="post">
+
+                    <label for="assento">Assento</label>
+                    <input type="text" id="assento" name="assento">
+
+                    <input id="id_voo" name="id_voo" value="{{ voo.id_voo }}" type="hidden">
+
+                    <button type="submit">Finalizar Compra</button>
+                </form>
+            </section>
         </main>
     {% else %}
         <p>
