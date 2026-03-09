@@ -1,8 +1,11 @@
 from hikorime.repository.repository_relatorio import RelatorioRepository
-import json 
+import json
+
+
 class RelatorioService:
-    '''O service de Relatório foi alterado para gerear os relatórios em JSON. Importa as consultas específicas de Repository e
-    retorna um JSON dessas consultas'''
+    """O service de Relatório foi alterado para gerear os relatórios em JSON. Importa as consultas específicas de Repository e
+    retorna um JSON dessas consultas"""
+
     def __init__(self):
         self.repo = RelatorioRepository()
 
@@ -42,9 +45,15 @@ class RelatorioService:
             "faturamento_semanal": self.repo.get_faturamento_semanal(),
             "faturamento_mensal": self.repo.get_faturamento_mensal(),
             "faturamento_anual": self.repo.get_faturamento_anual(),
-            "top_passageiros": self.repo.get_passageiro_comprou_mais_passagens()
+            "top_passageiros": self.repo.get_passageiro_comprou_mais_passagens(),
         }
 
         with open(arquivo, "w", encoding="utf-8") as f:
             json.dump(relatorios, f, indent=4, ensure_ascii=False)
         return relatorios
+
+# Instancias
+
+test = RelatorioService()
+test.faturamento_anual()
+test.todos_relatorios()

@@ -10,8 +10,8 @@ class CupomService(BaseService):
     """Serviço para gerenciar cupons de desconto dos passageiros."""
 
     def __init__(self):
-        self.repo = RepositoryQuerys("cupons")
-        self.compra_repo = RepositoryCompra("compras")
+        self.repo = RepositoryQuerys(table_name="cupons", id_column="id_cupom")
+        self.compra_repo = RepositoryCompra(table_name="compras", id_column="id_compra")
 
     def create_cupom(self, cupom_data: dict):
         """Cria um novo cupom.

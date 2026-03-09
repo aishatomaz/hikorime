@@ -1,0 +1,58 @@
+<!--Tela que verifica os cupons disponíveis do passageiro-->
+
+{% extends "layouts/base.html" %}
+
+{% block body %}
+    {% if usr and usr.tipo_usuario == 'passageiro' %}
+        <header>
+            <h1>Meus Cupons</h1>
+        </header>
+
+        <main>
+            {% if cupons %}
+                <p>Aqui estão os seus cupons disponíveis:</p>
+                <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr style="background-color: #c2eafa;">
+                            <th>Código do Cupom</th>
+                            <th>Desconto (%)</th>
+                            <th>Validade</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cupom in cupons %}
+                            <tr>
+                                <td>{{ cupom.id_cupom }}</td>
+                                <td>{{ (cupom.percentual_desconto * 100)|int }}%</td>
+                                <td>{{ cupom.validade }}</td>
+                                <td><span style="color: green;">{{ cupom.status }}</span></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <p style="margin-top: 20px;">
+                    <small>Lembre-se: O valor mínimo de compras para qualquer tipo de desconto é de R$ 250,00.</small>
+                </p>
+
+            {% else %}
+                <section>
+                    <p>Você ainda não possui cupons disponíveis.</p>
+                    <p>Continue comprando passagens para ganhar novos cupons! A cada 3 compras, você ganha um novo cupom.</p>
+                </section>
+            {% endif %}
+        </main>
+
+    {% elif usr.tipo_usuario == 'funcionario' %}
+        <h1>Acesso Indisponível :(</h1>
+        <p>
+            Página disponível apenas para passageiros
+        </p>
+
+    {% else %}
+        <h1>Acesso Indisponível :(</h1>
+        <p>
+            Faça login para ter acesso à compra de passagens
+        </p>
+    {% endif %}
+{% endblock body %}

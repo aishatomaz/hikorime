@@ -6,7 +6,7 @@ from hikorime.models.basemodels.bm_voo import Voo
 
 class VooService(BaseService):
     def __init__(self):
-        self.repo = RepositoryQuerys("voos")
+        self.repo = RepositoryQuerys(table_name="voos", id_column="id_voo")
 
     def create_voo(self, voo_data: dict) -> dict:
         """

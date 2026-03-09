@@ -10,7 +10,7 @@ SchemaType = TypeVar("SchemaType", bound=BaseModel)
 
 
 # pyright: reportInvalidTypeForm=false
-# Em relacao ao ignore acima, eu sei oque estou fazendo, schema no var e um falso-positivo
+# Em relação ao ignore acima, eu sei o que estou fazendo, schema no var e um falso-positivo
 def create_generic_router(service: BaseService, schema: Type[SchemaType]) -> APIRouter:
     """
     Cria um APIRouter com rotas CRUD padrao para uma entidade especifica.

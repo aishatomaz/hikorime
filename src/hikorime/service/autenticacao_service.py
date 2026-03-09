@@ -7,9 +7,9 @@ from fastapi import HTTPException, status, Request
 
 class AutenticacaoService:
     def __init__(self):
-        self.repo_usuario = RepositoryQuerys("usuarios")
-        self.repo_passageiro = RepositoryQuerys("passageiros")
-        self.repo_funcionario = RepositoryQuerys("funcionarios")
+        self.repo_usuario = RepositoryQuerys(table_name="usuarios", id_column="id_usuario")
+        self.repo_passageiro = RepositoryQuerys(table_name="passageiros", id_column="id_passageiro")
+        self.repo_funcionario = RepositoryQuerys(table_name="funcionarios", id_column="id_funcionario")
 
 
     def get_current_user(self, request: Request) -> dict:
