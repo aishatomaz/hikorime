@@ -8,38 +8,31 @@ class RelatorioService:
 
     def quantidade_voos_semanal(self):
         dados = self.repo.get_quantidade_voo_semanal()
-        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
-        return resultado_json
+        return dados
 
     def quantidade_voo_mensal(self):
         dados = self.repo.get_quantidade_voo_mensal()
-        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
-        return resultado_json
+        return dados
     
     def quantidade_voo_anual(self):
         dados = self.repo.get_quantidade_voo_anual()
-        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
-        return resultado_json
+        return dados
     
     def faturamento_semanal(self):
         dados = self.repo.get_faturamento_semanal()
-        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
-        return resultado_json
+        return dados
 
     def faturamento_mensal(self):
         dados = self.repo.get_faturamento_mensal()
-        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
-        return resultado_json
+        return dados
     
     def faturamento_anual(self):
         dados = self.repo.get_faturamento_anual()
-        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
-        return resultado_json
+        return dados
     
     def passageiro_comprou_mais_passagens(self):
         dados = self.repo.get_passageiro_comprou_mais_passagens()
-        resultado_json = json.dumps(dados, indent=4, ensure_ascii=False)
-        return resultado_json
+        return dados
 
     def todos_relatorios(self, arquivo="relatorios.json"):
         relatorios = {
@@ -55,3 +48,11 @@ class RelatorioService:
         with open(arquivo, "w", encoding="utf-8") as f:
             json.dump(relatorios, f, indent=4, ensure_ascii=False)
         return relatorios
+
+# Instância
+
+service = RelatorioService()
+service.faturamento_semanal()
+service.passageiro_comprou_mais_passagens()
+service.todos_relatorios()
+service.faturamento_anual()
