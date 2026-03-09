@@ -8,8 +8,9 @@ class RepositoryQuerys:
     Guarda as querys base para outro repositorios, e services
     """
 
-    def __init__(self, table_name: str):
+    def __init__(self, table_name: str, id_column: str):
         self.table_name = table_name
+        self.id_column = id_column
         self.conn = RepositoryConnection()
 
     def save(self, **kwargs: Any) -> int:
@@ -76,7 +77,11 @@ class RepositoryQuerys:
         """
         data = {"entity_id": entity_id, "id_column": id_column}
 
-        query = f"select * from {self.table_name} where {id_column} = :entity_id;"
+        query = f"""
+            SELECT *
+            FROM {self.table_name}
+            WHERE {self.id_column} = :entity_id;
+        """
 
         return self.conn.get_one(query, data)
 
@@ -190,4 +195,3 @@ class RepositoryQuerys:
                 WHERE id_usuario = :id_usuario 
                 """
         return self.conn.get_one(query, {"id_usuario": id_usuario})
-

@@ -17,7 +17,6 @@ from hikorime.models.enums.tipo_pagamento import TipoPagamento
 from hikorime.service.voo_service import VooService
 
 from hikorime.ui.engine import HikorimeUI
-from hikorime.controller.rotas_base import create_generic_router
 
 
 passagens_service = PassagemService()
@@ -134,10 +133,10 @@ def exibir_finalizar_compra(
     # Obter detalhes da passagem e voo
     passagem:dict = passagens_service.get_by_id(id_passagem)
     voo:dict = voo_service.get_by_id(passagem["id_voo"])
-    
+
     # Obter cupons disponíveis para o passageiro
     cupons_disponiveis:list[dict] = cupom_service.obter_cupons_passageiro(id_passageiro)
-    
+
     return HikorimeUI.render(
         template="passagens/finalizar-compra.html",
         request=request,
@@ -172,7 +171,7 @@ def finalizar_compra(
             id_passageiro=id_passageiro,
             id_passagem=id_passagem,
             id_cupom=(id_cupom if id_cupom else None),
-            tipo_pagamento=TipoPagamento(tipo_pagamento),
+            tipo_pagamento=TipoPagamento[tipo_pagamento],
         )
         
         compra_service.finalizar_compra(dados_compra)

@@ -9,7 +9,7 @@ class PassagemService(BaseService):
     """Serviço para gerenciar passagens e tickets de voos."""
 
     def __init__(self):
-        self.repo = RepositoryQuerys("passagens")
+        self.repo = RepositoryQuerys(table_name="passagens", id_column="id_passagem")
         self.service = RepositoryPassagem()
 
     def create_passagem(self, passagem: Passagem) -> int:

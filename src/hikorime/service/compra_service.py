@@ -17,7 +17,7 @@ class CompraService(BaseService):
     VALOR_MINIMO_COMPRA = 250.0  # Valor mínimo de compra para aplicar desconto
 
     def __init__(self):
-        self.service = RepositoryCompra("compras")
+        self.service = RepositoryCompra(table_name="compras", id_column="id_compra")
 
     def finalizar_compra(self, compra: Compra):
         """
