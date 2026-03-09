@@ -74,7 +74,7 @@ def exibir_comprar_passagem(
     )
 
 
-@passagens_router.post("/comprar")
+@passagens_router.post("/comprar/")
 def comprar_passagem(
     request: Request,
     id_voo: int = Form(...),
@@ -83,7 +83,6 @@ def comprar_passagem(
     usr:dict = auth_service.get_current_user(request)
     if not usr:
         return RedirectResponse(url="/registro/login", status_code=303)
-
 
     id_usuario:int = usr["id_usuario"]
     passageiro:dict = auth_service.get_passageiro_by_usuario_id(id_usuario)
@@ -99,7 +98,10 @@ def comprar_passagem(
         id_passagem:int = passagens_service.create_passagem(dados_passagem)
         
         # Redireciona para finalizar compra com detalhes
-        return RedirectResponse(url=f"/passagens/finalizar-compra?id_passagem={id_passagem}", status_code=303)
+        return RedirectResponse(
+            url="/passagens/finalizar-compra/{id_passagem:int}",
+            status_code=303
+        )
 
     except HTTPException as e:
         voo:dict = passagens_service.get_voo_by_id(id_voo)
@@ -113,8 +115,7 @@ def comprar_passagem(
             voo=voo,
         )
 
-
-@passagens_router.get("/finalizar-compra")
+@passagens_router.get("/finalizar-compra/{id_passagem:int}")
 def exibir_finalizar_compra(
     request: Request,
     id_passagem: int,
@@ -122,21 +123,25 @@ def exibir_finalizar_compra(
     usr = auth_service.get_current_user(request)
     if not usr:
         return RedirectResponse(url="/registro/login", status_code=303)
-        
-    id_passageiro = usr["id_usuario"]
+
+    id_usuario: int = usr["id_usuario"]
+    passageiro: dict = auth_service.get_passageiro_by_usuario_id(id_usuario)
+    id_passageiro = passageiro["id_passageiro"]
     
     # Obter detalhes da passagem e voo
-    passagem_detalhada = compra_service.get_passagem_detalhada(id_passagem)
+    passagem:dict = passagens_service.get_by_id(id_passagem)
+    voo:dict = voo_service.get_by_id(passagem["id_voo"])
     
     # Obter cupons disponíveis para o passageiro
-    cupons_disponiveis = cupom_service.get_cupons_disponiveis(id_passageiro)
+    cupons_disponiveis:list[dict] = cupom_service.obter_cupons_passageiro(id_passageiro)
     
     return HikorimeUI.render(
         template="passagens/finalizar-compra.html",
         request=request,
         title="Finalizar Compra",
         usr=usr,
-        passagem=passagem_detalhada,
+        passagem=passagem,
+        voo=voo,
         cupons=cupons_disponiveis,
         tipos_pagamento=TipoPagamento.enum_to_dict(),
     )

@@ -7,7 +7,7 @@ class TipoPagamento(Enum):
     CREDITO = "crédito"
 
     @classmethod
-    def enum_to_dict(cls):
+    def enum_to_dict(cls) -> dict[str, str]:
         """
         Converte o Enum para um dicionário
         """
