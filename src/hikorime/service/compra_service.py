@@ -130,7 +130,7 @@ class CompraService(BaseService):
         return self.service.get_valor_bagagens_by_passageiro_id(passageiro_id)
 
     def calcular_valores(
-        self, passageiro_id: int, cupom_id: int
+        self, passageiro_id: int, cupom_id: int | None = None
     ) -> Dict[str, float | bool]:
         """Calcula o valor total da compra de um passageiro.
 
@@ -190,7 +190,7 @@ class CompraService(BaseService):
 
         # Verificar se o valor mínimo foi atingido e se há cupom disponível
         if valor_subtotal >= self.VALOR_MINIMO_COMPRA:
-            if cupom_id:
+            if cupom_id is not None:
                 cupom = self.service.get_valid_cupom_by_passageiro(passageiro_id)
                 if cupom and cupom.get("id_cupom") == cupom_id:
                     desconto_percentual = float(cupom.get("percentual_desconto", 0))
@@ -361,4 +361,3 @@ class CompraService(BaseService):
             raise HTTPException(
                 status_code=400, detail=f"Erro ao salvar compra: {str(e)}"
             )
-

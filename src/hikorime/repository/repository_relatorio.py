@@ -1,10 +1,10 @@
 from hikorime.repository.repository_connection import RepositoryConnection
-import json
 
 
 class RelatorioRepository:
-    '''A classe possui o objetivo de acessar o Banco de dados diretamente, buscando consultas específicas para gerara gráficos no relatório.
-Aqui, ela não usa as bibibliotas (no caso, pandas e matplotlib), apenas realiza as consultas que serão utilizadas em Service, posteriormente.'''
+    """A classe possui o objetivo de acessar o Banco de dados diretamente, buscando consultas específicas para gerara gráficos no relatório.
+    Aqui, ela não usa as bibibliotas (no caso, pandas e matplotlib), apenas realiza as consultas que serão utilizadas em Service, posteriormente."""
+
     def __init__(self):
         self.conn = RepositoryConnection()
 
@@ -52,7 +52,6 @@ Aqui, ela não usa as bibibliotas (no caso, pandas e matplotlib), apenas realiza
         """
         return self.conn.get_many(query)
 
-
     def get_faturamento_mensal(self):
         query = """
         SELECT 
@@ -74,7 +73,6 @@ Aqui, ela não usa as bibibliotas (no caso, pandas e matplotlib), apenas realiza
         ORDER BY ano;
         """
         return self.conn.get_many(query)
-
 
     def get_passageiro_comprou_mais_passagens(self):
         query = """
