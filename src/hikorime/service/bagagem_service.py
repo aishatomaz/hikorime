@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import Dict, List
 from fastapi import HTTPException
+
+from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_bagagem import RepositoryBagagem
 
@@ -21,7 +23,7 @@ class BagagemService(BaseService):
 
     def get_bagagem_by_data(self, passageiro_id: int, data: datetime) -> Dict | None:
         """Obtém bagagens de um passageiro por data."""
-        return self.service.get_bagagem_by_data(passageiro_id, data)
+        return self.service.get_bagagem_by_date(passageiro_id, data)
 
     def calcular_valor_bagagem(self, peso: float) -> float:
         """Calcula o valor da bagagem baseado no peso.

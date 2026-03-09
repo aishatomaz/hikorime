@@ -62,20 +62,20 @@ class RepositoryQuerys:
 
         return self.conn.get_many(query)
 
-    def get_by_id(self, id: int) -> dict | None:
+    def get_by_id(self, entity_id: int) -> dict | None:
         """
         Pega uma entidade da tabela por seu id.
 
         Args:
-            id: O id da entidade a ser buscada.
+            entity_id: O id da entidade a ser buscada.
 
         Returns:
             dict | None: Um dicionario representando a entidade encontrada,
             ou None se nenhuma entidade com o id informado existir.
         """
-        data = {"id": id}
+        data = {"entity_id": entity_id}
 
-        query = f"select * from {self.table_name} where id = :id;"
+        query = f"select * from {self.table_name} where entity_id = :entity_id;"
 
         return self.conn.get_one(query, data)
 

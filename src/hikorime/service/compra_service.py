@@ -1,9 +1,12 @@
 from fastapi.exceptions import HTTPException
 from datetime import datetime, date, timedelta
+from hikorime.repository.repository_querys import RepositoryQuerys
 from hikorime.service.base_service import BaseService
 from hikorime.repository.repository_compra import RepositoryCompra
 from hikorime.models.basemodels.bm_passagem import Passagem
-
+from hikorime.models.basemodels.bm_compra import Compra
+from hikorime.models.basemodels.bm_cupom import Cupom
+from hikorime.models.enums.status_cupom import StatusCupom
 
 class CompraService(BaseService):
     """Classe que gerencia as operações de compra, incluindo validações de cupons, 
@@ -13,6 +16,56 @@ class CompraService(BaseService):
 
     def __init__(self):
         self.service = RepositoryCompra("compras")
+
+    def finalizar_compra(self, compra: Compra):
+        """
+        Finaliza a compra, aplicando desconto se houver cupom e validando o valor mínimo.
+        """
+        try:
+            # Validação de valor mínimo para desconto
+            if compra.id_cupom and compra.valor_pago < 250.0:
+                raise HTTPException(
+                    status_code=400,
+                    detail="O valor mínimo para aplicar desconto é de R$ 250,00."
+                )
+
+            # Criar a compra
+            id_compra = self.save(compra)
+
+            # Se usou cupom, marcar como indisponível
+            if compra.id_cupom:
+                self.service.marcar_cupom_como_usado(compra.id_cupom)
+
+            # Verificar se o usuário ganhou um novo cupom (a cada 3 compras)
+            total_compras = self.service.count_compras_passageiro(compra.id_passageiro)
+            if total_compras > 0 and total_compras % 3 == 0:
+                self.cupom_fidelidade(compra.id_passageiro)
+
+            return id_compra
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(
+                status_code=400, detail=f"Erro ao finalizar a compra: {str(e)}"
+            )
+
+    def cupom_fidelidade(self, id_passageiro: int):
+        """
+        Gera um cupom de 10% de desconto para o user após 3 compras
+        """
+
+        repo_cupom = RepositoryQuerys("cupons")
+        novo_cupom = Cupom(
+            id_passageiro = id_passageiro,
+            percentual_desconto = 0.10,
+            validade=date.today() + timedelta(days=30),
+            status = StatusCupom.DISPONIVEL
+        )
+
+        dados_cupom:dict = novo_cupom.model_dump(exclude={"id_cupom"})
+        dados_cupom["status"] = dados_cupom["status"].value
+
+        repo_cupom.save(**dados_cupom)
 
     def create_compra_passagem(self, passagem: dict):
         """Cria uma nova passagem para compra."""

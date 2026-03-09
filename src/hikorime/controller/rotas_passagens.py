@@ -102,7 +102,7 @@ def comprar_passagem(
         
         # Redireciona para finalizar compra com detalhes
         return RedirectResponse(
-            url="/passagens/finalizar-compra/{id_passagem:int}",
+            url=f"/passagens/finalizar-compra/{id_passagem}",
             status_code=303
         )
 
@@ -166,20 +166,23 @@ def finalizar_compra(
     id_passageiro:int = passageiro["id_passageiro"]
 
     try:
-        dados_compra = {
-            "id_passageiro": id_passageiro,
-            "id_passagem": id_passagem,
-            "id_cupom": id_cupom if id_cupom else None,
-            "tipo_pagamento": TipoPagamento(tipo_pagamento),
-        }
+
+
+        dados_compra = Compra(
+            id_passageiro=id_passageiro,
+            id_passagem=id_passagem,
+            id_cupom=(id_cupom if id_cupom else None),
+            tipo_pagamento=TipoPagamento(tipo_pagamento),
+        )
         
         compra_service.finalizar_compra(dados_compra)
         return RedirectResponse(url="/passagens/minhas-passagens", status_code=303)
 
     except HTTPException as e:
         # Recarregar dados em caso de erro
-        passagem_detalhada = compra_service.get_passagem_detalhada(id_passagem)
-        cupons_disponiveis = cupom_service.get_cupons_disponiveis(id_passageiro)
+        passagem:dict = compra_service.get_by_id(id_passagem)
+        voo:dict = voo_service.get_by_id(passagem["id_voo"])
+        cupons_disponiveis:list[dict] = cupom_service.obter_cupons_passageiro(id_passageiro)
         
         return HikorimeUI.render(
             template="passagens/finalizar-compra.html",
@@ -203,7 +206,7 @@ def exibir_cupons(request: Request):
     passageiro: dict = auth_service.get_passageiro_by_usuario_id(id_usuario)
     id_passageiro:int = passageiro["id_passageiro"]
 
-    cupons = cupom_service.get_cupons_disponiveis(id_passageiro)
+    cupons = cupom_service.obter_cupons_passageiro(id_passageiro)
     
     return HikorimeUI.render(
         template="passagens/cupons.html", # Assumindo que este template existe ou será criado

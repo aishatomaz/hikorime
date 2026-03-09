@@ -1,5 +1,5 @@
-// Exibe detalhes do Voo, Passagem e Cupons disponíveis.
-// Permite selecionar um cupom e tipo de pagamento para finalizar a compra.
+<!-- Exibe detalhes do Voo, Passagem e Cupons disponíveis. -->
+<!-- Permite selecionar um cupom e tipo de pagamento para finalizar a compra. -->
 
 {% extends "layouts/base.html" %}
 
@@ -49,6 +49,14 @@
                     </tr>
                 </table>
             </section>
+
+        <section>
+            <h3>Resumo da Compra</h3>
+            <p>Valor Base: R$ {{ "%.2f"|format(valor_base) }}</p>
+            {% if valor_base < 250.0 %}
+                <p style="color: orange;">* Cupons só podem ser aplicados em compras acima de R$ 250,00.</p>
+            {% endif %}
+        </section>
 
             <section style="margin-top: 30px;">
                 <form action="/passagens/finalizar-compra" method="post">

@@ -7,11 +7,13 @@ from hikorime.repository.repository_querys import RepositoryQuerys
 
 class RepositoryCompra(RepositoryQuerys):
     """
-    Classe do repositório para eventos específicos ou consultas mais detalhadas. Suas funções serão utilizadas pela camada de Service
+    Classe do repositório para eventos específicos ou consultas mais detalhadas.
+    Suas funções serão utilizadas pela camada de Service
     para validar regras de negócio.
     """
 
     def __init__(self, table_name: str):
+        super().__init__(table_name)
         self.connection = RepositoryConnection()
         self.table_name = table_name
 
@@ -57,7 +59,7 @@ class RepositoryCompra(RepositoryQuerys):
         result = self.connection.get_many(query)
         return bool(result)
 
-    def get_compras(self, passageiro_id: int):
+    def get_compras(self, passageiro_id: int) -> list[dict]:
         """
         Retorna todas as compras realizadas por um passageiro, ordenadas pela data de compra.
 
@@ -108,7 +110,7 @@ class RepositoryCompra(RepositoryQuerys):
         data = {"passageiro_id": passageiro_id}
         return RepositoryConnection().get_many(sql, data)
 
-    def get_passagens_by_passageiro(self, passageiro_id: int):
+    def get_passagens_by_passageiro(self, passageiro_id: int) -> list[dict]:
         """Retorna todas as passagens associadas ao passageiro com dados do voo."""
 
         data = {"passageiro_id": passageiro_id}
@@ -129,7 +131,7 @@ class RepositoryCompra(RepositoryQuerys):
         """
         return RepositoryConnection().get_many(sql, data)
 
-    def get_valor_bagagens_by_passageiro_id(self, passageiro_id: int):
+    def get_valor_bagagens_by_passageiro_id(self, passageiro_id: int) -> list[dict]:
         """Retorna todas as bagagens associadas ao passageiro com seus valores."""
 
         data = {"passageiro_id": passageiro_id}
@@ -151,7 +153,7 @@ class RepositoryCompra(RepositoryQuerys):
         data = {"cupom_id": cupom_id}
         return RepositoryConnection().update(query, data)
 
-    def criar_cupom(self, passageiro_id: int, percentual_desconto: float, validade: date):
+    def criar_cupom(self, passageiro_id: int, percentual_desconto: float, validade: date) -> int:
         """Cria um novo cupom para um passageiro."""
         query = """
             INSERT INTO cupons (id_passageiro, percentual_desconto, validade, status, usado)
@@ -164,7 +166,7 @@ class RepositoryCompra(RepositoryQuerys):
         }
         return RepositoryConnection().save(query, data)
 
-    def salvar_compra(self, compra_data: dict):
+    def salvar_compra(self, compra_data: dict) -> int:
         """Salva uma nova compra no banco de dados."""
         query = """
             INSERT INTO compras (
@@ -178,7 +180,7 @@ class RepositoryCompra(RepositoryQuerys):
         """
         return RepositoryConnection().save(query, compra_data)
 
-    def get_tickets_disponiveis(self, local_origem: str = None, local_destino: str = None):
+    def get_tickets_disponiveis(self, local_origem: str = None, local_destino: str = None) -> list[dict]:
         """Busca passagens disponíveis com filtros opcionais."""
         query = """
             SELECT 
@@ -198,23 +200,23 @@ class RepositoryCompra(RepositoryQuerys):
             LEFT JOIN passagens p ON p.id_voo = v.id_voo
             WHERE 1=1
         """
-        
+
         data = {}
-        
+
         if local_origem:
             query += " AND v.local_origem = :local_origem"
             data["local_origem"] = local_origem
-        
+
         if local_destino:
             query += " AND v.local_destino = :local_destino"
             data["local_destino"] = local_destino
-        
+
         query += """
             GROUP BY v.id_voo
             HAVING assentos_disponiveis > 0
             ORDER BY v.data_hora_partida ASC
         """
-        
+
         return RepositoryConnection().get_many(query, data)
 
     def calcular_valor_bagagem(self, peso: float) -> float:
@@ -223,3 +225,10 @@ class RepositoryCompra(RepositoryQuerys):
         TAXA_VARIAVEL = 5.0
         valor_bagagem = VALOR_FIXO + (peso * TAXA_VARIAVEL)
         return round(valor_bagagem, 2)
+
+    def count_compras_passageiro(self, id_passageiro: int) -> int:
+        """Conta o total de compras de um passageiro."""
+        sql = "SELECT COUNT(*) as total FROM compras WHERE id_passageiro = :id_passageiro"
+        data = {"id_usuario": id_passageiro}
+        result = self.connection.get_one(sql, data)
+        return result["total"] if result else 0

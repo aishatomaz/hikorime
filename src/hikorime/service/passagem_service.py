@@ -86,7 +86,7 @@ class PassagemService(BaseService):
         """
         return self.service.verificar_assentos_disponiveis(voo_id)
 
-    def comprar_passagem(self, voo_id: int, passageiro_id: int, assento: str) -> dict:
+    def comprar_passagem(self, voo_id: int, passageiro_id: int, assento: str) -> int:
         """Realiza a compra de uma passagem.
 
         Args:
@@ -95,17 +95,17 @@ class PassagemService(BaseService):
             assento (str): Número do assento.
 
         Returns:
-            dict: Informações da passagem comprada.
+            int: ID da passagem comprada.
 
         Raises:
             HTTPException: Se houver erro na compra.
         """
         try:
-            passagem_data = {
-                "id_voo": voo_id,
-                "id_passageiro": passageiro_id,
-                "assento": assento
-            }
+            passagem_data = Passagem(
+                id_voo=voo_id,
+                id_passageiro=passageiro_id,
+                assento=assento
+            )
             return self.create_passagem(passagem_data)
         except HTTPException:
             raise
