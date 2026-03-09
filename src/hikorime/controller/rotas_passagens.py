@@ -37,8 +37,11 @@ def exibir_minhas_passagens(request: Request):
     usr = auth_service.get_current_user(request)
     if not usr:
         return RedirectResponse(url="/registro/login", status_code=303)
-        
-    id_passageiro = usr["id_usuario"]
+
+    id_usuario: int = usr["id_usuario"]
+    passageiro: dict = auth_service.get_passageiro_by_usuario_id(id_usuario)
+    id_passageiro = passageiro["id_passageiro"]
+
     # Retornar histórico de compras (incluindo valor gasto)
     passagens:list[dict] = compra_service.get_passagens_by_passageiro_id(id_passageiro)
 
@@ -126,8 +129,8 @@ def exibir_finalizar_compra(
 
     id_usuario: int = usr["id_usuario"]
     passageiro: dict = auth_service.get_passageiro_by_usuario_id(id_usuario)
-    id_passageiro = passageiro["id_passageiro"]
-    
+    id_passageiro:int = passageiro["id_passageiro"]
+
     # Obter detalhes da passagem e voo
     passagem:dict = passagens_service.get_by_id(id_passagem)
     voo:dict = voo_service.get_by_id(passagem["id_voo"])
@@ -157,8 +160,10 @@ def finalizar_compra(
     usr = auth_service.get_current_user(request)
     if not usr:
         return RedirectResponse(url="/registro/login", status_code=303)
-        
-    id_passageiro = usr["id_usuario"]
+
+    id_usuario: int = usr["id_usuario"]
+    passageiro: dict = auth_service.get_passageiro_by_usuario_id(id_usuario)
+    id_passageiro:int = passageiro["id_passageiro"]
 
     try:
         dados_compra = {
@@ -193,8 +198,11 @@ def exibir_cupons(request: Request):
     usr = auth_service.get_current_user(request)
     if not usr:
         return RedirectResponse(url="/registro/login", status_code=303)
-        
-    id_passageiro = usr["id_usuario"]
+
+    id_usuario: int = usr["id_usuario"]
+    passageiro: dict = auth_service.get_passageiro_by_usuario_id(id_usuario)
+    id_passageiro:int = passageiro["id_passageiro"]
+
     cupons = cupom_service.get_cupons_disponiveis(id_passageiro)
     
     return HikorimeUI.render(
