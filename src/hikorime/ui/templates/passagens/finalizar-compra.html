@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <th>Terminal / Portão</th>
-                        <td>{{ voo.terminal }} / {{ passagem.portao_embarque }}</td>
+                        <td>{{ voo.terminal }} / {{ voo.portao_embarque }}</td>
                     </tr>
                     <tr>
                         <th>Assento</th>
@@ -45,15 +45,15 @@
                     </tr>
                     <tr>
                         <th>Valor Base</th>
-                        <td>R$ {{ "%.2f"|format(passagem.valor_base_passagem) }}</td>
+                        <td>R$ {{ "%.2f"|format(voo.valor_base_passagem) }}</td>
                     </tr>
                 </table>
             </section>
 
         <section>
             <h3>Resumo da Compra</h3>
-            <p>Valor Base: R$ {{ "%.2f"|format(valor_base) }}</p>
-            {% if valor_base < 250.0 %}
+            <p>Valor Base: R$ {{ "%.2f"|format(voo.valor_base_passagem) }}</p>
+            {% if voo.valor_base_passagem < 250.0 %}
                 <p style="color: orange;">* Cupons só podem ser aplicados em compras acima de R$ 250,00.</p>
             {% endif %}
         </section>

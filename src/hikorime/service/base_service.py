@@ -22,7 +22,7 @@ class BaseService:
         Returns:
             dict: Dados salvos (id, nome_voo, etc.)
         """
-        model_dict = model.model_dump()  # Converte o modelo Pydantic para um dicionario
+        model_dict = model.model_dump()  # Converte o modelo Pydantic para um dicionário
         return self.repo.save(
             **model_dict
         )  # Passa os dados como kwargs para o repositorio
@@ -64,11 +64,11 @@ class BaseService:
             List[Dict]: Uma lista de dicionario(s) com o(s) valore(s) encontrado(s)
         """
 
-        # Remove espacos em branco para checagem
+        # Remove espaços em branco para checagem
         val = value.strip() if value else ""
         col = column_name.strip() if column_name else ""
 
-        # Verifica se os campos estao vazios
+        # Verifica se os campos estão vazios
         if not val:
             raise ValueError("ERROR: Falta o valor para iniciar a busca")
 

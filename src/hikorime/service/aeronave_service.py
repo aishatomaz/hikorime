@@ -6,7 +6,7 @@ from hikorime.service.base_service import BaseService
 
 class AeronaveService(BaseService):
     def __init__(self):
-        self.repo = RepositoryQuerys("aeronaves")
+        self.repo = RepositoryQuerys(table_name="aeronaves", id_column="id_aeronave")
 
     def cadastrar_aeronave(self, aeronave: Aeronave):
         """

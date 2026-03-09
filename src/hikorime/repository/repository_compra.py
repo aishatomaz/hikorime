@@ -12,10 +12,11 @@ class RepositoryCompra(RepositoryQuerys):
     para validar regras de negócio.
     """
 
-    def __init__(self, table_name: str):
-        super().__init__(table_name)
+    def __init__(self, table_name: str, id_column: str):
+        super().__init__(table_name, id_column)
         self.connection = RepositoryConnection()
         self.table_name = table_name
+        self.id_column = id_column
 
     def verificar_quantidade_compras_passageiro_maior_igual_3(
         self,
