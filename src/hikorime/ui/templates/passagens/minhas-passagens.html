@@ -3,7 +3,7 @@
 {% extends "layouts/base.html" %}
 
 {% block body %}
-    {% if usr %}
+    {% if usr and usr.tipo_usuario == 'passageiro' %}
         <header>
             <h1>Minhas Passagens e Compras</h1>
         </header>
@@ -46,8 +46,16 @@
             {% endif %}
         </main>
 
+    {% elif usr.tipo_usuario == 'funcionario' %}
+        <h1>Acesso Indisponível :(</h1>
+        <p>
+            Página disponível apenas para passageiros
+        </p>
+
     {% else %}
         <h1>Acesso Indisponível :(</h1>
-        <p>Faça login para ter acesso a visualização de passagens e histórico de compras.</p>
+        <p>
+            Faça login para ter acesso a compra de passagens
+        </p>
     {% endif %}
 {% endblock body %}

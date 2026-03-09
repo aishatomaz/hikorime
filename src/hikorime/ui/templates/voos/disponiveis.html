@@ -10,13 +10,13 @@
             {% for voo in voos %}
                 <section>
                     <div>
-                        <h2>Origem</h2>
+                        <h3>Origem</h3>
                         <p>{{ voo.data_hora_partida }}</p>
                         <p>{{ voo.local_origem }}</p>
                     </div>
 
                     <div>
-                        <h2>Destino</h2>
+                        <h3>Destino</h3>
                         <p>{{ voo.data_hora_chegada }}</p>
                         <p>{{ voo.local_destino }}</p>
                     </div>
@@ -31,6 +31,7 @@
                             Comprar Passagem
                         </a>
                     </div>
+                    <br>
                 </section>
             {% endfor %}
         {% else %}

@@ -181,3 +181,11 @@ class RepositoryQuerys:
         Retorna o nome da tabela que esta sendo usado
         """
         return self.table_name
+
+    def get_passageiro_by_usuario(self, id_usuario: int) -> dict:
+        query = """
+                SELECT *
+                FROM passageiros
+                WHERE id_usuario = :id_usuario 
+                """
+        return self.conn.get_one(query, {"id_usuario": id_usuario})

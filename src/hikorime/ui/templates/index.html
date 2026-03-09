@@ -8,13 +8,13 @@
     <main>
         <a href="{{ url_for('exibir_voos_disponiveis') }}">Voos Disponíveis</a>
         <br>
-        <a href="{{ url_for('exibir_minhas_passagens') }}">Minhas Passagens</a>
 
         {% if usr and usr.tipo_usuario == "funcionario" %}
-            <br>
             <a href="{{ url_for('exibir_cadastrar_aeronave') }}">Cadastrar Aeronave</a>
             <br>
             <a href="{{ url_for('exibir_cadastrar_voo') }}">Cadastrar Voo</a>
+        {% elif usr.tipo_usuario == "passageiro" %}
+            <a href="{{ url_for('exibir_minhas_passagens') }}">Minhas Passagens</a>
         {% endif %}
     </main>
 

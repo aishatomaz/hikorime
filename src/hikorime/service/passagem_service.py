@@ -12,14 +12,14 @@ class PassagemService(BaseService):
         self.repo = RepositoryQuerys("passagens")
         self.service = RepositoryPassagem()
 
-    def create_passagem(self, passagem: Passagem):
+    def create_passagem(self, passagem: Passagem) -> int:
         """Cria uma nova passagem.
 
         Args:
             passagem: dados da passagem a ser salva.
 
         Returns:
-            dict: Dados da passagem salva
+            int: ID da passagem salva
 
         Raises:
             HTTPException: Se houver erro na criação.

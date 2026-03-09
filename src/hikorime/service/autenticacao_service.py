@@ -19,6 +19,16 @@ class AutenticacaoService:
         """
         return request.session.get("user")
 
+    def get_passageiro_by_usuario_id(self, id_usuario: int) -> dict:
+        passageiro:dict = self.repo_passageiro.get_passageiro_by_usuario(id_usuario)
+
+        if not passageiro:
+            raise HTTPException(
+                status_code=400,
+                detail="Usuário não possui registro como passageiro"
+            )
+        return passageiro
+
     def registrar_passageiro(self, dados: Passageiro):
         # Verificar se usuário já existe
         existente = self.repo_usuario.get_by_column_name("email", dados.email)

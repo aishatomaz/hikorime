@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    {% if usr %}
+    {% if usr and usr.tipo_usuario == 'passageiro' %}
         <header>
             <h1>Comprar Passagem</h1>
         </header>
@@ -25,7 +25,8 @@
                 <form action="/passagens/comprar" method="post">
 
                     <label for="assento">Assento</label>
-                    <input type="text" id="assento" name="assento">
+                    <input type="text" id="assento" name="assento" required>
+                    <br>
 
                     <input id="id_voo" name="id_voo" value="{{ voo.id_voo }}" type="hidden">
 
@@ -33,9 +34,17 @@
                 </form>
             </section>
         </main>
-    {% else %}
+
+    {% elif usr.tipo_usuario == 'funcionario' %}
+        <h1>Acesso Indisponível :(</h1>
         <p>
-            Faça login para ter acesso a compra de passagens
+            Página disponível apenas para passageiros
+        </p>
+
+    {% else %}
+        <h1>Acesso Indisponível :(</h1>
+        <p>
+            Faça login para ter acesso à compra de passagens
         </p>
     {% endif %}
 

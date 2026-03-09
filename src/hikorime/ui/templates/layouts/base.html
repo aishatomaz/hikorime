@@ -21,7 +21,7 @@
         <nav style="background-color: #333; color: white; padding: 10px; margin-bottom: 20px;">
             <a href="/" style="color: white; margin-right: 15px; text-decoration: none;">Início</a>
             <a href="/voos/disponiveis" style="color: white; margin-right: 15px; text-decoration: none;">Voos Disponíveis</a>
-            {% if usr %}
+            {% if usr and usr.tipo_usuario == 'passageiro' %}
                 <a href="/passagens/minhas-passagens" style="color: white; margin-right: 15px; text-decoration: none;">Minhas Compras</a>
                 <a href="/passagens/cupons" style="color: white; margin-right: 15px; text-decoration: none;">Meus Cupons</a>
             {% endif %}

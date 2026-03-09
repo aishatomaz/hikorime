@@ -4,7 +4,7 @@
 {% extends "layouts/base.html" %}
 
 {% block body %}
-    {% if usr %}
+    {% if usr and usr.tipo_usuario == 'passageiro' %}
         <header>
             <h1>Finalizar Compra</h1>
         </header>
@@ -86,7 +86,16 @@
                 </form>
             </section>
         </main>
+    {% elif usr.tipo_usuario == 'funcionario' %}
+        <h1>Acesso Indisponível :(</h1>
+        <p>
+            Página disponível apenas para passageiros
+        </p>
+
     {% else %}
-        <p>Faça login para finalizar sua compra.</p>
+        <h1>Acesso Indisponível :(</h1>
+        <p>
+            Faça login para ter acesso à compra de passagens
+        </p>
     {% endif %}
 {% endblock body %}

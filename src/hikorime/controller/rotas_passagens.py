@@ -80,22 +80,23 @@ def comprar_passagem(
     id_voo: int = Form(...),
     assento: str = Form(...),
 ):
-    usr = auth_service.get_current_user(request)
+    usr:dict = auth_service.get_current_user(request)
     if not usr:
         return RedirectResponse(url="/registro/login", status_code=303)
-        
-    id_passageiro = usr["id_usuario"]
+
+
+    id_usuario:int = usr["id_usuario"]
+    passageiro:dict = auth_service.get_passageiro_by_usuario_id(id_usuario)
 
     dados_passagem = Passagem(
-        id_passageiro=id_passageiro,
+        id_passageiro=passageiro["id_passageiro"],
         id_voo=id_voo,
         assento=assento,
     )
 
     try:
         # Cria a passagem primeiro
-        passagem_criada:dict = passagens_service.create_passagem(dados_passagem)
-        id_passagem = passagem_criada["id"]
+        id_passagem:int = passagens_service.create_passagem(dados_passagem)
         
         # Redireciona para finalizar compra com detalhes
         return RedirectResponse(url=f"/passagens/finalizar-compra?id_passagem={id_passagem}", status_code=303)

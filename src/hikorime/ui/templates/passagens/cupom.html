@@ -3,7 +3,7 @@
 {% extends "layouts/base.html" %}
 
 {% block body %}
-    {% if usr %}
+    {% if usr and usr.tipo_usuario == 'passageiro' %}
         <header>
             <h1>Meus Cupons</h1>
         </header>
@@ -43,8 +43,16 @@
             {% endif %}
         </main>
 
+    {{% elif usr.tipo_usuario == 'funcionario' %}
+        <h1>Acesso Indisponível :(</h1>
+        <p>
+            Página disponível apenas para passageiros
+        </p>
+
     {% else %}
         <h1>Acesso Indisponível :(</h1>
-        <p>Faça login para ver seus cupons.</p>
+        <p>
+            Faça login para ter acesso à compra de passagens
+        </p>
     {% endif %}
 {% endblock body %}

@@ -84,7 +84,7 @@ def cadastrar_voo(
     # necessário devido ao RegEx usado para formatar valores monetários
     valor_base_passagem:float = float(
         re.sub(pattern=r"\D", repl="",string=valor_base_passagem)
-    )
+    ) / 100 # centavo para real
 
     dados_voo = Voo(
         id_aeronave=id_aeronave,
