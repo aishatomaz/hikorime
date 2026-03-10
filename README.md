@@ -19,83 +19,72 @@ poetry run uvicorn main:app
 
 ``` bash
 .
-├── hikorime.db
 ├── poetry.lock
 ├── pyproject.toml
 ├── pytest.ini
 ├── README.md
+├── relatorios.json
 └── src
     ├── hikorime
-    │   ├── cli
-    │   │   ├── comissario.py
-    │   │   ├── cores.py
-    │   │   ├── iniciar.py
-    │   │   ├── menus.py
-    │   │   ├── opcoes.py
-    │   │   ├── passageiro.py
-    │   │   ├── registro.py
-    │   │   ├── relatorio.py
-    │   │   └── utils.py
     │   ├── controller
-    │   │   ├── __init__.py
-    │   │   ├── rotas_comissario.py
-    │   │   ├── rotas_passageiro.py
-    │   │   └── rotas_relatorios.py
-    │   ├── __init__.py
+    │   │   ├── root.py
+    │   │   ├── rotas_bagagem.py
+    │   │   ├── rotas_base.py
+    │   │   ├── rotas_passagens.py
+    │   │   ├── rotas_registro.py
+    │   │   ├── rotas_relatorios.py
+    │   │   └── rotas_voos.py
     │   ├── models
     │   │   ├── bagagem.py
-    │   │   ├── cadastro_de_voo.py
+    │   │   ├── basemodels
+    │   │   │   ├── bm_aeronave.py
+    │   │   │   ├── bm_bagagem.py
+    │   │   │   ├── bm_compra.py
+    │   │   │   ├── bm_cupom.py
+    │   │   │   ├── bm_funcionario.py
+    │   │   │   ├── bm_login.py
+    │   │   │   ├── bm_passageiro.py
+    │   │   │   ├── bm_passagem.py
+    │   │   │   ├── bm_usuario.py
+    │   │   │   └── bm_voo.py
     │   │   ├── compra.py
     │   │   ├── cupom.py
     │   │   ├── enums
-    │   │   │   ├── __init__.py
+    │   │   │   ├── const_bagagens.py
     │   │   │   ├── status_cupom.py
     │   │   │   ├── status_voo.py
     │   │   │   ├── tipo_bagagem.py
-    │   │   │   └── tipo_pagamento.py
-    │   │   ├── __init__.py
-    │   │   ├── notificacaoModel.py
+    │   │   │   ├── tipo_pagamento.py
+    │   │   │   ├── tipo_passaporte.py
+    │   │   │   └── tipo_usuario.py
+    │   │   ├── notificacao.py
     │   │   ├── passagem.py
-    │   │   └── visualizacao_de_voo.py
-    │   ├── registro
-    │   │   ├── controle.py
-    │   │   ├── __init__.py
-    │   │   ├── modelos.py
-    │   │   └── service.py
+    │   │   ├── registro.py
+    │   │   └── voo.py
     │   ├── repository
     │   │   ├── config.py
-    │   │   ├── hikorime.db
-    │   │   ├── __init__.py
+    │   │   ├── repository_bagagem.py
+    │   │   ├── repository_compra.py
     │   │   ├── repository_connection.py
+    │   │   ├── repository_passagem.py
     │   │   ├── repository_querys.py
+    │   │   ├── repository_relatorio.py
     │   │   └── schema.sql
-    │   ├── schemas
-    │   │   ├── compra_passagem.py
-    │   │   └── voo.py
-    │   └── service
-    │       ├── base_service.py
-    │       ├── cadastro_voo.py
-    │       ├── compra_service.py
-    │       ├── cupom_service.py
-    │       ├── enums
-    │       │   ├── const_bagagens.py
-    │       │   └── const_voo.py
-    │       ├── __init__.py
-    │       ├── passagem_service.py
-    │       └── visualizacao_de_voo.py
-    ├── main_cli.py
+    │   ├── service
+    │   │   ├── aeronave_service.py
+    │   │   ├── autenticacao_service.py
+    │   │   ├── bagagem_service.py
+    │   │   ├── base_service.py
+    │   │   ├── compra_service.py
+    │   │   ├── cupom_service.py
+    │   │   ├── passagem_service.py
+    │   │   ├── relatorio_service.py
+    │   │   └── voo_service.py
+    │   └── ui/...
     ├── main.py
-    └── tests
-        ├── test_repository.py
-        └── tests_unit
-            ├── test_bagagem.py
-            ├── test_compra.py
-            ├── test_pagamento.py
-            ├── test_passagem.py
-            └── test_voo.py
+    └── test/...
 
-14 directories, 61 files
-
+26 directories, 90 files
 ```
 
 ## Diagrama UML das principais classes planejadas

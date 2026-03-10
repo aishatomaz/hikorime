@@ -12,3 +12,4 @@ class Voo(BaseModel):
     portao_embarque: str
     valor_base_passagem: float
     
+    

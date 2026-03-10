@@ -24,10 +24,12 @@ class RepositoryConnection:
 
     def _connect(
         self,
-    ):  # Isso tambem serve para fechar o repositorio, entao nao preciso usar o finally
+    ):  # serve para fechar o repositorio, entao nao preciso usar o finally
         conn = sqlite3.connect(self.db_path)
-        conn.execute("PRAGMA foreign_keys = ON;")  # Corrigido: foreign_keys
-        conn.row_factory = sqlite3.Row  # Vou poder usar dicionarios e tuplas com isso
+        conn.execute(
+            "PRAGMA foreign_keys = ON;"
+        )  # Habilita o uso de chaves estrangeiras
+        conn.row_factory = sqlite3.Row  # Para poder usar dicionarios e tuplas
         return conn
 
     def save(self, query: str, params: Tuple | dict = ()) -> int:
@@ -43,9 +45,7 @@ class RepositoryConnection:
         except sqlite3.Error as error:
             raise ValueError(f"Erro ao executar: {error}")
 
-    def get_one(
-        self, query: str, params: Tuple | dict = ()
-    ) -> Optional[Dict[Any, Any]]:
+    def get_one(self, query: str, params: Tuple | dict = ()) -> Dict | None:
         """
         Funcao de retirar apenas uma entrada da tabela.
         """
