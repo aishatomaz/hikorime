@@ -1,9 +1,16 @@
 # HIKORIME
 
+Com foco em consolidar os nossos aprendizados em Programação Orientada a Objetos, desenvolvemos um sistemas robusto onde colocamos em práticas príncipios fundamentais, tais como: herança, encapsulamento, validaçõe, polimorfismo, composição, os princípios SOLID, arquitetura em camadas e outros padrôes importantes. O nosso sistema é um Sistema de Aeroportos responsável por intermediar o processo de compra e venda de passagens, recebe o nome de HIKORIME como uma junção de três termos em japonês que são: hiko: voo, ori: origami, me = azul índigo, representando um avião de papel que voo no céu, símbolo do nosso projeto. 
+
+Além disso, o sistema foi desenvolvido em python, também foi utilizado o FastApi e ferramentas de front end: HTML, CSS, Javasript, para criação da interface. O poetry foi utilizado para gerenciamento de pacotes e o pytest para a criação dos testes automatizados. Essas escolhas foram feitas com um intuito de facilitar o desenvolvimento da aplicação com ferramentas já conhecidas pela equipe e também por regimento da especificação. 
+
+
+# Descrição do domínio
+
  O Sistema de Aeroportos Hikorime será uma aplicação que possibilitará às empresas de aviação uma melhor organização dos seus processos internos, possibilitando a compra e venda de passagens e cálculo dos valores a serem pagos – considerando o peso das bagagens. Será possível oferecer cupons de descontos para usuários que já tenham comprado uma quantidade determinada de passagens, o passageiro poderá receber notificações de alerta após comprar suas passagens para que não esqueça a data e o horário dos seus voos, os passageiros também poderão escolher o assento que irão sentar na compra da passagem conforme disponibilidade, considerando uma taxa adicional cobrada.
 O comissário será o responsável por fazer o cadastro dos voos, quantidades de passagens e datas disponíveis para que os usuários façam a compra. O piloto poderá acessar os voos que estão sob sua responsabilidade com informações de data, horário de saída e horário previsto de chegada, distância, localização e quantidade de passageiros. 
 O sistema também deverá dispor de relatórios de quantidade de voos - semanal, mensal e anual, faturamento (semanal, mensal e anual). quantidade de passageiros que compraram passagens mais vezes(ranking).
-O sistema foi desenvolvido em python, também foi utilizado o FastApi e ferramentas de front end: HTML, CSS, Javasript, para criação da interface. O poetry foi utilizado para gerenciamento de pacotes e o pytest para a criação dos testes automatizados. Essas escolhas foram feitas com um intuito de facilitar o desenvolvimento da aplicação com ferramentas já conhecidas pela equipe e também por regimento da especificação.
+
 
 # Como usar:
 ### 1. Instalar depêndencias:
@@ -109,11 +116,11 @@ poetry run uvicorn main:app
 
 | Membros  | Funções | Contribuição
 | ------------- | ------------- | ------------- |
-| [Ana Aisha](https://github.com/aishatomaz)  | Desenvolvedor  | |
-| [Dhonatan](https://github.com/sudo-invers) | Desenvolvedor  | |
-| [Gabriel Santos](https://github.com/gabriel-so-santos) | Desenvolvedor  | |
-| [Sarah Mendes](https://github.com/sarahmendes-ufca)  | Desenvolvedor  | |
-| [Letícia Dias](https://github.com/leticia-software-engineer)  | Desenvolvedor  | |
+| [Ana Aisha](https://github.com/aishatomaz)  | Desenvolvedor  | Desenvolvimento de classes de login e cadastro, classes de cupons, testes e documentação |
+| [Dhonatan](https://github.com/sudo-invers) | Desenvolvedor  | Desenvolvimento de classes de serviço, api, persistência e testes de persistência|
+| [Gabriel Santos](https://github.com/gabriel-so-santos) | Desenvolvedor  | Desenvolvimento de classes de Service, api, interface gráfica e revisão|
+| [Sarah Mendes](https://github.com/sarahmendes-ufca)  | Desenvolvedor  | Desenvolvimento de classes modelo, classes de relatórios e apresentação|
+| [Letícia Dias](https://github.com/leticia-software-engineer)  | Desenvolvedor  | Desenvolvimento de classes de modelo, serviço, testes e documentação|
 
 
 # Regras de Negócio 
@@ -157,4 +164,5 @@ novos comportamentos através de herança ou interfaces, sem
 alterar o código-fonte original;
 O principio do ISP foi utilizado para dividir interfaces grandes
 e genéricas em interfaces menores e mais específicas,
-mantendo a organização;
+mantendo a organização.
+O princípio LSP foi utilizado para a classe de BaseUsuario onde é possível fazer a susbstituição sem prejuízo com as suas subclasses de funcionário e passageira.
