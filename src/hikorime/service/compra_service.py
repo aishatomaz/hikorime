@@ -70,7 +70,6 @@ class CompraService(BaseService):
                 "valor_total": compra.valor_total,
                 "data_compra": compra.data_compra,
             }
-            print(dados_compra)
 
             # Se o cupom já foi usado, marca como indisponível
             if compra.id_cupom:
