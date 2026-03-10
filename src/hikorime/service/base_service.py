@@ -27,6 +27,12 @@ class BaseService:
             **model_dict
         )  # Passa os dados como kwargs para o repositorio
 
+    def save_as_dict(self, model_dict: dict) -> int:
+        return self.repo.save(
+            **model_dict
+        )
+
+
     def get_all(self) -> List[Dict]:
         """
         Retorna todas as linhas e colunas de uma tabela.

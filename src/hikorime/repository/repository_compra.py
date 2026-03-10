@@ -18,6 +18,17 @@ class RepositoryCompra(RepositoryQuerys):
         self.table_name = table_name
         self.id_column = id_column
 
+    def salvar_compra(self, compra_data: dict) -> int:
+        """Salva uma nova compra no banco de dados."""
+        print(compra_data)
+        query = """
+                INSERT INTO compras (id_passageiro, id_passagem, id_bagagem, id_cupom, \
+                                     data_compra, tipo_pagamento, valor_pago, valor_desconto, valor_total)
+                VALUES (:id_passageiro, :id_passagem, :id_bagagem, :id_cupom, \
+                        :data_compra, :tipo_pagamento, :valor_pago, :valor_desconto, :valor_total) \
+                """
+        return RepositoryConnection().save(query, compra_data)
+
     def verificar_quantidade_compras_passageiro_maior_igual_3(
         self,
         passageiro_id: int,
@@ -111,25 +122,40 @@ class RepositoryCompra(RepositoryQuerys):
         data = {"passageiro_id": passageiro_id}
         return RepositoryConnection().get_many(sql, data)
 
-    def get_passagens_by_passageiro(self, passageiro_id: int) -> list[dict]:
-        """Retorna todas as passagens associadas ao passageiro com dados do voo."""
+    def get_passagens_by_passageiro(self, id_passageiro: int) -> list[dict]:
+        """Retorna todas as passagens do passageiro com dados do voo e da compra."""
 
-        data = {"passageiro_id": passageiro_id}
+        data = {"id_passageiro": id_passageiro}
+
         sql = """
-            SELECT 
-                p.id_passagem,
-                p.valor_pago,
-                p.data_compra,
-                v.id_voo,
-                v.local_origem,
-                v.local_destino,
-                v.data_hora_partida,
-                v.valor_base_passagem
-            FROM passagens p
-            JOIN voos v ON v.id_voo = p.id_voo
-            WHERE p.id_passageiro = :passageiro_id
-            ORDER BY p.data_compra DESC
-        """
+              SELECT p.id_passagem, \
+                     p.assento, \
+
+                     v.id_voo, \
+                     v.local_origem, \
+                     v.local_destino, \
+                     v.data_hora_partida, \
+                     v.data_hora_chegada, \
+                     v.valor_base_passagem, \
+
+                     c.valor_pago, \
+                     c.valor_desconto, \
+                     c.valor_total, \
+                     c.data_compra
+
+              FROM passagens p
+
+                       JOIN voos v
+                            ON v.id_voo = p.id_voo
+
+                       LEFT JOIN compras c
+                                 ON c.id_passagem = p.id_passagem
+
+              WHERE p.id_passageiro = :id_passageiro
+
+              ORDER BY c.data_compra DESC \
+              """
+
         return RepositoryConnection().get_many(sql, data)
 
     def get_valor_bagagens_by_passageiro_id(self, passageiro_id: int) -> list[dict]:
@@ -169,19 +195,6 @@ class RepositoryCompra(RepositoryQuerys):
         }
         return RepositoryConnection().save(query, data)
 
-    def salvar_compra(self, compra_data: dict) -> int:
-        """Salva uma nova compra no banco de dados."""
-        query = """
-            INSERT INTO compras (
-                id_passageiro, id_passagem, id_bagagem, id_cupom,
-                data_compra, tipo_pagamento, valor_pago, valor_desconto, valor_total
-            )
-            VALUES (
-                :id_passageiro, :id_passagem, :id_bagagem, :id_cupom,
-                :data_compra, :tipo_pagamento, :valor_pago, :valor_desconto, :valor_total
-            )
-        """
-        return RepositoryConnection().save(query, compra_data)
 
     def get_tickets_disponiveis(
         self, local_origem: str, local_destino: str
@@ -236,7 +249,7 @@ class RepositoryCompra(RepositoryQuerys):
         sql = (
             "SELECT COUNT(*) as total FROM compras WHERE id_passageiro = :id_passageiro"
         )
-        data = {"id_usuario": id_passageiro}
+        data = {"id_passageiro": id_passageiro}
         result = self.connection.get_one(sql, data)
         return result["total"] if result else 0
 

@@ -37,7 +37,7 @@ class RelatorioService:
         dados = self.repo.get_passageiro_comprou_mais_passagens()
         return dados
 
-    def todos_relatorios(self, arquivo="relatorios.json"):
+    def todos_relatorios(self, arquivo="relatorios.json") :
         relatorios = {
             "quantidade_voos_semanal": self.repo.get_quantidade_voo_semanal(),
             "quantidade_voos_mensal": self.repo.get_quantidade_voo_mensal(),
