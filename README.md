@@ -117,6 +117,10 @@ poetry run pytest
 | [Sarah Mendes](https://github.com/sarahmendes-ufca)  | Desenvolvedor  | Desenvolvimento de classes modelo, classes de relatórios e apresentação|
 | [Letícia Dias](https://github.com/leticia-software-engineer)  | Desenvolvedor  | Desenvolvimento de classes de modelo, serviço, testes e documentação|
 
+| Nome | Função | 
+| ------------- | ------------- | 
+| [Jayr Alencar Pereira](https://github.com/jayralencar) | Orientador
+
 
 # Regras de Negócio 
 
