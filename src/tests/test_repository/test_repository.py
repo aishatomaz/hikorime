@@ -6,11 +6,9 @@ import sqlite3
 
 @pytest.fixture()
 def mock_db_setup(tmp_path):
-    # 1. Configuração de caminhos temporários
     db_file = tmp_path / "test_db.db"
     schema_file = tmp_path / "schema.sql"
 
-    # 2. Definição e criação do Schema
     schema_content = """
     DROP TABLE IF EXISTS test_users;
     CREATE TABLE test_users (
@@ -21,7 +19,6 @@ def mock_db_setup(tmp_path):
     """
     schema_file.write_text(schema_content, encoding="utf-8")
 
-    # 3. Inicialização física do banco (Aplica o schema no arquivo temporário)
     # Isso garante que a tabela exista antes do repositório tentar acessá-la
     with sqlite3.connect(db_file) as conn:
         conn.executescript(schema_content)
@@ -29,9 +26,6 @@ def mock_db_setup(tmp_path):
     path_conn = "hikorime.repository.repository_connection"
     path_repo = "hikorime.repository.repository_querys"
 
-    # 4. Patch das constantes e da classe de conexão
-    # Patchamos o DATABASE_PATH no módulo de conexão para que o RepositoryConnection()
-    # aponte para o arquivo temporário que acabamos de criar.
     with (
         patch(f"{path_conn}.DATABASE_PATH", str(db_file)),
         patch(f"{path_conn}.SCHEMA_PATH", str(schema_file)),
