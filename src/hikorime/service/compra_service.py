@@ -11,8 +11,16 @@ from hikorime.models.enums.status_cupom import StatusCupom
 
 
 class CompraService(BaseService):
-    """Classe que gerencia as operações de compra, incluindo validações de cupons,
-    cálculo de bagagem, histórico de compras e criação de cupons."""
+    """
+    Classe que gerencia as operações de compra, incluindo validações de cupons,
+    cálculo de bagagem, histórico de compras e criação de cupons.
+
+    Args:
+        BaseService: Classe base para serviços que utilizam um repositório.
+    
+    Returns: 
+        CompraService: Instância do serviço de compra.
+    """
 
     VALOR_MINIMO_COMPRA = 250.0  # Valor mínimo de compra para aplicar desconto
 
@@ -34,7 +42,7 @@ class CompraService(BaseService):
         try:
             return self.service.salvar_compra(compra_data)
         except Exception as e:
-            raise HTTPExcption(
+            raise HTTPException(
                 status_code=400, detail=f"Erro ao salvar compra: {str(e)}"
             )
 
@@ -64,7 +72,7 @@ class CompraService(BaseService):
             }
             print(dados_compra)
 
-            # Se usou cupom, marcar como indisponível
+            # Se o cupom já foi usado, marca como indisponível
             if compra.id_cupom:
                 self.service.marcar_cupom_como_usado(compra.id_cupom)
 

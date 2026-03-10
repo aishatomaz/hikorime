@@ -1,9 +1,16 @@
 # HIKORIME
 
+Com foco em consolidar os nossos aprendizados em Programação Orientada a Objetos, desenvolvemos um sistemas robusto onde colocamos em práticas príncipios fundamentais, tais como: herança, encapsulamento, validaçõe, polimorfismo, composição, os princípios SOLID, arquitetura em camadas e outros padrôes importantes. O nosso sistema é um Sistema de Aeroportos responsável por intermediar o processo de compra e venda de passagens, recebe o nome de HIKORIME como uma junção de três termos em japonês que são: hiko: voo, ori: origami, me = azul índigo, representando um avião de papel que voo no céu, símbolo do nosso projeto. 
+
+Além disso, o sistema foi desenvolvido em python, também foi utilizado o FastApi e ferramentas de front end: HTML, CSS, Javasript, para criação da interface. O poetry foi utilizado para gerenciamento de pacotes e o pytest para a criação dos testes automatizados. Essas escolhas foram feitas com um intuito de facilitar o desenvolvimento da aplicação com ferramentas já conhecidas pela equipe e também por regimento da especificação. 
+
+
+# Descrição do domínio
+
  O Sistema de Aeroportos Hikorime será uma aplicação que possibilitará às empresas de aviação uma melhor organização dos seus processos internos, possibilitando a compra e venda de passagens e cálculo dos valores a serem pagos – considerando o peso das bagagens. Será possível oferecer cupons de descontos para usuários que já tenham comprado uma quantidade determinada de passagens, o passageiro poderá receber notificações de alerta após comprar suas passagens para que não esqueça a data e o horário dos seus voos, os passageiros também poderão escolher o assento que irão sentar na compra da passagem conforme disponibilidade, considerando uma taxa adicional cobrada.
 O comissário será o responsável por fazer o cadastro dos voos, quantidades de passagens e datas disponíveis para que os usuários façam a compra. O piloto poderá acessar os voos que estão sob sua responsabilidade com informações de data, horário de saída e horário previsto de chegada, distância, localização e quantidade de passageiros. 
 O sistema também deverá dispor de relatórios de quantidade de voos - semanal, mensal e anual, faturamento (semanal, mensal e anual). quantidade de passageiros que compraram passagens mais vezes(ranking).
-O sistema foi desenvolvido em python, também foi utilizado o FastApi e ferramentas de front end: HTML, CSS, Javasript, para criação da interface. O poetry foi utilizado para gerenciamento de pacotes e o pytest para a criação dos testes automatizados. Essas escolhas foram feitas com um intuito de facilitar o desenvolvimento da aplicação com ferramentas já conhecidas pela equipe e também por regimento da especificação.
+
 
 # Como usar:
 ### 1. Instalar depêndencias:
@@ -15,87 +22,82 @@ poetry install
 poetry run uvicorn main:app
 ````
 
+# Como testar
+
+### 1. Para rodas os testes insira em seu terminal o comando:
+````bash
+poetry run pytest
+````
 ### Estrutura do projeto atualmente
 
 ``` bash
 .
-├── hikorime.db
 ├── poetry.lock
 ├── pyproject.toml
 ├── pytest.ini
 ├── README.md
+├── relatorios.json
 └── src
     ├── hikorime
-    │   ├── cli
-    │   │   ├── comissario.py
-    │   │   ├── cores.py
-    │   │   ├── iniciar.py
-    │   │   ├── menus.py
-    │   │   ├── opcoes.py
-    │   │   ├── passageiro.py
-    │   │   ├── registro.py
-    │   │   ├── relatorio.py
-    │   │   └── utils.py
     │   ├── controller
-    │   │   ├── __init__.py
-    │   │   ├── rotas_comissario.py
-    │   │   ├── rotas_passageiro.py
-    │   │   └── rotas_relatorios.py
-    │   ├── __init__.py
+    │   │   ├── root.py
+    │   │   ├── rotas_bagagem.py
+    │   │   ├── rotas_base.py
+    │   │   ├── rotas_passagens.py
+    │   │   ├── rotas_registro.py
+    │   │   ├── rotas_relatorios.py
+    │   │   └── rotas_voos.py
     │   ├── models
     │   │   ├── bagagem.py
-    │   │   ├── cadastro_de_voo.py
+    │   │   ├── basemodels
+    │   │   │   ├── bm_aeronave.py
+    │   │   │   ├── bm_bagagem.py
+    │   │   │   ├── bm_compra.py
+    │   │   │   ├── bm_cupom.py
+    │   │   │   ├── bm_funcionario.py
+    │   │   │   ├── bm_login.py
+    │   │   │   ├── bm_passageiro.py
+    │   │   │   ├── bm_passagem.py
+    │   │   │   ├── bm_usuario.py
+    │   │   │   └── bm_voo.py
     │   │   ├── compra.py
     │   │   ├── cupom.py
     │   │   ├── enums
-    │   │   │   ├── __init__.py
+    │   │   │   ├── const_bagagens.py
     │   │   │   ├── status_cupom.py
     │   │   │   ├── status_voo.py
     │   │   │   ├── tipo_bagagem.py
-    │   │   │   └── tipo_pagamento.py
-    │   │   ├── __init__.py
-    │   │   ├── notificacaoModel.py
+    │   │   │   ├── tipo_pagamento.py
+    │   │   │   ├── tipo_passaporte.py
+    │   │   │   └── tipo_usuario.py
+    │   │   ├── notificacao.py
     │   │   ├── passagem.py
-    │   │   └── visualizacao_de_voo.py
-    │   ├── registro
-    │   │   ├── controle.py
-    │   │   ├── __init__.py
-    │   │   ├── modelos.py
-    │   │   └── service.py
+    │   │   ├── registro.py
+    │   │   └── voo.py
     │   ├── repository
     │   │   ├── config.py
-    │   │   ├── hikorime.db
-    │   │   ├── __init__.py
+    │   │   ├── repository_bagagem.py
+    │   │   ├── repository_compra.py
     │   │   ├── repository_connection.py
+    │   │   ├── repository_passagem.py
     │   │   ├── repository_querys.py
+    │   │   ├── repository_relatorio.py
     │   │   └── schema.sql
-    │   ├── schemas
-    │   │   ├── compra_passagem.py
-    │   │   └── voo.py
-    │   └── service
-    │       ├── base_service.py
-    │       ├── cadastro_voo.py
-    │       ├── compra_service.py
-    │       ├── cupom_service.py
-    │       ├── enums
-    │       │   ├── const_bagagens.py
-    │       │   └── const_voo.py
-    │       ├── __init__.py
-    │       ├── passagem_service.py
-    │       └── visualizacao_de_voo.py
-    ├── main_cli.py
+    │   ├── service
+    │   │   ├── aeronave_service.py
+    │   │   ├── autenticacao_service.py
+    │   │   ├── bagagem_service.py
+    │   │   ├── base_service.py
+    │   │   ├── compra_service.py
+    │   │   ├── cupom_service.py
+    │   │   ├── passagem_service.py
+    │   │   ├── relatorio_service.py
+    │   │   └── voo_service.py
+    │   └── ui/...
     ├── main.py
-    └── tests
-        ├── test_repository.py
-        └── tests_unit
-            ├── test_bagagem.py
-            ├── test_compra.py
-            ├── test_pagamento.py
-            ├── test_passagem.py
-            └── test_voo.py
+    └── test/...
 
-14 directories, 61 files
-
+26 directories, 90 files
 ```
 
 ## Diagrama UML das principais classes planejadas
@@ -109,11 +111,15 @@ poetry run uvicorn main:app
 
 | Membros  | Funções | Contribuição
 | ------------- | ------------- | ------------- |
-| [Ana Aisha](https://github.com/aishatomaz)  | Desenvolvedor  | |
-| [Dhonatan](https://github.com/sudo-invers) | Desenvolvedor  | |
-| [Gabriel Santos](https://github.com/gabriel-so-santos) | Desenvolvedor  | |
-| [Sarah Mendes](https://github.com/sarahmendes-ufca)  | Desenvolvedor  | |
-| [Letícia Dias](https://github.com/leticia-software-engineer)  | Desenvolvedor  | |
+| [Ana Aisha](https://github.com/aishatomaz)  | Desenvolvedor  | Desenvolvimento de classes de login e cadastro, classes de cupons, testes e documentação |
+| [Dhonatan](https://github.com/sudo-invers) | Desenvolvedor  | Desenvolvimento de classes de serviço, api, persistência e testes de persistência|
+| [Gabriel Santos](https://github.com/gabriel-so-santos) | Desenvolvedor  | Desenvolvimento de classes de Service, api, interface gráfica e revisão|
+| [Sarah Mendes](https://github.com/sarahmendes-ufca)  | Desenvolvedor  | Desenvolvimento de classes modelo, classes de relatórios e apresentação|
+| [Letícia Dias](https://github.com/leticia-software-engineer)  | Desenvolvedor  | Desenvolvimento de classes de modelo, serviço, testes e documentação|
+
+| Nome | Função | 
+| ------------- | ------------- | 
+| [Jayr Alencar Pereira](https://github.com/jayralencar) | Orientador
 
 
 # Regras de Negócio 
@@ -157,4 +163,5 @@ novos comportamentos através de herança ou interfaces, sem
 alterar o código-fonte original;
 O principio do ISP foi utilizado para dividir interfaces grandes
 e genéricas em interfaces menores e mais específicas,
-mantendo a organização;
+mantendo a organização.
+O princípio LSP foi utilizado para a classe de BaseUsuario onde é possível fazer a susbstituição sem prejuízo com as suas subclasses de funcionário e passageira.

@@ -16,9 +16,10 @@ class Passagem(BaseModel):
     Returns:
         Passagem: Instância da classe Passagem com os dados fornecidos.
     """
-    
+
     id_voo: int
     id_passageiro: int
     assento: str
-    valor_pago: Optional[float] = 0.0
-    data_compra: Optional[datetime] = None
+    # valor_pago: Optional[float] = 0.0
+    # data_compra: Optional[datetime] = None
+

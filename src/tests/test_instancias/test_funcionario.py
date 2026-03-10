@@ -1,6 +1,6 @@
 import pytest
 from datetime import date
-
+from pydantic import BaseModel, EmailStr, Field
 from hikorime.models.basemodels.bm_funcionario import Funcionario
 from hikorime.models.enums.tipo_usuario import TipoUsuario
 

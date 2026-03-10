@@ -63,7 +63,7 @@ class RepositoryQuerys:
 
         return self.conn.get_many(query)
 
-    def get_by_id(self, entity_id: int, id_column: str) -> dict | None:
+    def get_by_id(self, entity_id: int, id_column: str) -> dict:
         """
         Pega uma entidade da tabela por seu id.
 
@@ -85,9 +85,7 @@ class RepositoryQuerys:
 
         return self.conn.get_one(query, data)
 
-    def get_by_column_name(
-        self, column_name: str, value: str | int
-    ) -> List[Dict] | None:
+    def get_by_column_name(self, column_name: str, value: str | int) -> List[Dict]:
         """
         Pega entidade(s), de uma determinada coluna.
 
@@ -141,7 +139,7 @@ class RepositoryQuerys:
         Args:
             id: O id que sera deletado da tabela.
         Returns:
-            dict | None: um dicionario representando a entidade deletada, ou None, caso nao for encontrada.
+            dict: um dicionario representando a entidade deletada, ou None, caso nao for encontrada.
         """
         data = {"id": id}
 
@@ -154,7 +152,7 @@ class RepositoryQuerys:
         Conta a quantiddade total de linhas de uma tabela.
 
         Returns:
-            Um dicionario, contendo a quantidade de  linhas.
+            dict: Um dicionario, contendo a quantidade de  linhas.
         """
         query = f"SELECT COUNT(id) FROM {self.table_name};"
 

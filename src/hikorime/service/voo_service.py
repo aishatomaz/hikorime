@@ -27,8 +27,3 @@ class VooService(BaseService):
             return self.save(voo)
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Erro ao criar voo: {str(e)}")
-
-        # TODO: add return statement!
-
-
-    # TODO: get_all()!
