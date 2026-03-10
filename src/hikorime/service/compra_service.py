@@ -184,15 +184,6 @@ class CompraService(BaseService):
             RuntimeError: Se o passageiro não possui passagens cadastradas.
         """
 
-        # Returns:
-        #     dict: Dicionário contendo:
-        #         - valor_passagem: Valor da passagem
-        #         - valor_bagagem: Valor total das bagagens
-        #         - valor_subtotal: Soma de passagem + bagagem
-        #         - valor_desconto: Valor do desconto aplicado
-        #         - valor_total: Valor final após desconto
-        #         - cupom_aplicado: Se um cupom foi aplicado
-
         # Obter as passagens do passageiro
         passagens = self.service.get_passagens_by_passageiro(passageiro_id)
 

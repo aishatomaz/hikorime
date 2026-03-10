@@ -25,7 +25,14 @@
                 <form action="/passagens/comprar" method="post">
 
                     <label for="assento">Assento</label>
-                    <input type="text" id="assento" name="assento" required>
+                    <input
+                        type="text"
+                        id="assento"
+                        name="assento"
+                        maxlength="3"
+                        oninput="formatSeat(this, {{ voo.total_assentos }})"
+                        required
+                    >
                     <br>
 
                     <input id="id_voo" name="id_voo" value="{{ voo.id_voo }}" type="hidden">
@@ -47,5 +54,7 @@
             Faça login para ter acesso à compra de passagens
         </p>
     {% endif %}
+
+    <script src="{{ url_for('static', path='scripts/format-seat.js') }}"></script>
 
 {% endblock body %}

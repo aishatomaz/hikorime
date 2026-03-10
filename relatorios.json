@@ -20,26 +20,26 @@
     "faturamento_semanal": [
         {
             "semana": "2026-S10",
-            "faturamento": 0.0
+            "faturamento": 900.0
         }
     ],
     "faturamento_mensal": [
         {
             "mes": "2026-03",
-            "faturamento": 0.0
+            "faturamento": 900.0
         }
     ],
     "faturamento_anual": [
         {
             "ano": "2026",
-            "faturamento": 0.0
+            "faturamento": 900.0
         }
     ],
     "top_passageiros": [
         {
             "id_passageiro": 1,
             "nome": "Gabriel Souza",
-            "quantidade": 1
+            "quantidade": 7
         }
     ]
 }

@@ -61,7 +61,10 @@
             <section style="margin-top: 30px;">
                 <form action="/passagens/finalizar-compra" method="post">
                     <input type="hidden" name="id_passagem" value="{{ passagem.id_passagem }}">
-                    
+
+                    <input type="hidden" name="valor_passagem" id="valor_passagem" value="{{ voo.valor_base_passagem }}">
+
+
                     <div style="margin-bottom: 20px;">
                         <h3>Selecione um Cupom (Opcional)</h3>
                         <p><small>Valor mínimo de compra para desconto: R$ 250,00</small></p>
@@ -72,6 +75,8 @@
                                     <option value="{{ cupom.id_cupom }}">
                                         Desconto de {{ (cupom.percentual_desconto * 100)|int }}% - Validade: {{ cupom.validade }}
                                     </option>
+
+
                                 {% endfor %}
                             </select>
                         {% else %}

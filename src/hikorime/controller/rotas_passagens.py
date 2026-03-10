@@ -4,6 +4,7 @@ from starlette.requests import Request
 from starlette.responses import RedirectResponse
 from datetime import date, timezone, datetime
 
+from hikorime.controller.rotas_voos import aeronave_service
 from hikorime.models.basemodels.bm_passagem import Passagem
 from hikorime.models.basemodels.bm_cupom import Cupom
 from hikorime.models.basemodels.bm_compra import Compra
@@ -64,6 +65,8 @@ def exibir_comprar_passagem(
     usr = auth_service.get_current_user(request)
     if not usr:
         return RedirectResponse(url="/registro/login", status_code=303)
+
+
 
     voo:dict = passagens_service.get_voo_by_id(id_voo)
 
@@ -155,6 +158,7 @@ def finalizar_compra(
     id_passagem: int = Form(...),
     id_cupom: int = Form(None),
     tipo_pagamento: str = Form(...),
+    valor_passagem: float = Form(...),
 ):
     usr = auth_service.get_current_user(request)
     if not usr:
@@ -165,7 +169,15 @@ def finalizar_compra(
     id_passageiro:int = passageiro["id_passageiro"]
 
     try:
+        if id_cupom:
+            cupom:dict = cupom_service.get_by_id(id_cupom, "id_cupom")
+            percentual_desconto:float = cupom["percentual_desconto"]
+        else:
+            percentual_desconto:float = 0.0
 
+        desconto:float = round(percentual_desconto * valor_passagem, 2)
+
+        total:float = valor_passagem - desconto
 
         dados_compra = Compra(
             id_passageiro=id_passageiro,
@@ -173,12 +185,12 @@ def finalizar_compra(
             id_bagagem=None,
             id_cupom=(id_cupom if id_cupom else None),
             tipo_pagamento=TipoPagamento[tipo_pagamento],
-            valor_pago=0.00,
-            valor_total=0.00,
-            valor_desconto=0.00,
+            valor_pago=valor_passagem,
+            valor_total=total,
+            valor_desconto=desconto,
             data_compra=datetime.now(timezone.utc),
         )
-        
+
         compra_service.finalizar_compra(dados_compra)
         return RedirectResponse(url="/passagens/minhas-passagens", status_code=303)
 
