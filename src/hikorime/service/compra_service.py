@@ -17,7 +17,9 @@ class CompraService(BaseService):
     VALOR_MINIMO_COMPRA = 250.0  # Valor mínimo de compra para aplicar desconto
 
     def __init__(self):
-        self.service = RepositoryCompra(table_name="compras", id_column="id_compra")
+        repository = RepositoryCompra(table_name="compras", id_column="id_compra")
+        super().__init__(repository)
+        self.service = repository
 
     def finalizar_compra(self, compra: Compra):
         """
@@ -31,8 +33,20 @@ class CompraService(BaseService):
                     detail="O valor mínimo para aplicar desconto é de R$ 250,00.",
                 )
 
+            dados_compra = {
+                "id_passageiro": compra.id_passageiro,
+                "id_passagem": compra.id_passagem,
+                "id_bagagem": compra.id_bagagem,
+                "id_cupom": compra.id_cupom,
+                "tipo_pagamento": compra.tipo_pagamento.value,  # Enum -> string
+                "valor_pago": compra.valor_pago,
+                "valor_desconto": compra.valor_desconto,
+                "valor_total": compra.valor_total,
+                "data_compra": compra.data_compra.isoformat(),
+            }
+            print(dados_compra)
             # Criar a compra
-            id_compra = self.save(compra)
+            id_compra = self.salvar_compra(dados_compra)
 
             # Se usou cupom, marcar como indisponível
             if compra.id_cupom:
@@ -44,8 +58,7 @@ class CompraService(BaseService):
                 self.cupom_fidelidade(compra.id_passageiro)
 
             return id_compra
-        except HTTPException:
-            raise
+
         except Exception as e:
             raise HTTPException(
                 status_code=400, detail=f"Erro ao finalizar a compra: {str(e)}"
@@ -56,7 +69,7 @@ class CompraService(BaseService):
         Gera um cupom de 10% de desconto para o user após 3 compras
         """
 
-        repo_cupom = RepositoryQuerys("cupons")
+        repo_cupom = RepositoryQuerys(table_name="cupons", id_column="id_cupom")
         novo_cupom = Cupom(
             id_passageiro=id_passageiro,
             percentual_desconto=0.10,

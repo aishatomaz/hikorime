@@ -7,6 +7,17 @@ class RepositoryPassagem:
     def __init__(self):
         self.conn = RepositoryConnection()
 
+    def get_passagem_by_id(self, id_passagem:int) -> dict:
+
+        data = {"id_passagem": id_passagem}
+
+        sql = """
+            SELECT *
+            FROM passagens 
+            WHERE id_passagem = :id_passagem   
+        """
+        return self.conn.get_one(sql, data)
+
     def get_passagem_by_passageiro(self, passageiro_id: int):
         """Retorna todas as passagens de um passageiro, incluindo dados do voo relacionado.
 

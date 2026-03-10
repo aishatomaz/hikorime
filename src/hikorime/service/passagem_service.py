@@ -29,6 +29,9 @@ class PassagemService(BaseService):
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Erro ao comprar a passagem: {str(e)}")
 
+    def get_passagem_by_id(self, id_passagem:int) -> dict:
+        return self.service.get_passagem_by_id(id_passagem)
+
     def get_passagem_by_passageiro(self, passageiro_id: int):
         """Retorna todas as passagens de um passageiro, incluindo dados do voo relacionado.
 

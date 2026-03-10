@@ -48,7 +48,11 @@ class AutenticacaoService:
         )
 
         # Salvar na tabela de passageiros
-        self.repo_passageiro.save(id_usuario=id_usuario, codigo_passaporte=dados.codigo_passaporte, tipo_passaporte=dados.tipo_passaporte.value)
+        self.repo_passageiro.save(
+            id_usuario=id_usuario,
+            codigo_passaporte=dados.codigo_passaporte,
+            tipo_passaporte=dados.tipo_passaporte.value
+        )
         
         return {
             "message": "Passageiro registrado com sucesso",

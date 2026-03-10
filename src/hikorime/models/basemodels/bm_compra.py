@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from datetime import date
+from datetime import date, datetime
 from typing import Optional
 from hikorime.models.enums.tipo_pagamento import TipoPagamento
 
@@ -25,7 +25,7 @@ class Compra(BaseModel):
     id_bagagem: Optional[int] = None
     id_cupom: Optional[int] = None
     valor_pago: float
-    valor_desconto: float = 0.0
+    valor_desconto: float
     valor_total: float
     tipo_pagamento: TipoPagamento
-    data_compra: Optional[date] = None
+    data_compra: datetime

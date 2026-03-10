@@ -8,6 +8,10 @@ class VooService(BaseService):
     def __init__(self):
         self.repo = RepositoryQuerys(table_name="voos", id_column="id_voo")
 
+
+    def get_voo_by_id(self, id_voo: int) -> dict:
+        return self.repo.get_by_id(id_voo, id_column="id_voo")
+
     def create_voo(self, voo_data: dict) -> dict:
         """
         cria um novo voo, usando o modelo genérico de save.

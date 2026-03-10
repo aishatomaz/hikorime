@@ -36,17 +36,18 @@ class BaseService:
         """
         return self.repo.get_all()
 
-    def get_by_id(self, entity_id: int) -> dict | None:
+    def get_by_id(self, entity_id:int, id_column:str) -> dict | None:
         """
         Retira uma entidade especifíca da tabela:
 
         Args:
             entity_id: O id que queira buscar na tabela
+            id_column: O nome da coluna que quer buscar
 
         returns:
             int | None: um int se encontrado, caso não, None
         """
-        entity:dict = self.repo.get_by_id(entity_id)
+        entity:dict = self.repo.get_by_id(entity_id, id_column)
 
         if entity:
             return entity

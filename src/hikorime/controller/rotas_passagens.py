@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Request
 from fastapi.params import Form
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
-from datetime import date
+from datetime import date, timezone, datetime
 
 from hikorime.models.basemodels.bm_passagem import Passagem
 from hikorime.models.basemodels.bm_cupom import Cupom
@@ -131,8 +131,8 @@ def exibir_finalizar_compra(
     id_passageiro:int = passageiro["id_passageiro"]
 
     # Obter detalhes da passagem e voo
-    passagem:dict = passagens_service.get_by_id(id_passagem)
-    voo:dict = voo_service.get_by_id(passagem["id_voo"])
+    passagem:dict = passagens_service.get_passagem_by_id(id_passagem)
+    voo:dict = passagens_service.get_voo_by_id(passagem["id_voo"])
 
     # Obter cupons disponíveis para o passageiro
     cupons_disponiveis:list[dict] = cupom_service.obter_cupons_passageiro(id_passageiro)
@@ -170,8 +170,13 @@ def finalizar_compra(
         dados_compra = Compra(
             id_passageiro=id_passageiro,
             id_passagem=id_passagem,
+            id_bagagem=None,
             id_cupom=(id_cupom if id_cupom else None),
             tipo_pagamento=TipoPagamento[tipo_pagamento],
+            valor_pago=0.00,
+            valor_total=0.00,
+            valor_desconto=0.00,
+            data_compra=datetime.now(timezone.utc),
         )
         
         compra_service.finalizar_compra(dados_compra)
@@ -179,8 +184,8 @@ def finalizar_compra(
 
     except HTTPException as e:
         # Recarregar dados em caso de erro
-        passagem:dict = compra_service.get_by_id(id_passagem)
-        voo:dict = voo_service.get_by_id(passagem["id_voo"])
+        passagem:dict = passagens_service.get_passagem_by_id(id_passagem)
+        voo:dict = passagens_service.get_voo_by_id(passagem["id_voo"])
         cupons_disponiveis:list[dict] = cupom_service.obter_cupons_passageiro(id_passageiro)
         
         return HikorimeUI.render(
@@ -188,7 +193,8 @@ def finalizar_compra(
             request=request,
             title="Erro ao Finalizar Compra",
             usr=usr,
-            passagem=passagem_detalhada,
+            passagem=passagem,
+            voo=voo,
             cupons=cupons_disponiveis,
             tipos_pagamento=TipoPagamento.enum_to_dict(),
             err=e.detail,
