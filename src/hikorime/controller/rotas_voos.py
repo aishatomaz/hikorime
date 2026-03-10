@@ -27,7 +27,6 @@ def exibir_voos_disponiveis(
     Exibe a lista de voos disponíveis.
     """
     voos: list[dict] = voos_service.get_all()
-    # TODO: CONSERTAR ERRO NO SERVICE
 
     return HikorimeUI.render(
         template="voos/disponiveis.html",
@@ -35,7 +34,7 @@ def exibir_voos_disponiveis(
         title="Voos Disponiveis",
         usr=auth_service.get_current_user(request),
         voos=voos,
-        # TODO: CONSERTAR ERRO NO SERVICE
+        
     )
 
 
@@ -96,17 +95,14 @@ def cadastrar_voo(
         portao_embarque=portao_embarque,
         valor_base_passagem=valor_base_passagem
     )
-    # TODO: CHECAR SE DATA/HORA-CHEGADA <= DATA/HORA-PARTIDA
-    # TODO: CHECAR ANO INFORMADO
-
+    
     try:
         result: dict = voos_service.save(dados_voo)
         return HikorimeUI.render(
             template="index.html",
             request=request,
             usr=auth_service.get_current_user(request),
-            #msg=result.msg
-            # TODO: RETURN DA MSG DE SUCESSO
+            
         )
 
 

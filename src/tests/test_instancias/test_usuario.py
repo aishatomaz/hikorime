@@ -1,8 +1,8 @@
 from datetime import date
-
+from pydantic import BaseModel, EmailStr, Field
 import pytest
-from hikorime.models.basemodels.bm_usuario import UsuarioBase
 from hikorime.models.enums.tipo_usuario import TipoUsuario
+from hikorime.models.basemodels.bm_usuario import UsuarioBase
 
 def test_criar_usuario_base():
     """

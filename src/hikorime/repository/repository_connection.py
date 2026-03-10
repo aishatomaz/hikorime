@@ -24,10 +24,10 @@ class RepositoryConnection:
 
     def _connect(
         self,
-    ):  # Isso tambem serve para fechar o repositorio, entao nao preciso usar o finally
+    ):  # Serve para criar a conexao com o banco de dados, e ativar as chaves estrangeiras
         conn = sqlite3.connect(self.db_path)
-        conn.execute("PRAGMA foreign_keys = ON;")  # Corrigido: foreign_keys
-        conn.row_factory = sqlite3.Row  # Vou poder usar dicionarios e tuplas com isso
+        conn.execute("PRAGMA foreign_keys = ON;")  
+        conn.row_factory = sqlite3.Row  # pode usar dicionarios e tuplas com isso
         return conn
 
     def save(self, query: str, params: Tuple | dict = ()) -> int:

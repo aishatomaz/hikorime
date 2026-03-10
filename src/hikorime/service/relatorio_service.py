@@ -3,8 +3,8 @@ import json
 
 
 class RelatorioService:
-    """O service de Relatório foi alterado para gerear os relatórios em JSON. Importa as consultas específicas de Repository e
-    retorna um JSON dessas consultas"""
+    """O service de Relatório gera os relatórios em um arquivo JSON. O service importa as consultas específicas de Repository e
+    retorna um dicionário dessas consultas. Posteriormente, os relatórios serão gerados em um arquivo JSON"""
 
     def __init__(self):
         self.repo = RelatorioRepository()
@@ -51,9 +51,3 @@ class RelatorioService:
         with open(arquivo, "w", encoding="utf-8") as f:
             json.dump(relatorios, f, indent=4, ensure_ascii=False)
         return relatorios
-
-# Instancias
-
-test = RelatorioService()
-test.faturamento_anual()
-test.todos_relatorios()

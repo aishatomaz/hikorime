@@ -8,8 +8,6 @@ class Bagagem:
     """
     def __init__(self, peso, tipo: TipoBagagem, confirmacao=False):
 
-        # TODO: Valor_fixo e valor_bagagem, esta hard coded aqui, coloque em um enum, ou em um config.py (Dhonatan)
-
         self.peso = peso
         self.tipo = tipo
         self.confirmacao = confirmacao
