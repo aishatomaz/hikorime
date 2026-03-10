@@ -1,3 +1,4 @@
+=======
 ## Sumário
 
 - [HIKORIME](#hikorime)
@@ -16,6 +17,8 @@
     - [3. Princípio da Substituição de Liskov (LSP)](#3-princípio-da-substituição-de-liskov-lsp---liskov-substitution-principle)
     - [4. Princípio da Segregação de Interfaces (ISP)](#4-princípio-da-segregação-de-interfaces-isp---interface-segregation-principle)
     - [5. Princípio da Inversão de Dependência (DIP)](#5-princípio-da-inversão-de-dependência-dip---dependency-inversion-principle)
+
+>>>>>>> e9eae68826cd8b736c15dc4c98a3f491bf696845
 
 # HIKORIME
 
