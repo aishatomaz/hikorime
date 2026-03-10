@@ -144,7 +144,7 @@ poetry run pytest
 
 <img width="4855" height="2994" alt="Hikorime - Tema Escuro" src="https://github.com/user-attachments/assets/e2feebef-30db-4800-a637-5a3ea12cb214" />
 
-# Boas Práticas adotadas
+# Boas Práticas Adotadas
 ## Princípios SOLID Aplicados
 
 O projeto Hikorime foi desenvolvido com a aplicação dos princípios SOLID, visando a criação de um código mais limpo, modular, testável e de fácil manutenção. Abaixo, detalhamos como cada princípio foi incorporado:
