@@ -13,8 +13,13 @@
             <a href="{{ url_for('exibir_cadastrar_aeronave') }}">Cadastrar Aeronave</a>
             <br>
             <a href="{{ url_for('exibir_cadastrar_voo') }}">Cadastrar Voo</a>
+            <br>
+            <a href="{{ url_for('exibir_estatisticas') }}">Relatórios</a>
         {% elif usr.tipo_usuario == "passageiro" %}
-            <a href="{{ url_for('exibir_minhas_passagens') }}">Minhas Passagens</a>
+            <a href="{{ url_for('exibir_minhas_passagens') }}">Minhas Compras</a>
+            <br>
+            <a href="{{ url_for('exibir_cupons') }}">Meus Cupons</a>
+
         {% endif %}
     </main>
 

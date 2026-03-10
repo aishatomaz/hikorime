@@ -1,9 +1,45 @@
 {
-    "quantidade_voos_semanal": [],
-    "quantidade_voos_mensal": [],
-    "quantidade_voos_anual": [],
-    "faturamento_semanal": [],
-    "faturamento_mensal": [],
-    "faturamento_anual": [],
-    "top_passageiros": []
+    "quantidade_voos_semanal": [
+        {
+            "semana": "2026-S10",
+            "quantidade_voos": 1
+        }
+    ],
+    "quantidade_voos_mensal": [
+        {
+            "mes": "2026-03",
+            "quantidade_voos": 1
+        }
+    ],
+    "quantidade_voos_anual": [
+        {
+            "ano": "2026",
+            "quantidade_voos": 1
+        }
+    ],
+    "faturamento_semanal": [
+        {
+            "semana": "2026-S10",
+            "faturamento": 0.0
+        }
+    ],
+    "faturamento_mensal": [
+        {
+            "mes": "2026-03",
+            "faturamento": 0.0
+        }
+    ],
+    "faturamento_anual": [
+        {
+            "ano": "2026",
+            "faturamento": 0.0
+        }
+    ],
+    "top_passageiros": [
+        {
+            "id_passageiro": 1,
+            "nome": "Gabriel Souza",
+            "quantidade": 1
+        }
+    ]
 }

@@ -1,0 +1,92 @@
+{% extends "layouts/base.html" %}
+
+{% block body %}
+
+    {% if usr and usr.tipo_usuario == "funcionario" %}
+        <header>
+            <h1>Estatísticas do Sistema</h1>
+        </header>
+
+        <main>
+            <section>
+                <h2>Faturamento</h2>
+
+                <p>
+                    Semanal:
+                    {% if dados.faturamento_semanal %}
+                        R$ {{ dados.faturamento_semanal[0].faturamento }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </p>
+
+                <p>
+                    Mensal:
+                    {% if dados.faturamento_mensal %}
+                        R$ {{ dados.faturamento_mensal[0].faturamento }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </p>
+
+                <p>
+                    Anual:
+                    {% if dados.faturamento_anual %}
+                        R$ {{ dados.faturamento_anual[0].faturamento }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </p>
+            </section>
+
+            <section>
+                <h2>Quantidade de Voos</h2>
+
+                <p>
+                    Semana:
+                    {% if dados.quantidade_voos_semanal %}
+                        {{ dados.quantidade_voos_semanal[0].quantidade_voos }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </p>
+
+                <p>
+                    Mês:
+                    {% if dados.quantidade_voos_mensal %}
+                        {{ dados.quantidade_voos_mensal[0].quantidade_voos }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </p>
+
+                <p>
+                    Ano:
+                    {% if dados.quantidade_voos_anual %}
+                        {{ dados.quantidade_voos_anual[0].quantidade_voos }}
+                    {% else %}
+                        0
+                    {% endif %}
+                </p>
+            </section>
+
+            <section>
+                <h2>Passageiros que mais compraram</h2>
+
+                <ul>
+                    {% for p in dados.top_passageiros %}
+                        <li>
+                            Passageiro: {{ p.nome }} (ID: {{ p.id_passageiro }}) -
+                            {{ p.quantidade }} passagens
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </main>
+
+        {% else %}
+            <h1>Acesso Indisponível :(</h1>
+            <p>Você não tem permissão para acessar esta página.</p>
+
+    {% endif %}
+{% endblock %}

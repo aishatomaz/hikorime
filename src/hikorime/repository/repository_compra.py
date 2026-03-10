@@ -141,7 +141,8 @@ class RepositoryCompra(RepositoryQuerys):
                      c.valor_pago, \
                      c.valor_desconto, \
                      c.valor_total, \
-                     c.data_compra
+                     c.data_compra, \
+                     c.tipo_pagamento
 
               FROM passagens p
 
