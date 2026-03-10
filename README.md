@@ -3,6 +3,7 @@
  O Sistema de Aeroportos Hikorime será uma aplicação que possibilitará às empresas de aviação uma melhor organização dos seus processos internos, possibilitando a compra e venda de passagens e cálculo dos valores a serem pagos – considerando o peso das bagagens. Será possível oferecer cupons de descontos para usuários que já tenham comprado uma quantidade determinada de passagens, o passageiro poderá receber notificações de alerta após comprar suas passagens para que não esqueça a data e o horário dos seus voos, os passageiros também poderão escolher o assento que irão sentar na compra da passagem conforme disponibilidade, considerando uma taxa adicional cobrada.
 O comissário será o responsável por fazer o cadastro dos voos, quantidades de passagens e datas disponíveis para que os usuários façam a compra. O piloto poderá acessar os voos que estão sob sua responsabilidade com informações de data, horário de saída e horário previsto de chegada, distância, localização e quantidade de passageiros. 
 O sistema também deverá dispor de relatórios de quantidade de voos - semanal, mensal e anual, faturamento (semanal, mensal e anual). quantidade de passageiros que compraram passagens mais vezes(ranking).
+O sistema foi desenvolvido em python, também foi utilizado o FastApi e ferramentas de front end: HTML, CSS, Javasript, para criação da interface. O poetry foi utilizado para gerenciamento de pacotes e o pytest para a criação dos testes automatizados. Essas escolhas foram feitas com um intuito de facilitar o desenvolvimento da aplicação com ferramentas já conhecidas pela equipe e também por regimento da especificação.
 
 # Como usar:
 ### 1. Instalar depêndencias:
@@ -119,27 +120,11 @@ poetry run uvicorn main:app
 
 Para usuários
 
-No cadastro do Piloto deverão ser informados seus dados pessoais:
-nome,
-CPF,
-data de nascimento,
-licença de habilitação,
-senha para acessar o sistema
+No cadastro de usuários deve ser possível criar uma conta como passageiro ou como funcionário, no caso do passageiro, devem ser informados seus dados pessoais, bem como seu passaporte, enquanto no cadastro de funcionários, os dados de matrícula e cargo também são exigidos.
 
-No cadastro de passageiros devem ser informados: 
-nome,
-CPF, 
-email, 
-data de nascimento, 
-CPF do responsável (em caso de menores),
-senha para acessar o sistema.
-
-No cadastro de comissários devem ser informados também 
-nome,
-CPF,
-data de nascimento,
-número de identificação na empresa,
-email e senha.
+O usuário que não possui login na plataforma pode visualizar os voos previstos, mas não consegue comprar passagens.
+O usuário com login de passageiro pode visualizar voos, passagens, fazer a comprar e acompanhar as informações referentes aos seus voos.
+O funcionário ele tem permissôes extras como, cadastro de voos, visualização de relatórios e aeronaves, funcôes mais técnicas do sistema.
 
 Para compra de passagens aéreas
 Na compra de passagens para voos dentro do território nacional basta o login do usuário e a confirmação da sua passagem, escolha do assento, aplicação de cupom (se disponível), forma de pagamento e peso médio da sua bagagem.
