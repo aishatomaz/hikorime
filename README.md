@@ -22,6 +22,12 @@ poetry install
 poetry run uvicorn main:app
 ````
 
+# Como testar
+
+### 1. Para rodas os testes insira em seu terminal o comando:
+````bash
+poetry run pytest
+````
 ### Estrutura do projeto atualmente
 
 ``` bash
