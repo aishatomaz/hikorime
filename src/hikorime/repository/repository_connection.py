@@ -30,6 +30,10 @@ class RepositoryConnection:
             "PRAGMA foreign_keys = ON;"
         )  # Habilita o uso de chaves estrangeiras
         conn.row_factory = sqlite3.Row  # Para poder usar dicionarios e tuplas
+    ):  # Serve para criar a conexao com o banco de dados, e ativar as chaves estrangeiras
+        conn = sqlite3.connect(self.db_path)
+        conn.execute("PRAGMA foreign_keys = ON;")  
+        conn.row_factory = sqlite3.Row  # pode usar dicionarios e tuplas com isso
         return conn
 
     def save(self, query: str, params: Tuple | dict = ()) -> int:

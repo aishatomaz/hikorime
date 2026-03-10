@@ -11,8 +11,16 @@ from hikorime.models.enums.status_cupom import StatusCupom
 
 
 class CompraService(BaseService):
-    """Classe que gerencia as operações de compra, incluindo validações de cupons,
-    cálculo de bagagem, histórico de compras e criação de cupons."""
+    """
+    Classe que gerencia as operações de compra, incluindo validações de cupons,
+    cálculo de bagagem, histórico de compras e criação de cupons.
+
+    Args:
+        BaseService: Classe base para serviços que utilizam um repositório.
+    
+    Returns: 
+        CompraService: Instância do serviço de compra.
+    """
 
     VALOR_MINIMO_COMPRA = 250.0  # Valor mínimo de compra para aplicar desconto
 
@@ -20,6 +28,24 @@ class CompraService(BaseService):
         repository = RepositoryCompra(table_name="compras", id_column="id_compra")
         super().__init__(repository)
         self.service = repository
+
+
+    def salvar_compra(self, compra_data: dict) -> int:
+        """Salva uma compra no banco de dados.
+
+        Args:
+            compra_data (dict): Dicionário com os dados da compra.
+
+        Returns:
+            int: ID da compra criada.
+        """
+        try:
+            return self.service.salvar_compra(compra_data)
+        except Exception as e:
+            raise HTTPException(
+                status_code=400, detail=f"Erro ao salvar compra: {str(e)}"
+            )
+
 
     def finalizar_compra(self, compra: Compra):
         """
@@ -42,13 +68,11 @@ class CompraService(BaseService):
                 "valor_pago": compra.valor_pago,
                 "valor_desconto": compra.valor_desconto,
                 "valor_total": compra.valor_total,
-                "data_compra": compra.data_compra.isoformat(),
+                "data_compra": compra.data_compra,
             }
             print(dados_compra)
-            # Criar a compra
-            id_compra = self.salvar_compra(dados_compra)
 
-            # Se usou cupom, marcar como indisponível
+            # Se o cupom já foi usado, marca como indisponível
             if compra.id_cupom:
                 self.service.marcar_cupom_como_usado(compra.id_cupom)
 
@@ -57,7 +81,8 @@ class CompraService(BaseService):
             if total_compras > 0 and total_compras % 3 == 0:
                 self.cupom_fidelidade(compra.id_passageiro)
 
-            return id_compra
+            #save = Compra(**dados_compra)
+            return self.save_as_dict(dados_compra)
 
         except Exception as e:
             raise HTTPException(
@@ -359,18 +384,3 @@ class CompraService(BaseService):
                 status_code=400, detail=f"Erro ao aplicar cupom: {str(e)}"
             )
 
-    def salvar_compra(self, compra_data: dict) -> int:
-        """Salva uma compra no banco de dados.
-
-        Args:
-            compra_data (dict): Dicionário com os dados da compra.
-
-        Returns:
-            int: ID da compra criada.
-        """
-        try:
-            return self.service.salvar_compra(compra_data)
-        except Exception as e:
-            raise HTTPException(
-                status_code=400, detail=f"Erro ao salvar compra: {str(e)}"
-            )

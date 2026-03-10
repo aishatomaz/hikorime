@@ -1,5 +1,6 @@
 import pytest
 from hikorime.models.basemodels.bm_login import LoginRequest
+from pydantic import BaseModel, EmailStr, Field
 
 def test_criar_login_request():
     """

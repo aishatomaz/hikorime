@@ -76,10 +76,13 @@ class RelatorioRepository:
 
     def get_passageiro_comprou_mais_passagens(self):
         query = """
-        SELECT id_passageiro, COUNT(*) AS quantidade
-        FROM passagens
-        GROUP BY id_passageiro
-        ORDER BY quantidade DESC
-        LIMIT 5;
-        """
+                SELECT p.id_passageiro, \
+                       u.nome, \
+                       COUNT(*) AS quantidade
+                FROM passagens pa
+                         JOIN passageiros p ON pa.id_passageiro = p.id_passageiro
+                         JOIN usuarios u ON p.id_usuario = u.id_usuario
+                GROUP BY p.id_passageiro, u.nome
+                ORDER BY quantidade DESC LIMIT 5; \
+                """
         return self.conn.get_many(query)

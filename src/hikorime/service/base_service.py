@@ -12,7 +12,6 @@ class BaseService:
         self.repo = repository
 
     def save(self, model) -> int:
-        # Graças ao módulo basemodels, posso finalmente fazer um save genérico
         """
         Método genérico para salvar um modelo Pydantic no banco de dados.
 
@@ -26,6 +25,12 @@ class BaseService:
         return self.repo.save(
             **model_dict
         )  # Passa os dados como kwargs para o repositorio
+
+    def save_as_dict(self, model_dict: dict) -> int:
+        return self.repo.save(
+            **model_dict
+        )
+
 
     def get_all(self) -> List[Dict]:
         """

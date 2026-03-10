@@ -30,7 +30,7 @@ class Compra:
     def valor_total(self, valor_total_valido):
         try:
             float(valor_total_valido)
-        except ValueError:  # Removido 'as erro', ja que nao estava a ser usado
+        except ValueError:  
             raise ValueError("O valor total deve ser representado por um valor numérico")
         else:
             self.__valor_total = valor_total_valido

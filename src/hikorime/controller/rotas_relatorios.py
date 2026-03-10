@@ -1,38 +1,34 @@
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, HTTPException
+from starlette.requests import Request
+
 from hikorime.service.relatorio_service import RelatorioService
+from hikorime.service.autenticacao_service import AutenticacaoService
+from hikorime.ui.engine import HikorimeUI
 
-relatorios_routes = APIRouter(prefix="/relatorios", tags=["relatorios"])
+relatorios_router = APIRouter(prefix="/relatorios")
+
 relatorio_service = RelatorioService()
+auth_service = AutenticacaoService()
 
-# Rotas básicas para os relatórios
-@relatorios_routes.get("/faturamento/anual")
-def relatorio_faturamento_anual():
-    return relatorio_service.faturamento_anual()
 
-@relatorios_routes.get("/faturamento/mensal")
-def relatorio_faturamento_mensal():
-    return relatorio_service.faturamento_mensal()
+@relatorios_router.get("/estatisticas")
+def exibir_estatisticas(request: Request):
+    """
+    Exibe a tela com todas as estatísticas do sistema.
+    Apenas funcionários podem acessar.
+    """
 
-@relatorios_routes.get("/faturamento/semanal")
-def relatorio_faturamento_semanal():
-    return relatorio_service.faturamento_semanal()
+    usr: dict = auth_service.get_current_user(request)
 
-@relatorios_routes.get("/quantidade_voos/anual")
-def relatorio_quantidade_voo_anual():
-    return relatorio_service.quantidade_voo_anual()
+    if not usr or usr["tipo_usuario"] != "funcionario":
+        raise HTTPException(status_code=403)
 
-@relatorios_routes.get("/quantidade_voos/mensal")
-def relatorio_quantidade_voo_mensal():
-    return relatorio_service.quantidade_voo_mensal()
+    dados = relatorio_service.todos_relatorios()
 
-@relatorios_routes.get("/quantidade_voos/semanal")
-def relatorio_quantidade_voo_semanal():
-    return relatorio_service.quantidade_voos_semanal()
-
-@relatorios_routes.get("/passageiros_que_mais_compraram_passagens")
-def relatorio_passageiros_que_mais_compraram_passagens():
-    return relatorio_service.passageiro_comprou_mais_passagens()
-
-@relatorios_routes.get("/todos_relatorios")
-def relatorio_todos_relatorios():
-    return relatorio_service.todos_relatorios()
+    return HikorimeUI.render(
+        template="relatorios/estatisticas.html",
+        request=request,
+        usr=usr,
+        title="Estatísticas do Sistema",
+        dados=dados
+    )

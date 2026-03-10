@@ -1,61 +1,91 @@
-<!--Histórico completo com valores gastos-->
-
 {% extends "layouts/base.html" %}
 
 {% block body %}
     {% if usr and usr.tipo_usuario == 'passageiro' %}
+
         <header>
-            <h1>Minhas Passagens e Compras</h1>
+            <h1>Minhas Passagens</h1>
         </header>
 
         <main>
+
             {% if passagens %}
-                <table border="1" cellpadding="10" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-                    <thead>
-                        <tr style="background-color: #c2eafa;">
-                            <th>Data da Compra</th>
-                            <th>Voo (Origem - Destino)</th>
-                            <th>Partida - Chegada</th>
-                            <th>Assento</th>
-                            <th>Tipo de Pagamento</th>
-                            <th>Valor Gasto</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for p in passagens %}
-                            <tr>
-                                <td>{{ p.data_compra }}</td>
-                                <td>{{ p.local_origem }} -> {{ p.local_destino }}</td>
-                                <td>{{ p.data_hora_partida }} - {{ p.data_hora_chegada }}</td>
-                                <td>{{ p.assento }}</td>
-                                <td>{{ p.tipo_pagamento }}</td>
-                                <td><strong>R$ {{ "%.2f"|format(p.valor_pago) }}</strong></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                
-                <p style="margin-top: 20px;">
-                    <small>A cada 3 compras você ganha um novo cupom de desconto!</small>
-                </p>
+
+            <div style="display:flex; flex-direction:column; gap:20px; margin-top:20px;">
+
+                {% for p in passagens %}
+
+                    <div style="
+                        border:1px solid #ccc;
+                        border-radius:10px;
+                        padding:20px;
+                        background:#f9fcff;
+                        box-shadow:0 2px 5px rgba(0,0,0,0.1);
+                    ">
+
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h2 style="margin:0;">
+                                {{ p.local_origem }} ✈ {{ p.local_destino }}
+                            </h2>
+
+                            <strong style="font-size:18px;">
+                                R$ {{ "%.2f"|format(p.valor_total or 0) }}
+                            </strong>
+                        </div>
+
+                        <hr>
+
+                        <div style="display:flex; justify-content:space-between; margin-top:10px;">
+
+                            <div>
+                                <strong>Partida</strong><br>
+                                {{ p.data_hora_partida[:16] }}
+                            </div>
+
+                            <div>
+                                <strong>Chegada</strong><br>
+                                {{ p.data_hora_chegada[:16] }}
+                            </div>
+
+                            <div>
+                                <strong>Assento</strong><br>
+                                {{ p.assento }}
+                            </div>
+
+                            <div>
+                                <strong>Pagamento</strong><br>
+                                {{ p.tipo_pagamento or "—" }}
+                            </div>
+
+                            <div>
+                                <strong>Compra</strong><br>
+                                {{ p.data_compra[:10] }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <p style="margin-top:25px;">
+                <small>A cada 3 compras você ganha um novo cupom de desconto!</small>
+            </p>
 
             {% else %}
-                <section>
-                    <p>Você não tem compras ou passagens registradas.</p>
-                </section>
+            <p>Você ainda não possui passagens.</p>
+
             {% endif %}
         </main>
 
-    {% elif usr.tipo_usuario == 'funcionario' %}
-        <h1>Acesso Indisponível :(</h1>
-        <p>
-            Página disponível apenas para passageiros
-        </p>
+        {% elif usr and usr.tipo_usuario == 'funcionario' %}
 
-    {% else %}
-        <h1>Acesso Indisponível :(</h1>
-        <p>
-            Faça login para ter acesso a compra de passagens
-        </p>
-    {% endif %}
+            <h1>Acesso indisponível</h1>
+            <p>Página disponível apenas para passageiros.</p>
+
+        {% else %}
+
+            <h1>Acesso indisponível</h1>
+            <p>Faça login para acessar suas passagens.</p>
+
+        {% endif %}
 {% endblock body %}
