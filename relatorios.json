@@ -1,76 +1,9 @@
 {
-    "quantidade_voos_semanal": [
-        {
-            "semana": "2022-S03",
-            "quantidade_voos": 1
-        },
-        {
-            "semana": "2026-S03",
-            "quantidade_voos": 2
-        }
-    ],
-    "quantidade_voos_mensal": [
-        {
-            "mes": "2022-01",
-            "quantidade_voos": 1
-        },
-        {
-            "mes": "2026-01",
-            "quantidade_voos": 2
-        }
-    ],
-    "quantidade_voos_anual": [
-        {
-            "ano": "2022",
-            "quantidade_voos": 1
-        },
-        {
-            "ano": "2026",
-            "quantidade_voos": 2
-        }
-    ],
-    "faturamento_semanal": [
-        {
-            "semana": "2025-S26",
-            "faturamento": 4570
-        },
-        {
-            "semana": "2026-S09",
-            "faturamento": 450
-        },
-        {
-            "semana": "2026-S31",
-            "faturamento": 780
-        }
-    ],
-    "faturamento_mensal": [
-        {
-            "mes": "2025-07",
-            "faturamento": 4570
-        },
-        {
-            "mes": "2026-03",
-            "faturamento": 450
-        },
-        {
-            "mes": "2026-08",
-            "faturamento": 780
-        }
-    ],
-    "faturamento_anual": [
-        {
-            "ano": "2025",
-            "faturamento": 4570
-        },
-        {
-            "ano": "2026",
-            "faturamento": 1230
-        }
-    ],
-    "top_passageiros": [
-        {
-            "id_passageiro": null,
-            "quantidade": 1
-        }
-    ]
+    "quantidade_voos_semanal": [],
+    "quantidade_voos_mensal": [],
+    "quantidade_voos_anual": [],
+    "faturamento_semanal": [],
+    "faturamento_mensal": [],
+    "faturamento_anual": [],
+    "top_passageiros": []
 }
