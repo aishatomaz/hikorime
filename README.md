@@ -42,7 +42,7 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 ## Descrição do Domínio
 
-O Sistema de Aeroportos Hikorime é uma aplicação que possibilita às empresas de aviação uma melhor organização dos seus processos internos, permitindo a compra e venda de passagens e o cálculo dos valores a serem pagos – considerando o peso das bagagens. Será possível oferecer cupons de descontos para usuários que já tenham comprado uma quantidade determinada de passagens, o passageiro poderá receber notificações de alerta após comprar suas passagens para que não esqueça a data e o horário dos seus voos, os passageiros também poderão escolher o assento que irão sentar na compra da passagem conforme disponibilidade, considerando uma taxa adicional cobrada.
+O Sistema de Aeroportos Hikorime é uma aplicação que possibilita às empresas de aviação uma melhor organização dos seus processos internos, permitindo a compra e venda de passagens e o cálculo dos valores a serem pagos. Será possível oferecer cupons de descontos para usuários que já tenham comprado uma quantidade determinada de passagens, o passageiro poderá receber notificações de alerta após comprar suas passagens para que não esqueça a data e o horário dos seus voos, os passageiros também poderão escolher o assento que irão sentar na compra da passagem conforme disponibilidade, considerando uma taxa adicional cobrada.
 
 O comissário será o responsável por fazer o cadastro dos voos, quantidades de passagens e datas disponíveis para que os usuários façam a compra. O piloto poderá acessar os voos que estão sob sua responsabilidade com informações de data, horário de saída e horário previsto de chegada, distância, localização e quantidade de passageiros.
 
@@ -317,7 +317,6 @@ Herança e polimorfismo podem ser aplicados ao domínio, podendo abranger difere
 
 **Regras de Negócio:**
 - Passageiro poderá visualizar voos com passagens disponíveis. Também poderá escolher a passagem e realizar a compra delas.
-- Permite até 10 kg de massa total, e tem de caber no compartimento superior. Caso esse valor seja ultrapassado, o sistema deve informar que não é possível levar bagagens com esse peso.
 - Regra importante: Se o passageiro adicionar uma quantidade de passagens superior à disponível não será possível prosseguir com a compra, deve ser exibida a mensagem informando que a quantidade de passagens não pode ser superior a quantidade disponível.
 - Cupons devem ser aplicados automaticamente em compras de passagens de passageiros com mais de 3 compras no último ano. Os descontos são de 20% no valor total. (valores configuráveis caso necessário)
 - O sistema deve seguir a LGPD para segurança dos dados dos passageiros e funcionários.
